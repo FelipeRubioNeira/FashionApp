@@ -1,10 +1,10 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { Button, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useRef, useState } from 'react'
 import ScreenCmp from './ui/components/ScreenCmp'
 import ButtonCmp from './ui/components/ButtonCmp'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import * as ImagePicker from 'expo-image-picker';
-
+import { CameraView, CameraType, useCameraPermissions, } from 'expo-camera';
 
 // --------------- component --------------- //
 const addNewClothes = () => {
@@ -12,6 +12,9 @@ const addNewClothes = () => {
 
     // --------------- state --------------- //
     const [image, setImage] = useState<string | null>(null)
+    const [facing, setFacing] = useState<CameraType>('back');
+    const [permission, requestPermission] = useCameraPermissions();
+    const camaraRef = useRef<CameraView>(null);
 
 
 
@@ -34,8 +37,49 @@ const addNewClothes = () => {
         setImage(result.assets[0].uri)
     }
 
+    const openCamera = async () => {
+
+    }
+
+    const takePicture = async () => {
+
+        try {
+            let result = await camaraRef.current?.takePictureAsync({
+                quality: 1,
+            });
+
+            console.log("result", result);
+            
+
+            if (result?.uri) {
+                setImage(result.uri)
+            }
+
+        } catch (error) {
+            console.log("Error taking picture", error)
+        }
+    }
+
     const saveImage = () => {
         console.log("saveImage")
+    }
+
+
+
+
+    if (!permission) {
+        // Camera permissions are still loading.
+        return <View />;
+    }
+
+    if (!permission.granted) {
+        // Camera permissions are not granted yet.
+        return (
+            <View >
+                <Text>We need your permission to show the camera</Text>
+                <Button onPress={requestPermission} title="grant permission" />
+            </View>
+        );
     }
 
 
@@ -50,6 +94,11 @@ const addNewClothes = () => {
                 text="Abrir Galleria"
                 onPress={openGallery}
             />
+            <ButtonCmp
+                style={{ marginVertical: 10 }}
+                text="Abrir Camara"
+                onPress={openCamera}
+            />
 
             <View style={localStyles.image}>
                 {image && <Image
@@ -58,6 +107,24 @@ const addNewClothes = () => {
                     resizeMode="contain"
                 />}
             </View>
+
+            <CameraView
+                ref={camaraRef}
+                style={{ flex: 1 }}
+                facing={facing}
+                mode='picture'
+            >
+                <View style={localStyles.buttonContainer}>
+
+                    <TouchableOpacity
+                        style={localStyles.button}
+                        onPress={takePicture}
+                    >
+                        <Text >Flip Camera</Text>
+
+                    </TouchableOpacity>
+                </View>
+            </CameraView>
 
             <ButtonCmp
                 style={{ marginVertical: 10, backgroundColor: Colors.primary }}
@@ -76,6 +143,17 @@ const localStyles = StyleSheet.create({
     image: {
         flex: 1,
         borderWidth: 1,
-    }
+    },
+    buttonContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'transparent',
+        margin: 64,
+    },
+    button: {
+        flex: 1,
+        alignSelf: 'flex-end',
+        alignItems: 'center',
+    },
 
 })
