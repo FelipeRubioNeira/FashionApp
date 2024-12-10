@@ -17,6 +17,7 @@ export default function HomePage() {
                 <ScrollableImageList
                     style={{ flex: 2 }}
                     clotheList={topClothes}
+                    galleryType="top"
                 />
 
 
@@ -24,6 +25,7 @@ export default function HomePage() {
                 <ScrollableImageList
                     style={{ flex: 2 }}
                     clotheList={bottomClothes}
+                    galleryType="bottom"
                 />
 
 
@@ -31,6 +33,7 @@ export default function HomePage() {
                 <ScrollableImageList
                     style={{ flex: 1 }}
                     clotheList={shoesClothes}
+                    galleryType="shoes"
                 />
 
 
@@ -45,7 +48,8 @@ const localStyles = StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        padding: 0
     }
 
 })

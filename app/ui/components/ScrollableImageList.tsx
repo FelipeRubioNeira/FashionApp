@@ -1,18 +1,24 @@
-import { FlatList, StyleSheet, View, ViewStyle, Text } from 'react-native'
+import { FlatList, StyleSheet, View, ViewStyle, Text, Pressable } from 'react-native'
 import React from 'react'
 import { screenWidth } from '../ScreenDimensions'
 import { SvgProps } from 'react-native-svg';
+import Feather from '@expo/vector-icons/Feather';
+import { useRouter } from 'expo-router';
 
 
 
 
-// --------------- properties --------------- //
+// --------------- types --------------- //
+
 interface ScrollableImageListProps {
     style?: ViewStyle,
     clotheList: Array<ClotheType>,
+    galleryType: GalleryType
 }
 
-export type ClotheType = {
+type GalleryType = "top" | "bottom" | "shoes"
+
+type ClotheType = {
     name: string,
     Image: React.FC<SvgProps>,
     componente?: React.Component
@@ -20,9 +26,17 @@ export type ClotheType = {
 
 
 // --------------- component --------------- //
-const ScrollableImageList = ({ style, clotheList = [] }: ScrollableImageListProps) => {
+const ScrollableImageList = ({
+    style,
+    clotheList = [],
+    galleryType
+}: ScrollableImageListProps) => {
+
+    const router = useRouter()
 
 
+
+    // --------------- methods --------------- //
     const renderItem = ({ name, Image }: ClotheType) => {
         return (
             <View style={localStyles.item}>
@@ -40,8 +54,29 @@ const ScrollableImageList = ({ style, clotheList = [] }: ScrollableImageListProp
         )
     }
 
+    const openGallery = (galleryType: GalleryType) => {
+        router.navigate({
+            pathname: "/clothingGallery",
+            params: {
+                galleryType
+            }
+        })
+    }
+
+
+
+    // --------------- render --------------- //
     return (
         <View style={[localStyles.container, style]}>
+
+            <Pressable onPress={() => openGallery(galleryType)} >
+                <Feather
+                    name="search"
+                    size={32}
+                    color="black"
+                />
+            </Pressable>
+
             <FlatList
                 data={clotheList}
                 horizontal
@@ -52,11 +87,11 @@ const ScrollableImageList = ({ style, clotheList = [] }: ScrollableImageListProp
                 snapToAlignment="center"
                 decelerationRate="fast"
             />
+
         </View>
     )
 }
 
-export default ScrollableImageList
 
 
 // ------------------ styles ------------------ //
@@ -73,8 +108,8 @@ const localStyles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 32,
         borderWidth: 1,
-        backgroundColor:"orange"
     },
+
     title: {
         color: "black",
         textAlign: "center"
@@ -82,5 +117,12 @@ const localStyles = StyleSheet.create({
 
 })
 
+
+export default ScrollableImageList
+
+export type {
+    GalleryType,
+    ClotheType
+}
 
 
