@@ -1,34 +1,28 @@
-import { FlatList, StyleSheet, View, ViewStyle, Text, Pressable } from 'react-native'
+import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-native'
 import React from 'react'
 import { screenWidth } from '../ScreenDimensions'
-import { SvgProps } from 'react-native-svg';
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
-
+import { ClothingItemType, ClothingType } from '../../db/TableTypes';
 
 
 
 // --------------- types --------------- //
 
+
 interface ScrollableImageListProps {
     style?: ViewStyle,
-    clotheList: Array<ClotheType>,
-    galleryType: GalleryType
+    clothingList: ClothingItemType[],
+    galleryType: ClothingType
 }
 
-type GalleryType = "top" | "bottom" | "shoes"
 
-type ClotheType = {
-    name: string,
-    Image: React.FC<SvgProps>,
-    componente?: React.Component
-}
 
 
 // --------------- component --------------- //
 const ScrollableImageList = ({
     style,
-    clotheList = [],
+    clothingList,
     galleryType
 }: ScrollableImageListProps) => {
 
@@ -37,28 +31,25 @@ const ScrollableImageList = ({
 
 
     // --------------- methods --------------- //
-    const renderItem = ({ name, Image }: ClotheType) => {
+    const renderItem = ({ uri }: ClothingItemType) => {
         return (
             <View style={localStyles.item}>
 
-                <Text style={localStyles.title}>
-                    {name}
-                </Text>
-
                 <Image
-                    width={"100%"}
-                    height={"100%"}
+                    source={{ uri}}
+                    resizeMode='contain'
+                    style={{ width: "100%", height: "100%" }}
                 />
 
             </View>
         )
     }
 
-    const openGallery = (galleryType: GalleryType) => {
+    const openGallery = (galleryType: ClothingType) => {
         router.navigate({
             pathname: "/clothingGallery",
             params: {
-                galleryType
+                galleryType,
             }
         })
     }
@@ -78,10 +69,10 @@ const ScrollableImageList = ({
             </Pressable>
 
             <FlatList
-                data={clotheList}
+                data={clothingList}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.name}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => renderItem(item)}
                 snapToInterval={screenWidth}
                 snapToAlignment="center"
@@ -120,9 +111,5 @@ const localStyles = StyleSheet.create({
 
 export default ScrollableImageList
 
-export type {
-    GalleryType,
-    ClotheType
-}
 
 

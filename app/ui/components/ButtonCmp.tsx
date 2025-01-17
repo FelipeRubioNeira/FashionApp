@@ -30,7 +30,6 @@ const localStyles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         height: 70,
-        width: "100%",
         justifyContent: "center",
         alignItems: "center"
     }
