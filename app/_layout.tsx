@@ -1,34 +1,24 @@
 import { Stack } from 'expo-router';
-import { SQLiteDatabase, SQLiteProvider } from 'expo-sqlite';
-import useIntializeDatabase from './db/InitializeDatabase';
+import useIntializeDatabase from './data/db/InitializeDatabase';
+import { useEffect } from 'react';
 
 
 
 export default function MainLayout() {
 
 
+  // --------------- hooks --------------- //
   const { initializeDatabase } = useIntializeDatabase();
 
-  // --------------- methods --------------- //
-  const onInit = async (db: SQLiteDatabase) => {
-    await initializeDatabase(db);
-  }
+  useEffect(() => {
+    initializeDatabase()
+  }, [])
 
 
   return (
-
-    <SQLiteProvider databaseName="moda.db" onInit={onInit}>
-
-      <Stack initialRouteName="index" >
-
-        <Stack.Screen name="index" options={{ headerShown: true, title: 'Mi closet' }} />
-        <Stack.Screen name="clothingGallery" options={{ headerShown: true, title: 'Galeria' }} />
-        <Stack.Screen name="addClothing/index" options={{ headerShown: true, title: 'Agregar Prenda' }} />
-
-      </Stack>
-
-    </SQLiteProvider>
-
+    <Stack initialRouteName="index" >
+      <Stack.Screen name="index" options={{ headerShown: true, title: 'Mi closet' }} />
+    </Stack>
   );
 }
 

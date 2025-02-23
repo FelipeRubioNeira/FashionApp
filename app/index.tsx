@@ -1,61 +1,30 @@
 import { View, StyleSheet } from "react-native";
 import ScreenCmp from "./ui/components/ScreenCmp";
 import ScrollableImageList from "./ui/components/ScrollableImageList";
-import { TopClothingType } from "./db/TableTypes";
-import { useEffect, useState } from "react";
-import * as FileSystem from 'expo-file-system'
-import { useSQLiteContext } from "expo-sqlite";
-import { Tables } from "./db/TableNames";
+import SearchCmp from "./ui/components/SearchCmp";
+import SpacerCmp from "./ui/components/SpacerCmp";
+import ButtonCmp from "./ui/components/ButtonCmp";
+import StarIcn from "./ui/components/icons/StarIcn";
+import "./di/Container" 
+import { container } from "tsyringe";
+import GetClothingUseCase from "./domain/useCases/GetClothingUseCase";
+import useMainMenuViewModel from "./MainMenuViewModel";
+
+
+// se obtiene la instancia del caso de uso
+const getClothingUseCase = container.resolve(GetClothingUseCase);
 
 
 
 const MyCloset = () => {
 
-    // --------------- hooks --------------- //
-    const db = useSQLiteContext()
+    const {
+        // atributes
+        topClothingList,
 
-    const [topClothingList, setTopClothingList] = useState<TopClothingType[]>([])
-
-    useEffect(() => {
-        getAllClothing()
-    },[])
-
-
-    const getAllClothing = async () => {
-
-        try {
-            setTopClothingList(await getAllDBImages())
-
-        } catch (error) {
-            console.log("Error al obtener las prendas ", error);
-        }
-
-    }
-
-    const getAllDBImages = async () => {
-        const query = `SELECT * FROM ${Tables.TOP_CLOTHING}`
-        const result = await db.getAllAsync<TopClothingType>(query)
-        const validImages = await validateUriImages(result)
-
-        return validImages
-    }
-
-
-    const validateUriImages = async (imageList: TopClothingType[]) => {
-
-        const validImages = await Promise.all(
-            imageList.map(async (image) => {
-
-                if (!image.uri) return null;
-                const fileInfo = await FileSystem.getInfoAsync(image.uri);
-
-                return fileInfo.exists ? image : null;
-            })
-
-        ).then(results => results.filter(image => image !== null));
-
-        return validImages
-    }
+        // methods
+        navigateToAddClothing
+    } = useMainMenuViewModel(getClothingUseCase)
 
 
 
@@ -64,21 +33,50 @@ const MyCloset = () => {
             <View style={localStyles.screen}>
 
 
+                {/* agregar prenda y guardar combinacion preferida */}
+                <View style={localStyles.headerAgregarStarContainer}>
+                    <ButtonCmp
+                        style={{ height: "100%", flex: 4, }}
+                        text="Agregar prenda"
+                        onPress={navigateToAddClothing}
+                    />
+
+                    <View style={{ flex: 1 }}></View>
+
+                    <StarIcn size={34} onPress={() => { }} />
+                </View>
+
+
+                <SpacerCmp marginVertical={4} />
+
+                {/* componente que permite buscar prendas en la base de datos */}
+                <SearchCmp
+                    onSearch={() => console.log("Se ha llamado a buscar en index ")}
+                    onChangeText={value => console.log("se ha presionado sobre buscar ", value)}
+                />
+
+                <SpacerCmp marginVertical={4} />
+
                 {/* view para la parte superior de la ropa */}
                 <ScrollableImageList
-                    style={{ flex: 2 }}
+                    style={{ flex: 1 }}
                     clothingList={topClothingList}
                     galleryType="top"
                 />
 
+                <SpacerCmp marginVertical={4} />
+
 
                 {/* view para la parte inferior de la ropa */}
                 <ScrollableImageList
-                    style={{ flex: 2 }}
+                    style={{ flex: 1 }}
                     clothingList={[]}
                     galleryType="bottom"
 
                 />
+
+                <SpacerCmp marginVertical={4} />
+
 
 
                 {/* view para la parte zapatos */}
@@ -101,7 +99,15 @@ const localStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+
+    headerAgregarStarContainer: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "space-between",
+        height: 60
     }
+
 
 })
 

@@ -1,4 +1,4 @@
-import { Pressable, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
+import { Pressable, StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native'
 import React from 'react'
 
 
@@ -12,13 +12,13 @@ interface ButtonCmpProps {
 // --------------- component --------------- //
 const ButtonCmp = ({ onPress, text, style }: ButtonCmpProps) => {
     return (
-        <Pressable
+        <TouchableOpacity
             style={[localStyles.button, style]}
             onPress={onPress}
         >
             <Text>{text}</Text>
 
-        </Pressable>
+        </TouchableOpacity>
     )
 }
 

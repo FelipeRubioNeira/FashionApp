@@ -1,10 +1,11 @@
 import { Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import LabelCmp from './LabelCmp'
+import { ClothingType } from '@/app/domain/Types'
 
 interface IClothingCategoryCmp {
-    categoryList: string[],
-    onChangeCategory: (itemPress: string) => void,
+    categoryList: ClothingType[],
+    onChangeCategory: (itemPress: ClothingType) => void,
     selectedValue?: string
 }
 

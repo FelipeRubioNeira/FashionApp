@@ -1,29 +1,42 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useGalleryViewCmp from '../../components/GalleryViewCmp'
 import { useRouter } from 'expo-router'
 import * as FileSystem from 'expo-file-system';
-import { Tables } from '../../../db/TableNames'
-import { useSQLiteContext } from 'expo-sqlite'
-import { TopClothingType } from '../../../db/TableTypes'
+import { Tables } from '../../../data/db/TableNames'
+import { TopClothingType } from '../../../data/db/TableTypes'
+import { useNavigation } from '@react-navigation/native';
+import * as SQLite from 'expo-sqlite';
+import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase';
+import { Clothing, ClothingType } from '@/app/domain/Types';
+import { DBConstants } from '@/app/data/db/DBConstants';
+import { ScreenMainMenuParams } from '../../navigation/interfaces';
 
 
 
-const useAddClouthingViewModel = () => {
-
-
-    // --------------- context --------------- //
-    const db = useSQLiteContext();
+const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
 
 
     // --------------- state --------------- //
     const router = useRouter();
-    const [image, setImage] = useState<string | null>(null)
+
+    const [newClothing, setNewClothing] = useState<Partial<Clothing>>({
+        uri: "",
+        name: "",
+        style: "",
+        type: ""
+    })
+
     const [viewMode, setViewMode] = useState<'camera' | 'preview'>('preview')
     const { showGallery } = useGalleryViewCmp()
-    const [clothingName, setClothingName] = useState<string>("")
-    const [categoryList] = useState<string[]>(["Superior", "Inferior", "Calzado"])
-    const [selectedCategoryItem, setSelectedCategoryItem] = useState<string>("")
+    const [categoryList] = useState<ClothingType[]>(['BOTTOM', 'TOP', 'SHOES'])
+    const navigation = useNavigation();
 
+
+
+    // --------------- state --------------- //
+    useEffect(() => {
+        navigation.setOptions({ headerShown: false })
+    }, [])
 
 
 
@@ -33,7 +46,7 @@ const useAddClouthingViewModel = () => {
         const uri = await showGallery()
 
         if (uri) {
-            setImage(uri)
+            setNewClothing({ ...newClothing, uri: uri })
             setViewMode('preview')
         }
     }
@@ -43,32 +56,40 @@ const useAddClouthingViewModel = () => {
     }
 
     const takePicture = (uri: string | null) => {
-
         if (uri) {
-            setImage(uri)
+            setNewClothing({ ...newClothing, uri: uri })
             setViewMode('preview')
         }
-
     }
 
-    const saveImage = async (temporalUri: string | null) => {
-
+    const saveImage = async ({ uri, name, type, style }: Partial<Clothing>) => {
 
         // ...validate temporalUri 
-        if (!temporalUri) return;
-
+        if (!uri) return;
 
         try {
 
-            const finalUri = await saveImagePermanentStorage(temporalUri);
-            const imageId = await insertoIntoDatabase(finalUri);
+            // 1. Guardar la nueva prenda en el almacenamiento permanente
+            const finalUri = await saveImagePermanentStorage(uri);
+
+            if (finalUri === null) return;
+
+            // 2. Guardar la prenda en la base de datos
+            const imageId = await addClothingUseCase.execute({
+                uri: finalUri,
+                name: name,
+                type: type,
+                style: style
+            } as Clothing)
+
+            if (imageId?.uri === null) return;
 
             router.back();
 
             if (imageId) {
                 router.setParams({
-                    galleryType: "topClothes",
-                    imageId: imageId
+                    imageUri: imageId.uri,
+                    clothingType: type
                 })
             }
 
@@ -80,6 +101,7 @@ const useAddClouthingViewModel = () => {
 
     }
 
+    // TODO: separar logica del viewModel
     const saveImagePermanentStorage = async (temporalUri: string): Promise<string | null> => {
 
         try {
@@ -92,12 +114,13 @@ const useAddClouthingViewModel = () => {
             // Definir la URI final en el directorio de documentos
             const finalUri = `${FileSystem.documentDirectory}/images/${new Date().getTime()}.jpg`;
 
-
             // Mover el archivo usando FileSystem
             await FileSystem.copyAsync({
                 from: temporalUri,
                 to: finalUri,
             });
+
+            console.log("se guardara la imagen en la direccion : ", finalUri);
 
             return finalUri;
 
@@ -108,30 +131,45 @@ const useAddClouthingViewModel = () => {
 
     }
 
-    const insertoIntoDatabase = async (finalUri: string | null): Promise<number | null> => {
+    const insertoIntoDatabase = async ({ name, style, type, uri }: Partial<Clothing>): Promise<number | null> => {
 
-        if (!finalUri) return null;
+        try {
 
-        const insertImage = `INSERT INTO ${Tables.TOP_CLOTHING} (uri) VALUES ('${finalUri}')`
-        await db.execAsync(insertImage);
+            if (!uri) return null;
 
-        const selectQuery = `
+            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
+
+            const insertImage = `INSERT INTO ${Tables.CLOTHING} 
+            (uri, name, type, style) 
+            VALUES ('${uri}', '${name}', '${type}', '${style}')`
+
+            await db.execAsync(insertImage);
+
+            const selectQuery = `
             SELECT id 
-            FROM ${Tables.TOP_CLOTHING} 
+            FROM ${Tables.CLOTHING} 
             WHERE uri = ?`
 
-        const newCreatedImage = await db.getFirstAsync<TopClothingType>(selectQuery, [finalUri]);
+            const newCreatedImage = await db.getFirstAsync<TopClothingType>(selectQuery, [uri]);
 
-        return newCreatedImage?.id || null;
+            console.log("newCreatedImage ", newCreatedImage);
+
+            return newCreatedImage?.id || null;
+
+        } catch (error) {
+            console.log("Error al insertar en la bse de datos")
+            return null
+        }
+
 
     }
 
     const updateClothingName = (newValue: string) => {
-        setClothingName(newValue)
+        setNewClothing({ ...newClothing, name: newValue })
     }
 
-    const onChangeCategory = (categoryItem: string) => {
-        setSelectedCategoryItem(categoryItem)
+    const onChangeCategory = (categoryItem: ClothingType) => {
+        setNewClothing({ ...newClothing, type: categoryItem })
     }
 
 
@@ -140,12 +178,9 @@ const useAddClouthingViewModel = () => {
 
 
         // ... atributes
-        image,
+        newClothing,
         viewMode,
-        clothingName,
         categoryList,
-        selectedCategoryItem,
-
 
         // ... methods
         openGallery,

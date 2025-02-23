@@ -9,9 +9,11 @@ import LabelCmp from '../../components/LabelCmp'
 import useAddClouthingViewModel from './addClothingViewModel'
 import ClothingCategoryCmp from '../../components/ClothingCategoryCmp'
 import SpacerCmp from '../../components/SpacerCmp'
+import { container } from 'tsyringe'
+import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase'
 
 
-
+const addClothingUseCase = container.resolve(AddClothingUseCase)
 
 // --------------- component --------------- //
 const addClothing = () => {
@@ -20,11 +22,9 @@ const addClothing = () => {
     // --------------- hooks --------------- //
     const {
         // atributes
-        image,
+        newClothing,
         viewMode,
-        clothingName,
         categoryList,
-        selectedCategoryItem,
 
         // methods
         openGallery,
@@ -33,7 +33,7 @@ const addClothing = () => {
         takePicture,
         updateClothingName,
         onChangeCategory,
-    } = useAddClouthingViewModel();
+    } = useAddClouthingViewModel(addClothingUseCase);
 
 
 
@@ -69,8 +69,8 @@ const addClothing = () => {
             {/* ----------------- imagen ----------------- */}
             <View style={localStyles.image}>
 
-                {viewMode === 'preview' && image && <Image
-                    source={{ uri: image }}
+                {viewMode === 'preview' && newClothing.uri && <Image
+                    source={{ uri: newClothing .uri}}
                     style={localStyles.image}
                     resizeMode="contain"
                 />}
@@ -83,9 +83,9 @@ const addClothing = () => {
             {/* ----------------- nombre de la prenda ----------------- */}
             <TextInputCmp
                 label={<LabelCmp labelValue='Nombre de prenda' />}
-                onChangeText={updateClothingName}
                 placeholder='Ingrese nombre'
-                inputValue={clothingName}
+                inputValue={newClothing.name}
+                onChangeText={updateClothingName}
             />
 
 
@@ -97,25 +97,16 @@ const addClothing = () => {
             <SpacerCmp marginVertical={4} />
             <ClothingCategoryCmp
                 categoryList={categoryList}
+                selectedValue={newClothing.type}
                 onChangeCategory={onChangeCategory}
-                selectedValue={selectedCategoryItem}
             />
-
-
-
-            <SpacerCmp marginVertical={8} />
-
-
-
-            <LabelCmp labelValue='Categoria' />
-
 
 
             {/* ----------------- boton para guardar ----------------- */}
             <ButtonCmp
                 style={localStyles.saveButton}
                 text="Guardar"
-                onPress={() => saveImage(image)}
+                onPress={() => saveImage(newClothing)}
             />
 
 

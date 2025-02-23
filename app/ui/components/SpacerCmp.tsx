@@ -1,9 +1,9 @@
-import { ImageStyle, StyleSheet, Text, View } from 'react-native'
+import { DimensionValue, View } from 'react-native'
 import React from 'react'
 
 interface ISpacerCmp {
-    marginHorizontal?: number,
-    marginVertical?: number,
+    marginHorizontal?: DimensionValue,
+    marginVertical?: DimensionValue,
 
 }
 

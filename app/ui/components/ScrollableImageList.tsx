@@ -1,9 +1,9 @@
 import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-native'
 import React from 'react'
-import { screenWidth } from '../ScreenDimensions'
-import Feather from '@expo/vector-icons/Feather';
+import { screenWidth } from '../constants/ScreenDimensions'
 import { useRouter } from 'expo-router';
-import { ClothingItemType, ClothingType } from '../../db/TableTypes';
+import { ClothingItemType, ClothingType } from '../../data/db/TableTypes';
+import { Clothing } from '@/app/domain/Types';
 
 
 
@@ -12,11 +12,9 @@ import { ClothingItemType, ClothingType } from '../../db/TableTypes';
 
 interface ScrollableImageListProps {
     style?: ViewStyle,
-    clothingList: ClothingItemType[],
+    clothingList: Clothing[],
     galleryType: ClothingType
 }
-
-
 
 
 // --------------- component --------------- //
@@ -28,10 +26,8 @@ const ScrollableImageList = ({
 
     const router = useRouter()
 
-
-
     // --------------- methods --------------- //
-    const renderItem = ({ uri }: ClothingItemType) => {
+    const renderItem = ({ uri }: Clothing) => {
         return (
             <View style={localStyles.item}>
 
@@ -45,34 +41,16 @@ const ScrollableImageList = ({
         )
     }
 
-    const openGallery = (galleryType: ClothingType) => {
-        router.navigate({
-            pathname: "/clothingGallery",
-            params: {
-                galleryType,
-            }
-        })
-    }
-
-
 
     // --------------- render --------------- //
     return (
         <View style={[localStyles.container, style]}>
 
-            <Pressable onPress={() => openGallery(galleryType)} >
-                <Feather
-                    name="search"
-                    size={32}
-                    color="black"
-                />
-            </Pressable>
-
             <FlatList
                 data={clothingList}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.uri}
                 renderItem={({ item }) => renderItem(item)}
                 snapToInterval={screenWidth}
                 snapToAlignment="center"
@@ -90,6 +68,7 @@ const localStyles = StyleSheet.create({
 
     container: {
         width: "100%",
+        borderWidth:1,
     },
 
     item: {

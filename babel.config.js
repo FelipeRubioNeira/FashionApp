@@ -2,7 +2,10 @@ module.exports = function(api) {
     api.cache(true);
     return {
       presets: ['babel-preset-expo'],
-      plugins: [["inline-import", { "extensions": [".sql"] }]] // <-- add this
+      plugins: [
+        'babel-plugin-transform-typescript-metadata',
+        ["inline-import", { "extensions": [".sql"] }]
+      ] // <-- add this
     };
   };
   
