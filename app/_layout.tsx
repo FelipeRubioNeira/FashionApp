@@ -1,3 +1,4 @@
+import "reflect-metadata"; // se agrega para el uso de tsyringe (dependency inyection)
 import { Stack } from 'expo-router';
 import useIntializeDatabase from './data/db/InitializeDatabase';
 import { useEffect } from 'react';

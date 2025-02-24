@@ -1,9 +1,7 @@
 import { Clothing } from "../Types";
-import { inject, injectable } from "tsyringe";
+import { inject, injectable} from "tsyringe";
 import IClothingRepository from "@/app/data/IClothingRepository";
 import { DI_TOKENS } from "@/app/di/Container";
-
-// TODO: Cambiar a IClothingRepository e inyectar la dependencia
 
 @injectable()
 class AddClothingUseCase {

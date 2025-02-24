@@ -2,7 +2,6 @@ import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-n
 import React from 'react'
 import { screenWidth } from '../constants/ScreenDimensions'
 import { useRouter } from 'expo-router';
-import { ClothingItemType, ClothingType } from '../../data/db/TableTypes';
 import { Clothing } from '@/app/domain/Types';
 
 
@@ -13,7 +12,6 @@ import { Clothing } from '@/app/domain/Types';
 interface ScrollableImageListProps {
     style?: ViewStyle,
     clothingList: Clothing[],
-    galleryType: ClothingType
 }
 
 
@@ -21,7 +19,6 @@ interface ScrollableImageListProps {
 const ScrollableImageList = ({
     style,
     clothingList,
-    galleryType
 }: ScrollableImageListProps) => {
 
     const router = useRouter()
@@ -32,7 +29,7 @@ const ScrollableImageList = ({
             <View style={localStyles.item}>
 
                 <Image
-                    source={{ uri}}
+                    source={{ uri }}
                     resizeMode='contain'
                     style={{ width: "100%", height: "100%" }}
                 />
@@ -68,7 +65,7 @@ const localStyles = StyleSheet.create({
 
     container: {
         width: "100%",
-        borderWidth:1,
+        borderWidth: 1,
     },
 
     item: {

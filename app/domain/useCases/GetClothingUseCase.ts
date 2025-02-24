@@ -1,26 +1,59 @@
-import { ClothingType } from "../Types";
+import { CategorizedClothingCollection, Clothing, ClothingType } from "../Types";
 import { inject, injectable } from 'tsyringe';
 import IClothingRepository from "@/app/data/IClothingRepository";
 import { DI_TOKENS } from "@/app/di/Container";
-
-
-
-// TODO: Cambiar a IClothingRepository e inyectar la dependencia
+import { ClothingTbType } from "@/app/data/db/TableTypes";
 
 @injectable()
 class GetClothingUseCase {
-    constructor(
-        @inject(DI_TOKENS.IClothingRepositoryToken) private clothingRepository: IClothingRepository
-    ) { }
+    constructor(@inject(DI_TOKENS.IClothingRepositoryToken) private clothingRepository: IClothingRepository) { }
 
-    execute(clothingType?: ClothingType) {
+    async execute(clothingType?: ClothingType): Promise<CategorizedClothingCollection> {
 
-        if (!clothingType) {
-            return this.clothingRepository.getClothingList();
-        }
-        return this.clothingRepository.getClothingList(clothingType);
+        const dbData = clothingType ? await this.clothingRepository.getClothingList(clothingType)
+            : await this.clothingRepository.getClothingList()
+
+        const formattedData = this.categorizeData(dbData)
+
+        return formattedData
 
     }
+
+    private categorizeData(data: ClothingTbType[]): CategorizedClothingCollection {
+
+        const categorizedData: CategorizedClothingCollection = {
+            topClothing: [],
+            bottomClothing: [],
+            shoes: []
+        }
+
+        data.forEach((item) => {
+
+            const newClothing: Clothing = {
+                id: item.clo_id,
+                uri: item.clo_uri,
+                name: item.clo_name,
+                type: item.clo_type,
+                style: item.clo_style
+            }
+
+            switch (newClothing.type) {
+                case "TOP":
+                    categorizedData.topClothing.push(newClothing)
+                    break;
+                case "BOTTOM":
+                    categorizedData.bottomClothing.push(newClothing)
+                    break;
+                case "SHOES":
+                    categorizedData.shoes.push(newClothing)
+                    break;
+            }
+        })
+
+        return categorizedData
+
+    }
+
 
 }
 

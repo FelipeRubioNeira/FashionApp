@@ -1,3 +1,5 @@
+import "./di/Container" 
+import { container } from "tsyringe";
 import { View, StyleSheet } from "react-native";
 import ScreenCmp from "./ui/components/ScreenCmp";
 import ScrollableImageList from "./ui/components/ScrollableImageList";
@@ -5,8 +7,6 @@ import SearchCmp from "./ui/components/SearchCmp";
 import SpacerCmp from "./ui/components/SpacerCmp";
 import ButtonCmp from "./ui/components/ButtonCmp";
 import StarIcn from "./ui/components/icons/StarIcn";
-import "./di/Container" 
-import { container } from "tsyringe";
 import GetClothingUseCase from "./domain/useCases/GetClothingUseCase";
 import useMainMenuViewModel from "./MainMenuViewModel";
 
@@ -57,11 +57,10 @@ const MyCloset = () => {
 
                 <SpacerCmp marginVertical={4} />
 
-                {/* view para la parte superior de la ropa */}
+                {/* TOP list */}
                 <ScrollableImageList
                     style={{ flex: 1 }}
                     clothingList={topClothingList}
-                    galleryType="top"
                 />
 
                 <SpacerCmp marginVertical={4} />
@@ -71,7 +70,6 @@ const MyCloset = () => {
                 <ScrollableImageList
                     style={{ flex: 1 }}
                     clothingList={[]}
-                    galleryType="bottom"
 
                 />
 
@@ -83,7 +81,6 @@ const MyCloset = () => {
                 <ScrollableImageList
                     style={{ flex: 1 }}
                     clothingList={[]}
-                    galleryType="shoes"
                 />
 
 

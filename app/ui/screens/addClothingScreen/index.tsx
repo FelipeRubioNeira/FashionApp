@@ -1,3 +1,4 @@
+import { container } from 'tsyringe'
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
@@ -9,11 +10,11 @@ import LabelCmp from '../../components/LabelCmp'
 import useAddClouthingViewModel from './addClothingViewModel'
 import ClothingCategoryCmp from '../../components/ClothingCategoryCmp'
 import SpacerCmp from '../../components/SpacerCmp'
-import { container } from 'tsyringe'
 import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase'
 
 
 const addClothingUseCase = container.resolve(AddClothingUseCase)
+
 
 // --------------- component --------------- //
 const addClothing = () => {

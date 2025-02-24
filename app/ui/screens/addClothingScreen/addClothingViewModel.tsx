@@ -9,7 +9,6 @@ import * as SQLite from 'expo-sqlite';
 import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase';
 import { Clothing, ClothingType } from '@/app/domain/Types';
 import { DBConstants } from '@/app/data/db/DBConstants';
-import { ScreenMainMenuParams } from '../../navigation/interfaces';
 
 
 
@@ -160,7 +159,6 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
             console.log("Error al insertar en la bse de datos")
             return null
         }
-
 
     }
 

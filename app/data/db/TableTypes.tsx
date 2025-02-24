@@ -1,23 +1,14 @@
-type ClothingType = "top" | "bottom" | "shoes"
+import { ClothingType } from "@/app/domain/Types"
 
-type ClothingItemType = {
-    id: number,
-    uri: string,
-    type?: ClothingType
+type ClothingTbType = {
+    clo_id: number,
+    clo_uri: string,
+    clo_name: string,
+    clo_type: ClothingType,
+    clo_style: string,
 }
 
-type TopClothingType = ClothingItemType
-
-
-type BottomClothingType = ClothingItemType
-
-type ShoesType = ClothingItemType
-
 export type {
-    ClothingItemType,
-    TopClothingType,
-    BottomClothingType,
-    ShoesType,
-    ClothingType
+    ClothingTbType
 }
 

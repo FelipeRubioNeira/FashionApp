@@ -1,7 +1,7 @@
 
 // --------------- tables --------------- //
 enum Tables {
-    CLOTHING = "TOP_CLOTHING",
+    CLOTHING = "CLOTHING",
 }
 
 
