@@ -1,3 +1,4 @@
+import { DBConstants } from './DBConstants';
 import { Tables } from './TableNames';
 import { SQLiteDatabase, openDatabaseAsync } from 'expo-sqlite';
 
@@ -7,7 +8,7 @@ const useIntializeDatabase = () => {
 
     // --------------- effects --------------- //
     const initializeDatabase = async () => {
-        const db = await openDatabaseAsync('moda.db');
+        const db = await openDatabaseAsync(DBConstants.DB_NAME);
         await createTables(db);
     }
 
@@ -15,7 +16,7 @@ const useIntializeDatabase = () => {
     // --------------- methods --------------- //
     const createTables = async (db: SQLiteDatabase) => {
 
-        const topClothesTable = `CREATE TABLE IF NOT EXISTS ${Tables.CLOTHING} (
+        const clothinTable = `CREATE TABLE IF NOT EXISTS ${Tables.CLOTHING} (
             clo_id INTEGER PRIMARY KEY AUTOINCREMENT,
             clo_uri TEXT NOT NULL,
             clo_name TEXT NOT NULL,
@@ -23,7 +24,7 @@ const useIntializeDatabase = () => {
             clo_style TEXT NOT NULL
         )`
 
-        await db.execAsync(topClothesTable);
+        await db.execAsync(clothinTable);
 
     }
 

@@ -1,9 +1,10 @@
 import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-native'
-import React from 'react'
-import { screenWidth } from '../constants/ScreenDimensions'
+import React, { useEffect } from 'react'
+import { screenWidth } from '../../constants/ScreenDimensions'
 import { useRouter } from 'expo-router';
 import { Clothing } from '@/app/domain/Types';
-
+import useScrollableImageListViewModel from './ScrollableImageListViewModel';
+import IconDefault from '../icons/IconDefault';
 
 
 // --------------- types --------------- //
@@ -12,6 +13,8 @@ import { Clothing } from '@/app/domain/Types';
 interface ScrollableImageListProps {
     style?: ViewStyle,
     clothingList: Clothing[],
+    onPressClothing: (clothing: Clothing) => void,
+    onPressDeleteClothing: (clothing: Clothing) => void
 }
 
 
@@ -19,22 +22,53 @@ interface ScrollableImageListProps {
 const ScrollableImageList = ({
     style,
     clothingList,
+    onPressClothing,
+    onPressDeleteClothing
 }: ScrollableImageListProps) => {
 
-    const router = useRouter()
+
+    // --------------- viewModel --------------- //
+    const {
+        isScrolling,
+        handleScroll,
+        handleScrollEnd,
+        localClothingList,
+        flatListRef
+
+        // ...
+    } = useScrollableImageListViewModel({ clothingList })
+
+
 
     // --------------- methods --------------- //
-    const renderItem = ({ uri }: Clothing) => {
+    const renderItem = (clothing: Clothing) => {
+
+        const { uri } = clothing
+
         return (
-            <View style={localStyles.item}>
+            <Pressable
+                style={({ pressed }) => ({ ...localStyles.item, opacity: pressed ? 0.5 : 1 })}
+                onStartShouldSetResponder={() => !isScrolling}
+                onPress={() => onPressClothing(clothing)}
+            >
 
                 <Image
                     source={{ uri }}
-                    resizeMode='contain'
+                    resizeMode='center'
                     style={{ width: "100%", height: "100%" }}
                 />
 
-            </View>
+                <IconDefault
+                    name='delete'
+                    style={{
+                        position: "absolute",
+                        left: 25,
+                        bottom: 10
+                    }}
+                    onPress={() => onPressDeleteClothing(clothing)}
+                />
+
+            </Pressable >
         )
     }
 
@@ -44,14 +78,17 @@ const ScrollableImageList = ({
         <View style={[localStyles.container, style]}>
 
             <FlatList
-                data={clothingList}
+                ref={flatListRef}
+                data={localClothingList}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.uri}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => renderItem(item)}
                 snapToInterval={screenWidth}
                 snapToAlignment="center"
                 decelerationRate="fast"
+                onScrollBeginDrag={handleScroll}
+                onScrollEndDrag={handleScrollEnd}
             />
 
         </View>

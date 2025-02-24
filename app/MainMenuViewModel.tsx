@@ -2,18 +2,21 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScreenMainMenuParams } from "./ui/navigation/interfaces";
 import GetClothingUseCase from "./domain/useCases/GetClothingUseCase";
-import { CategorizedClothingCollection, Clothing, ClothingType } from "./domain/Types";
+import { Clothing, ClothingType } from "./domain/Types";
+import DeleteClothingUseCase from "./domain/useCases/DeleteClothingUseCase";
 
 
 
 
-const useMainMenuViewModel = (getClothingUseCase: GetClothingUseCase) => {
+const useMainMenuViewModel = (
+    getClothingUseCase: GetClothingUseCase,
+    deleteClothingUseCase: DeleteClothingUseCase
+) => {
 
 
     // -------------- hooks -------------- //
     const router = useRouter();
-    const { clothingType } = useLocalSearchParams<ScreenMainMenuParams>();
-
+    const { clothingType, imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
 
 
     // -------------- state -------------- //
@@ -30,7 +33,7 @@ const useMainMenuViewModel = (getClothingUseCase: GetClothingUseCase) => {
 
     useEffect(() => {
         getSpecificClothing(clothingType)
-    }, [clothingType])
+    }, [imageUri])
 
 
 
@@ -58,10 +61,33 @@ const useMainMenuViewModel = (getClothingUseCase: GetClothingUseCase) => {
             shoes
         } = await getClothingUseCase.execute(clothingType)
 
-        if(topClothing.length > 0 ) {
+        if (topClothing.length > 0) {
             setTopClothingList(topClothing)
         }
 
+    }
+
+    const onPressClothing = ({ id }: Clothing) => {
+        router.navigate({
+            pathname: "/ui/screens/addClothingScreen",
+            params: {
+                clothingId: id
+            }
+        })
+    }
+
+    const onPressDeleteClothing = async (clothing: Clothing) => {
+
+        const {
+            success,
+            message
+        } = await deleteClothingUseCase.execute(clothing)
+
+        console.log("onPressDeleteClothing() ", success, message)
+
+        if (success) {
+            getAllClothing()
+        }
 
 
     }
@@ -70,7 +96,9 @@ const useMainMenuViewModel = (getClothingUseCase: GetClothingUseCase) => {
     // -------------- return -------------- //
     return {
         navigateToAddClothing,
-        topClothingList
+        topClothingList,
+        onPressClothing,
+        onPressDeleteClothing
     }
 
 }

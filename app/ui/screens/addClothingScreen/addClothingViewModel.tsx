@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react'
 import useGalleryViewCmp from '../../components/GalleryViewCmp'
-import { useRouter } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import * as FileSystem from 'expo-file-system';
 import { Tables } from '../../../data/db/TableNames'
-import { TopClothingType } from '../../../data/db/TableTypes'
 import { useNavigation } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase';
 import { Clothing, ClothingType } from '@/app/domain/Types';
 import { DBConstants } from '@/app/data/db/DBConstants';
+import { ScreenAddClothingParams } from '../../navigation/interfaces';
 
 
 
 const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
 
 
-    // --------------- state --------------- //
+    // --------------- hook --------------- //
     const router = useRouter();
+    const { clothingId } = useLocalSearchParams<ScreenAddClothingParams>();
 
+    // --------------- state --------------- //
     const [newClothing, setNewClothing] = useState<Partial<Clothing>>({
         uri: "",
         name: "",
@@ -36,6 +38,13 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
     useEffect(() => {
         navigation.setOptions({ headerShown: false })
     }, [])
+
+    useEffect(() => {
+        if (clothingId) {
+            fillClothingInformation(clothingId)
+        }
+
+    }, [clothingId])
 
 
 
@@ -74,23 +83,25 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
             if (finalUri === null) return;
 
             // 2. Guardar la prenda en la base de datos
-            const imageId = await addClothingUseCase.execute({
+            const newImagedCreated = await addClothingUseCase.execute({
+                id: 0,
                 uri: finalUri,
-                name: name,
-                type: type,
-                style: style
-            } as Clothing)
+                name: name || "",
+                type: type || "",
+                style: style || ""
+            })
 
-            if (imageId?.uri === null) return;
+            if (!newImagedCreated) return;
+
+            console.log("addClothing viewModel ", newImagedCreated)
+
+            const { uri: imageUri } = newImagedCreated
 
             router.back();
-
-            if (imageId) {
-                router.setParams({
-                    imageUri: imageId.uri,
-                    clothingType: type
-                })
-            }
+            router.setParams({
+                imageUri,
+                clothingType: type
+            })
 
 
         } catch (error) {
@@ -118,8 +129,6 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
                 from: temporalUri,
                 to: finalUri,
             });
-
-            console.log("se guardara la imagen en la direccion : ", finalUri);
 
             return finalUri;
 
@@ -149,7 +158,7 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
             FROM ${Tables.CLOTHING} 
             WHERE uri = ?`
 
-            const newCreatedImage = await db.getFirstAsync<TopClothingType>(selectQuery, [uri]);
+            const newCreatedImage = await db.getFirstAsync<Clothing>(selectQuery, [uri]);
 
             console.log("newCreatedImage ", newCreatedImage);
 
@@ -168,6 +177,13 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
 
     const onChangeCategory = (categoryItem: ClothingType) => {
         setNewClothing({ ...newClothing, type: categoryItem })
+    }
+
+    const fillClothingInformation = async (clothingId: number): Promise<void> => {
+
+        if (clothingId === 0) return
+
+
     }
 
 

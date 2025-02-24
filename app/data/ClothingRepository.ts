@@ -39,8 +39,8 @@ class ClothingRepository implements IClothingRepository {
             // 6- Obtener todos los resultados
             const rows = await result.getAllAsync();
 
-            // 7- Cerrar la base de datos
-            await db.closeAsync();
+            // // 7- Cerrar la base de datos
+            // await db.closeAsync();
 
             return rows;
 
@@ -62,8 +62,6 @@ class ClothingRepository implements IClothingRepository {
             const params = [clothing.uri, clothing.name, clothing.type, clothing.style];
             const result = await db.runAsync(query, params);
 
-            console.log("Resultado exitoso saveClothing", result);
-
             return result.lastInsertRowId ? clothing : null;
 
         } catch (error) {
@@ -77,7 +75,7 @@ class ClothingRepository implements IClothingRepository {
         try {
 
             const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
-            const deleteQuery = `delete from ${Tables.CLOTHING} where cl_uri = ?`;
+            const deleteQuery = `delete from ${Tables.CLOTHING} where clo_uri = ?`;
             const params = [uri];
 
             const result = await db.runAsync(deleteQuery, params);

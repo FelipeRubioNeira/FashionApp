@@ -1,18 +1,20 @@
-import "./di/Container" 
+import "./di/Container"
 import { container } from "tsyringe";
 import { View, StyleSheet } from "react-native";
 import ScreenCmp from "./ui/components/ScreenCmp";
-import ScrollableImageList from "./ui/components/ScrollableImageList";
+import ScrollableImageList from "./ui/components/ScrollableImageList/ScrollableImageList";
 import SearchCmp from "./ui/components/SearchCmp";
 import SpacerCmp from "./ui/components/SpacerCmp";
 import ButtonCmp from "./ui/components/ButtonCmp";
 import StarIcn from "./ui/components/icons/StarIcn";
 import GetClothingUseCase from "./domain/useCases/GetClothingUseCase";
 import useMainMenuViewModel from "./MainMenuViewModel";
+import DeleteClothingUseCase from "./domain/useCases/DeleteClothingUseCase";
 
 
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
+const deleteClothingUseCase = container.resolve(DeleteClothingUseCase)
 
 
 
@@ -23,8 +25,10 @@ const MyCloset = () => {
         topClothingList,
 
         // methods
-        navigateToAddClothing
-    } = useMainMenuViewModel(getClothingUseCase)
+        navigateToAddClothing,
+        onPressClothing,
+        onPressDeleteClothing
+    } = useMainMenuViewModel(getClothingUseCase, deleteClothingUseCase)
 
 
 
@@ -61,6 +65,8 @@ const MyCloset = () => {
                 <ScrollableImageList
                     style={{ flex: 1 }}
                     clothingList={topClothingList}
+                    onPressClothing={onPressClothing}
+                    onPressDeleteClothing={onPressDeleteClothing}
                 />
 
                 <SpacerCmp marginVertical={4} />
@@ -70,17 +76,19 @@ const MyCloset = () => {
                 <ScrollableImageList
                     style={{ flex: 1 }}
                     clothingList={[]}
-
+                    onPressClothing={() => { }}
+                    onPressDeleteClothing={() => { }}
                 />
 
                 <SpacerCmp marginVertical={4} />
-
 
 
                 {/* view para la parte zapatos */}
                 <ScrollableImageList
                     style={{ flex: 1 }}
                     clothingList={[]}
+                    onPressClothing={() => { }}
+                    onPressDeleteClothing={() => { }}
                 />
 
 

@@ -1,5 +1,5 @@
 import { Clothing } from "../Types";
-import { inject, injectable} from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import IClothingRepository from "@/app/data/IClothingRepository";
 import { DI_TOKENS } from "@/app/di/Container";
 
@@ -9,8 +9,14 @@ class AddClothingUseCase {
         @inject(DI_TOKENS.IClothingRepositoryToken) private clothingRepository: IClothingRepository
     ) { }
 
-    execute(clothingItem: Clothing) {
-        return this.clothingRepository.saveClothing(clothingItem);
+    async execute(clothing: Clothing) {
+
+        const result = await this.clothingRepository.saveClothing(clothing);
+
+        console.log("result AddClothingUseCase", result);
+
+        return result
+
     }
 
 }

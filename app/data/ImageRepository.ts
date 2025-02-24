@@ -1,12 +1,15 @@
 import { injectable } from "tsyringe";
-import { Clothing } from "../domain/Types";
+import { Clothing, ClothingType } from "../domain/Types";
 import IClothingRepository from "./IClothingRepository";
 import * as FileSystem from 'expo-file-system';
+import { ClothingTbType } from "./db/TableTypes";
 
 @injectable()
 class ImageRepository implements IClothingRepository {
 
-    async saveClothing({ name, style, type, uri }: Clothing): Promise<Clothing | null> {
+    async saveClothing(clothing: Clothing): Promise<Clothing | null> {
+
+        const { uri } = clothing
 
         try {
 
@@ -25,12 +28,8 @@ class ImageRepository implements IClothingRepository {
                 to: finalUri,
             });
 
-            console.log("se guardara la imagen en la direccion : ", finalUri);
-
             return {
-                name,
-                style,
-                type,
+                ...clothing,
                 uri: finalUri
             };
 
@@ -41,8 +40,9 @@ class ImageRepository implements IClothingRepository {
 
     }
 
-    getClothingList(type?: import("../domain/Types").ClothingType | undefined): Promise<import("../domain/Types").Clothing[]> {
-        throw new Error("Method not implemented.");
+    getClothingList(type?: ClothingType): Promise<ClothingTbType[]> {
+        console.log("No se ha implementado getClothingList ")
+        return Promise.resolve([])
     }
 
     async deleteClothing({ uri }: Clothing): Promise<boolean> {

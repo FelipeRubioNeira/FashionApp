@@ -1,4 +1,4 @@
-import { ClothingType } from "@/app/domain/Types";
+import { Clothing, ClothingType } from "@/app/domain/Types";
 
 
 interface ScreenMainMenuParams {
@@ -7,6 +7,12 @@ interface ScreenMainMenuParams {
     [key: string]: any;
 }
 
+interface ScreenAddClothingParams {
+    clothingId?: number,
+    [key: string]: any;
+}
+
 export type {
     ScreenMainMenuParams,
+    ScreenAddClothingParams
 }

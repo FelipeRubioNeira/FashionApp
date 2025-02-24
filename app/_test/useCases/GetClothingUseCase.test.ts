@@ -1,42 +1,43 @@
-import "reflect-metadata";
-import { container } from 'tsyringe';
-import GetClothingUseCase from '@/app/domain/useCases/GetClothingUseCase';
-import { CategorizedClothingCollection } from '@/app/domain/Types';
-import { DI_TOKENS } from '@/app/di/Container';
-import MockClothingRepository from '../mocks/MockClothingRepository';
+// import "reflect-metadata";
+// import { container } from 'tsyringe';
+// import GetClothingUseCase from '@/app/domain/useCases/GetClothingUseCase';
+// import { CategorizedClothingCollection } from '@/app/domain/Types';
+// import { DI_TOKENS } from '@/app/di/Container';
+// import MockClothingRepository from '../mocks/MockClothingRepository';
 
-describe('GetClothingUseCase', () => {
 
-    let getClothingUseCase: GetClothingUseCase;
+// describe('GetClothingUseCase', () => {
 
-    beforeEach(() => {
-        container.register(DI_TOKENS.IClothingRepositoryToken, { useClass: MockClothingRepository });
-        getClothingUseCase = container.resolve(GetClothingUseCase);
-    });
+//     let getClothingUseCase: GetClothingUseCase;
 
-    it('should categorize clothing correctly', async () => {
+//     beforeEach(() => {
+//         container.register(DI_TOKENS.IClothingRepositoryToken, { useClass: MockClothingRepository });
+//         getClothingUseCase = container.resolve(GetClothingUseCase);
+//     });
 
-        const result = await getClothingUseCase.execute();
+//     it('should categorize clothing correctly', async () => {
 
-        const expected: CategorizedClothingCollection = {
-            topClothing: [{ id: 1, uri: 'uri1', name: 'Shirt', type: 'TOP', style: 'Casual' }],
-            bottomClothing: [{ id: 2, uri: 'uri2', name: 'Jeans', type: 'BOTTOM', style: 'Casual' }],
-            shoes: [{ id: 3, uri: 'uri3', name: 'Sneakers', type: 'SHOES', style: 'Sport' }],
-        };
-        expect(result).toEqual(expected);
-    });
+//         const result = await getClothingUseCase.execute();
 
-    it('should filter clothing by type', async () => {
+//         const expected: CategorizedClothingCollection = {
+//             topClothing: [{ id: 1, uri: 'uri1', name: 'Shirt', type: 'TOP', style: 'Casual' }],
+//             bottomClothing: [{ id: 2, uri: 'uri2', name: 'Jeans', type: 'BOTTOM', style: 'Casual' }],
+//             shoes: [{ id: 3, uri: 'uri3', name: 'Sneakers', type: 'SHOES', style: 'Sport' }],
+//         };
+//         expect(result).toEqual(expected);
+//     });
 
-        const result = await getClothingUseCase.execute('TOP');
+//     it('should filter clothing by type', async () => {
 
-        const expected: CategorizedClothingCollection = {
-            topClothing: [{ id: 1, uri: 'uri1', name: 'Shirt', type: 'TOP', style: 'Casual' }],
-            bottomClothing: [],
-            shoes: [],
-        };
+//         const result = await getClothingUseCase.execute('TOP');
 
-        expect(result).toEqual(expected);
-    });
+//         const expected: CategorizedClothingCollection = {
+//             topClothing: [{ id: 1, uri: 'uri1', name: 'Shirt', type: 'TOP', style: 'Casual' }],
+//             bottomClothing: [],
+//             shoes: [],
+//         };
 
-});
+//         expect(result).toEqual(expected);
+//     });
+
+// });

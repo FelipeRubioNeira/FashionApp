@@ -1,7 +1,7 @@
-import MockClothingRepository from "../_test/mocks/MockClothingRepository";
 import ClothingRepository from "../data/ClothingRepository";
 import ImageRepository from "../data/ImageRepository";
 import { container } from "tsyringe";
+//import MockClothingRepository from "../_test/mocks/MockClothingRepository";
 
 // Tokens del DI
 const DI_TOKENS = {
@@ -21,10 +21,10 @@ container.register(
 );
 
 // Registrar el mock en el contenedor de inyección de dependencias
-container.register(
-    DI_TOKENS.IClothingRepositoryToken,
-    { useClass: MockClothingRepository }
-);
+// container.register(
+//     DI_TOKENS.IClothingRepositoryToken,
+//     { useClass: MockClothingRepository }
+// );
 
 
 
