@@ -41,7 +41,7 @@ class ImageRepository implements IClothingRepository {
     }
 
     getClothingList(type?: ClothingType): Promise<ClothingTbType[]> {
-        console.log("No se ha implementado getClothingList ")
+        console.log("No se ha implementado el metodo getClothingList ")
         return Promise.resolve([])
     }
 
@@ -64,6 +64,18 @@ class ImageRepository implements IClothingRepository {
         }
 
     }
+
+    editClothing(clothing: Clothing): Promise<Clothing | null> {
+        console.log("No se ha implementado el metodo getCloeditClothingthingList ")
+        return Promise.resolve(null)
+    }
+
+    getSingleClothing(clothingId: number): Promise<ClothingTbType | null> {
+        console.log("No se ha implementado el metodo getSingleClothing")
+        return Promise.resolve(null)
+    }
+
+
 
 }
 

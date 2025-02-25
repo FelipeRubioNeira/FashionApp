@@ -11,9 +11,11 @@ import useAddClouthingViewModel from './addClothingViewModel'
 import ClothingCategoryCmp from '../../components/ClothingCategoryCmp'
 import SpacerCmp from '../../components/SpacerCmp'
 import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase'
+import EditClothingUseCase from '@/app/domain/useCases/EditClothingUseCase'
 
 
 const addClothingUseCase = container.resolve(AddClothingUseCase)
+const editClothingUseCase =container.resolve(EditClothingUseCase)
 
 
 // --------------- component --------------- //
@@ -34,7 +36,7 @@ const addClothing = () => {
         takePicture,
         updateClothingName,
         onChangeCategory,
-    } = useAddClouthingViewModel(addClothingUseCase);
+    } = useAddClouthingViewModel(addClothingUseCase, editClothingUseCase);
 
 
 

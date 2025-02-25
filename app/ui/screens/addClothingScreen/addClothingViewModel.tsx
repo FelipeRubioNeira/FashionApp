@@ -9,15 +9,21 @@ import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase';
 import { Clothing, ClothingType } from '@/app/domain/Types';
 import { DBConstants } from '@/app/data/db/DBConstants';
 import { ScreenAddClothingParams } from '../../navigation/interfaces';
+import EditClothingUseCase from '@/app/domain/useCases/EditClothingUseCase';
 
 
 
-const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
+const useAddClouthingViewModel = (
+    addClothingUseCase: AddClothingUseCase,
+    editClothingUseCase: EditClothingUseCase
+) => {
 
 
     // --------------- hook --------------- //
     const router = useRouter();
-    const { clothingId } = useLocalSearchParams<ScreenAddClothingParams>();
+    const params = useLocalSearchParams<ScreenAddClothingParams>();
+    const { id, name, style, type, uri } = params
+
 
     // --------------- state --------------- //
     const [newClothing, setNewClothing] = useState<Partial<Clothing>>({
@@ -40,11 +46,8 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
     }, [])
 
     useEffect(() => {
-        if (clothingId) {
-            fillClothingInformation(clothingId)
-        }
-
-    }, [clothingId])
+        if (id) fillClothingInformation({ id, name, style, type, uri })
+    }, [id])
 
 
 
@@ -179,10 +182,13 @@ const useAddClouthingViewModel = (addClothingUseCase: AddClothingUseCase) => {
         setNewClothing({ ...newClothing, type: categoryItem })
     }
 
-    const fillClothingInformation = async (clothingId: number): Promise<void> => {
+    const fillClothingInformation = async (clothing: Clothing): Promise<void> => {
 
-        if (clothingId === 0) return
+        console.log("ha llegado un id para editar ", clothing);
 
+        if (!clothing) return
+
+        setNewClothing({ ...clothing })
 
     }
 

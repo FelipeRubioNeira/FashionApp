@@ -7,8 +7,7 @@ interface ScreenMainMenuParams {
     [key: string]: any;
 }
 
-interface ScreenAddClothingParams {
-    clothingId?: number,
+interface ScreenAddClothingParams extends Clothing {
     [key: string]: any;
 }
 

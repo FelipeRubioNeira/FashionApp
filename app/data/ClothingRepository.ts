@@ -9,7 +9,6 @@ import { ClothingTbType } from "./db/TableTypes";
 @injectable()
 class ClothingRepository implements IClothingRepository {
 
-    // TODO: Filtrar la consulta por tipo de ropa
     async getClothingList(clothingType?: ClothingType): Promise<ClothingTbType[]> {
 
         try {
@@ -39,14 +38,11 @@ class ClothingRepository implements IClothingRepository {
             // 6- Obtener todos los resultados
             const rows = await result.getAllAsync();
 
-            // // 7- Cerrar la base de datos
-            // await db.closeAsync();
-
             return rows;
 
 
         } catch (error) {
-            console.log("Error getClothingList ", error);
+            console.log("Error en getClothingList repository ", error);
             return [];
         }
     }
@@ -65,7 +61,7 @@ class ClothingRepository implements IClothingRepository {
             return result.lastInsertRowId ? clothing : null;
 
         } catch (error) {
-            console.log("Error al llamar a saveClothing ", error);
+            console.log("Error en saveClothing repository ", error);
             return Promise.reject(null)
         }
     }
@@ -83,8 +79,74 @@ class ClothingRepository implements IClothingRepository {
             return result.changes != 0;
 
         } catch (error) {
-            console.log("Error al eliminar la ropa ", error);
+            console.log("Error en deleteClothing repository ", error);
             return false;
+        }
+
+    }
+
+    async editClothing(clothing: Clothing): Promise<Clothing | null> {
+
+        const { id, name, style, type, uri } = clothing
+
+        try {
+
+            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
+
+            const query = `UPDATE ${Tables.CLOTHING}
+            SET CLO_NAME = ?,
+            CLO_STYLE = ?,
+            CLO_TYPE = ?,
+            CLO_URI = ?`
+
+            const params = [name, style, type, uri];
+
+            const statement = await db.prepareAsync(query);
+            const result = await statement.executeAsync<Clothing>(params);
+            const changes = result.changes;
+
+            if (changes != 0) return clothing
+            else return null
+
+        } catch (error) {
+            console.log("Error editClothing repository ", error);
+            return null;
+        }
+
+    }
+
+    async getSingleClothing(clothingId: number): Promise<ClothingTbType | null> {
+
+        try {
+
+            // 1- abrir la base de datos    
+            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
+
+            // 2- crear la consulta
+            let query = `SELECT * 
+            FROM ${Tables.CLOTHING}
+            WHERE CLO_ID = ?
+            `
+
+            // 3- crear los parametros
+            const params = [clothingId];
+
+
+            // 4- ejecutar la consulta
+            const statement = await db.prepareAsync(query);
+
+            // 5- Ejecutar la consulta
+            const result = await statement.executeAsync<ClothingTbType>(params);
+
+            // 6- Obtener todos los resultados
+            const row = await result.getFirstAsync();
+
+            return row;
+
+
+        } catch (error) {
+            console.log("Error en getSingleClothing repository ", error);
+            return null;
         }
 
     }

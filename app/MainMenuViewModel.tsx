@@ -67,12 +67,10 @@ const useMainMenuViewModel = (
 
     }
 
-    const onPressClothing = ({ id }: Clothing) => {
+    const onPressClothing = (clothing: Clothing) => {
         router.navigate({
             pathname: "/ui/screens/addClothingScreen",
-            params: {
-                clothingId: id
-            }
+            params: { ...clothing }
         })
     }
 
