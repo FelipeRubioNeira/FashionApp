@@ -12,10 +12,11 @@ import ClothingCategoryCmp from '../../components/ClothingCategoryCmp'
 import SpacerCmp from '../../components/SpacerCmp'
 import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase'
 import EditClothingUseCase from '@/app/domain/useCases/EditClothingUseCase'
+import StyleSelector from '../../components/StyleSelector'
 
 
 const addClothingUseCase = container.resolve(AddClothingUseCase)
-const editClothingUseCase =container.resolve(EditClothingUseCase)
+const editClothingUseCase = container.resolve(EditClothingUseCase)
 
 
 // --------------- component --------------- //
@@ -28,6 +29,7 @@ const addClothing = () => {
         newClothing,
         viewMode,
         categoryList,
+        ClothingStylesList,
 
         // methods
         openGallery,
@@ -36,6 +38,7 @@ const addClothing = () => {
         takePicture,
         updateClothingName,
         onChangeCategory,
+        updateClothingStyle,
     } = useAddClouthingViewModel(addClothingUseCase, editClothingUseCase);
 
 
@@ -44,7 +47,7 @@ const addClothing = () => {
 
     // --------------- render --------------- //
     return (
-        <ScreenCmp>
+        <ScreenCmp scrollable={true}>
 
 
             {/* ----------------- titulo ----------------- */}
@@ -73,7 +76,7 @@ const addClothing = () => {
             <View style={localStyles.image}>
 
                 {viewMode === 'preview' && newClothing.uri && <Image
-                    source={{ uri: newClothing .uri}}
+                    source={{ uri: newClothing.uri }}
                     style={localStyles.image}
                     resizeMode="contain"
                 />}
@@ -97,11 +100,19 @@ const addClothing = () => {
 
 
             <LabelCmp labelValue='Tipo de prenda' />
-            <SpacerCmp marginVertical={4} />
+            <SpacerCmp marginVertical={"2%"} />
             <ClothingCategoryCmp
                 categoryList={categoryList}
                 selectedValue={newClothing.type}
                 onChangeCategory={onChangeCategory}
+            />
+
+            <SpacerCmp marginVertical={"2%"} />
+            <LabelCmp labelValue='Estilo' />
+            <StyleSelector
+                styleList={ClothingStylesList}
+                styleSelected = {newClothing.style}
+                onPress={updateClothingStyle}
             />
 
 

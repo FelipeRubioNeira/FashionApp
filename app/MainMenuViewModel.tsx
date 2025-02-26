@@ -21,6 +21,8 @@ const useMainMenuViewModel = (
 
     // -------------- state -------------- //
     const [topClothingList, setTopClothingList] = useState<Clothing[]>([])
+    const [bottomClothingList, setBottomClothingList] = useState<Clothing[]>([])
+    const [shoesList, setShoesList] = useState<Clothing[]>([])
 
 
 
@@ -32,7 +34,7 @@ const useMainMenuViewModel = (
     }, [])
 
     useEffect(() => {
-        getSpecificClothing(clothingType)
+        getAllClothing(clothingType)
     }, [imageUri])
 
 
@@ -42,27 +44,35 @@ const useMainMenuViewModel = (
         router.navigate("/ui/screens/addClothingScreen")
     }
 
-    const getAllClothing = async () => {
-        const {
-            topClothing,
-            bottomClothing,
-            shoes
-        } = await getClothingUseCase.execute()
+    const getAllClothing = async (filter?: ClothingType) => {
 
-        setTopClothingList(topClothing)
-
-    }
-
-    const getSpecificClothing = async (clothingType: ClothingType) => {
+        console.log("filtro", filter);
 
         const {
             topClothing,
             bottomClothing,
             shoes
-        } = await getClothingUseCase.execute(clothingType)
+        } = await getClothingUseCase.execute(filter)
 
-        if (topClothing.length > 0) {
-            setTopClothingList(topClothing)
+        switch (filter) {
+
+            case "Superior":
+                setTopClothingList(topClothing)
+                break
+
+            case "Inferior":
+                setBottomClothingList(bottomClothing)
+                break
+
+            case "Zapatos":
+                setShoesList(shoes)
+                break
+
+            default: // Incluye undefined
+                setTopClothingList(topClothing);
+                setBottomClothingList(bottomClothing);
+                setShoesList(shoes);
+                break
         }
 
     }
@@ -93,8 +103,11 @@ const useMainMenuViewModel = (
 
     // -------------- return -------------- //
     return {
-        navigateToAddClothing,
         topClothingList,
+        bottomClothingList,
+        shoesList,
+
+        navigateToAddClothing,
         onPressClothing,
         onPressDeleteClothing
     }

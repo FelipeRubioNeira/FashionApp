@@ -38,13 +38,13 @@ class GetClothingUseCase {
             }
 
             switch (newClothing.type) {
-                case "TOP":
+                case "Superior":
                     categorizedData.topClothing.push(newClothing)
                     break;
-                case "BOTTOM":
+                case "Inferior":
                     categorizedData.bottomClothing.push(newClothing)
                     break;
-                case "SHOES":
+                case "Zapatos":
                     categorizedData.shoes.push(newClothing)
                     break;
             }

@@ -23,6 +23,8 @@ const MyCloset = () => {
     const {
         // atributes
         topClothingList,
+        bottomClothingList,
+        shoesList,
 
         // methods
         navigateToAddClothing,
@@ -75,9 +77,9 @@ const MyCloset = () => {
                 {/* view para la parte inferior de la ropa */}
                 <ScrollableImageList
                     style={{ flex: 1 }}
-                    clothingList={[]}
-                    onPressClothing={() => { }}
-                    onPressDeleteClothing={() => { }}
+                    clothingList={bottomClothingList}
+                    onPressClothing={onPressClothing}
+                    onPressDeleteClothing={onPressDeleteClothing}
                 />
 
                 <SpacerCmp marginVertical={4} />
@@ -86,9 +88,9 @@ const MyCloset = () => {
                 {/* view para la parte zapatos */}
                 <ScrollableImageList
                     style={{ flex: 1 }}
-                    clothingList={[]}
-                    onPressClothing={() => { }}
-                    onPressDeleteClothing={() => { }}
+                    clothingList={shoesList}
+                    onPressClothing={onPressClothing}
+                    onPressDeleteClothing={onPressDeleteClothing}
                 />
 
 

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import LabelCmp from '../navigation/LabelCmp'
 import { ClothingType } from '@/app/domain/Types'
@@ -6,7 +6,7 @@ import { ClothingType } from '@/app/domain/Types'
 interface IClothingCategoryCmp {
     categoryList: ClothingType[],
     onChangeCategory: (itemPress: ClothingType) => void,
-    selectedValue?: string
+    selectedValue?: ClothingType
 }
 
 const ClothingCategoryCmp = ({
@@ -15,33 +15,39 @@ const ClothingCategoryCmp = ({
     selectedValue
 }: IClothingCategoryCmp) => {
 
+
     return (
         <View style={localStyles.container}>
 
-            {categoryList.map((categoryItem, index) => (
-                <Pressable
-                    key={index}
-                    style={selectedValue !== categoryItem ? localStyles.categoryItemDefault : localStyles.categoryItemSelected}
-                    onPress={() => onChangeCategory(categoryItem)}
-                >
+            {categoryList.map((categoryItem, index) => {
 
-                    <LabelCmp
-                        labelValue={categoryItem}
-                        labelStyle={selectedValue !== categoryItem ? localStyles.categoryItemTextDefault : localStyles.categoryItemTextSelected}
-                    />
-                </Pressable>
-            ))}
+                if (categoryItem === "") return null
+
+                return (
+                    <TouchableOpacity
+                        key={index}
+                        style={selectedValue !== categoryItem ? localStyles.categoryItemDefault : localStyles.categoryItemSelected}
+                        onPress={() => onChangeCategory(categoryItem)}
+                    >
+
+                        <LabelCmp
+                            labelValue={categoryItem}
+                            labelStyle={selectedValue !== categoryItem ? localStyles.categoryItemTextDefault : localStyles.categoryItemTextSelected}
+                        />
+
+                    </TouchableOpacity>
+                )
+            })}
 
         </View>
     )
 }
 
-
 const localStyles = StyleSheet.create({
 
     container: {
         width: '100%',
-        height: 60,
+        height: 50,
         borderRadius: 10,
         flexDirection: "row",
         justifyContent: "space-around",
