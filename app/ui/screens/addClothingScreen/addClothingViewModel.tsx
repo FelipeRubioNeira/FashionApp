@@ -6,7 +6,7 @@ import { Tables } from '../../../data/db/TableNames'
 import { useNavigation } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase';
-import { Clothing, ClothingStyle, ClothingType } from '@/app/domain/Types';
+import { Clothing, ClothingStyle, ClothingType, ResponseUseCase } from '@/app/domain/Types';
 import { DBConstants } from '@/app/data/db/DBConstants';
 import { ScreenAddClothingParams } from '../../navigation/interfaces';
 import EditClothingUseCase from '@/app/domain/useCases/EditClothingUseCase';
@@ -42,7 +42,7 @@ const useAddClouthingViewModel = (
 
 
 
-    // --------------- state --------------- //
+    // --------------- effects --------------- //
     useEffect(() => {
         navigation.setOptions({ headerShown: false })
     }, [])
@@ -75,17 +75,51 @@ const useAddClouthingViewModel = (
         }
     }
 
+    /**
+     * Guardar prenda (crear / editar)
+     * @param newClothing - prenda a que no necesariamente esta completa en todos sus campos
+     */
     const saveImage = async (newClothing: Partial<Clothing>) => {
 
+        console.log("saveImage ", newClothing, id);
 
         try {
 
-            // 1. Guardar la prenda en la base de datos
-            const { success, data } = await addClothingUseCase.execute(newClothing)
+            let resposeUseCase: ResponseUseCase<Clothing> = {
+                message: "",
+                success: false,
+                data: undefined
+            }
 
-            if (!success || !data) return;
 
-            const { uri: imageUri, type: clothingType } = data
+            // 1. Guarda/actualiza la prenda en la base de datos
+            if (id) {
+                const { success, data, message } = await editClothingUseCase.execute(newClothing)
+                resposeUseCase.success = success
+                resposeUseCase.data = data
+                resposeUseCase.message = message
+
+                console.log("edit ", resposeUseCase);
+
+
+            } else {
+                const { success, data, message } = await addClothingUseCase.execute(newClothing)
+                resposeUseCase.success = success
+                resposeUseCase.data = data
+                resposeUseCase.message = message
+
+                console.log("create ", success, data);
+
+
+            }
+
+            console.log("resposeUseCase ", resposeUseCase);
+
+
+            // Solo en caso de que la operacion sea exitosa y se retornen valores 
+            if (!resposeUseCase.success || !resposeUseCase.data) return;
+
+            const { uri: imageUri, type: clothingType } = resposeUseCase.data
 
             router.back();
             router.setParams({

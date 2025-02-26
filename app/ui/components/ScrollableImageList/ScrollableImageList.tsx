@@ -17,6 +17,11 @@ interface ScrollableImageListProps {
     onPressDeleteClothing: (clothing: Clothing) => void
 }
 
+interface DeleteIconProps {
+    onPress: () => void
+}
+
+
 
 // --------------- component --------------- //
 const ScrollableImageList = ({
@@ -32,11 +37,9 @@ const ScrollableImageList = ({
         isScrolling,
         handleScroll,
         handleScrollEnd,
-        localClothingList,
         flatListRef
-
         // ...
-    } = useScrollableImageListViewModel({ clothingList })
+    } = useScrollableImageListViewModel(clothingList)
 
 
 
@@ -46,51 +49,64 @@ const ScrollableImageList = ({
         const { uri } = clothing
 
         return (
-            <Pressable
-                style={({ pressed }) => ({ ...localStyles.item, opacity: pressed ? 0.5 : 1 })}
-                onStartShouldSetResponder={() => !isScrolling}
-                onPress={() => onPressClothing(clothing)}
-            >
+            <View style={localStyles.item}>
 
-                <Image
-                    source={{ uri }}
-                    resizeMode='center'
-                    style={{ width: "100%", height: "100%" }}
-                />
 
-                <IconDefault
-                    name='delete'
-                    style={{
-                        position: "absolute",
-                        left: 25,
-                        bottom: 10
-                    }}
-                    onPress={() => onPressDeleteClothing(clothing)}
-                />
+                {/* lado izquierdo de la pantalla */}
+                <View style={localStyles.leftSide}>
+                    <DeleteIcon onPress={() => onPressDeleteClothing(clothing)} />
+                </View>
 
-            </Pressable >
+
+                {/* foto de la prenda */}
+                <Pressable
+                    style={({ pressed }) => ({ flex: 4, opacity: pressed ? 0.5 : 1 })}
+                    onStartShouldSetResponder={() => !isScrolling}
+                    onPress={() => onPressClothing(clothing)}
+                >
+                    <Image
+                        source={{ uri }}
+                        resizeMode='center'
+                        style={{ flex: 1, borderWidth: 1 }}
+                    />
+                </Pressable>
+
+
+                {/* lado derecho */}
+                <View style={localStyles.rightSide}></View>
+
+            </View >
         )
+    }
+
+    const DeleteIcon = ({ onPress }: DeleteIconProps) => {
+
+        return (
+            <IconDefault
+                name='delete'
+                onPress={onPress}
+            />
+        )
+
     }
 
 
     // --------------- render --------------- //
     return (
         <View style={[localStyles.container, style]}>
-
             <FlatList
                 ref={flatListRef}
-                data={localClothingList}
+                data={clothingList}
+                renderItem={({ item }) => renderItem(item)}
+                keyExtractor={(item) => item.id.toString()}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => renderItem(item)}
                 snapToInterval={screenWidth}
                 snapToAlignment="center"
                 decelerationRate="fast"
                 onScrollBeginDrag={handleScroll}
                 onScrollEndDrag={handleScrollEnd}
             />
-
         </View>
     )
 }
@@ -110,13 +126,25 @@ const localStyles = StyleSheet.create({
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 32,
         borderWidth: 1,
+        flexDirection: "row"
     },
 
     title: {
         color: "black",
         textAlign: "center"
+    },
+
+    leftSide: {
+        flex: 1,
+        padding: 4,
+        height: "100%",
+        borderWidth: 1,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    rightSide: {
+        flex: 1
     }
 
 })

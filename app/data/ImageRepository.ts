@@ -20,7 +20,11 @@ class ImageRepository implements IClothingRepository {
 
             // Definir la URI final en el directorio de documentos
             const newDate = new Date().getTime();
-            const finalUri = `${FileSystem.documentDirectory}/images/${newDate}.jpg`;
+            const finalUri = `${FileSystem.documentDirectory}images/${newDate}.jpg`;
+
+            console.log("uri original", uri);
+            console.log("finalUri", finalUri);
+
 
             // Mover el archivo usando FileSystem
             await FileSystem.copyAsync({
@@ -40,11 +44,6 @@ class ImageRepository implements IClothingRepository {
 
     }
 
-    getClothingList(type?: ClothingType): Promise<ClothingTbType[]> {
-        console.log("No se ha implementado el metodo getClothingList ")
-        return Promise.resolve([])
-    }
-
     async deleteClothing({ uri }: Clothing): Promise<boolean> {
         try {
 
@@ -59,7 +58,7 @@ class ImageRepository implements IClothingRepository {
             return true;
 
         } catch (error) {
-            console.error('Error al mover la imagen:', error);
+            console.error('Error al eliminar la imagen:', error);
             throw error; // Re-lanzar el error si es necesario manejarlo a nivel superior
         }
 
@@ -73,6 +72,11 @@ class ImageRepository implements IClothingRepository {
     getSingleClothing(clothingId: number): Promise<ClothingTbType | null> {
         console.log("No se ha implementado el metodo getSingleClothing")
         return Promise.resolve(null)
+    }
+
+    getClothingList(type?: ClothingType): Promise<ClothingTbType[]> {
+        console.log("No se ha implementado el metodo getClothingList ")
+        return Promise.resolve([])
     }
 
 

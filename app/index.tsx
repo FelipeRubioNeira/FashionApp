@@ -65,7 +65,7 @@ const MyCloset = () => {
 
                 {/* TOP list */}
                 <ScrollableImageList
-                    style={{ flex: 1 }}
+                    style={{ flex: 2 }}
                     clothingList={topClothingList}
                     onPressClothing={onPressClothing}
                     onPressDeleteClothing={onPressDeleteClothing}
@@ -76,7 +76,7 @@ const MyCloset = () => {
 
                 {/* view para la parte inferior de la ropa */}
                 <ScrollableImageList
-                    style={{ flex: 1 }}
+                    style={{ flex: 2 }}
                     clothingList={bottomClothingList}
                     onPressClothing={onPressClothing}
                     onPressDeleteClothing={onPressDeleteClothing}

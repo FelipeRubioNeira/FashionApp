@@ -46,34 +46,15 @@ const useMainMenuViewModel = (
 
     const getAllClothing = async (filter?: ClothingType) => {
 
-        console.log("filtro", filter);
-
         const {
             topClothing,
             bottomClothing,
             shoes
-        } = await getClothingUseCase.execute(filter)
+        } = await getClothingUseCase.execute()
 
-        switch (filter) {
-
-            case "Superior":
-                setTopClothingList(topClothing)
-                break
-
-            case "Inferior":
-                setBottomClothingList(bottomClothing)
-                break
-
-            case "Zapatos":
-                setShoesList(shoes)
-                break
-
-            default: // Incluye undefined
-                setTopClothingList(topClothing);
-                setBottomClothingList(bottomClothing);
-                setShoesList(shoes);
-                break
-        }
+        setTopClothingList([...topClothing]);
+        setBottomClothingList([...bottomClothing]);
+        setShoesList([...shoes]);
 
     }
 
@@ -84,6 +65,10 @@ const useMainMenuViewModel = (
         })
     }
 
+    /**
+     * 
+     * @param clothing - La prenda que se desea eliminar
+     */
     const onPressDeleteClothing = async (clothing: Clothing) => {
 
         const {
@@ -91,12 +76,7 @@ const useMainMenuViewModel = (
             message
         } = await deleteClothingUseCase.execute(clothing)
 
-        console.log("onPressDeleteClothing() ", success, message)
-
-        if (success) {
-            getAllClothing()
-        }
-
+        if (success) getAllClothing()
 
     }
 

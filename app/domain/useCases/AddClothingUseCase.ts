@@ -12,6 +12,9 @@ class AddClothingUseCase {
 
     async execute(newClothing: Partial<Clothing>): Promise<ResponseUseCase<Clothing>> {
 
+        console.log("AddClothingUseCase ", newClothing);
+
+
         const defaultErrorMessage = {
             message: "Ha ocurrido un error al guardar la prenda",
             success: false,

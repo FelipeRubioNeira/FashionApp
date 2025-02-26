@@ -56,7 +56,9 @@ class ClothingRepository implements IClothingRepository {
             VALUES (?, ?, ?, ?)`;
 
             const params = [clothing.uri, clothing.name, clothing.type, clothing.style];
-            const result = await db.runAsync(query, params);
+
+            const statement = await db.prepareAsync(query)
+            const result = await statement.executeAsync(params)
 
             return result.lastInsertRowId ? clothing : null;
 
@@ -66,15 +68,19 @@ class ClothingRepository implements IClothingRepository {
         }
     }
 
-    async deleteClothing({ uri }: Clothing): Promise<boolean> {
+    async deleteClothing({ id }: Clothing): Promise<boolean> {
 
         try {
 
             const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
-            const deleteQuery = `delete from ${Tables.CLOTHING} where clo_uri = ?`;
-            const params = [uri];
+            const deleteQuery = `delete from ${Tables.CLOTHING} where clo_id = ?`;
+            const params = [id];
 
-            const result = await db.runAsync(deleteQuery, params);
+            const statement = await db.prepareAsync(deleteQuery)
+            const result = await statement.executeAsync(params)
+
+            console.log("deleteClothing repository ", result);
+            
 
             return result.changes != 0;
 

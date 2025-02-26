@@ -58,7 +58,7 @@ const addClothing = () => {
             {/* ----------------- botones para galeria y camara ----------------- */}
             <View style={localStyles.buttonContainer}>
                 <ButtonCmp
-                    text="Abrir Galleria"
+                    text="Abrir Galeria"
                     onPress={openGallery}
                     style={{ marginRight: 5, flex: 1 }}
                 />

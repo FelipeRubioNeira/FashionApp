@@ -1,0 +1,10 @@
+kotlin.version=1.9.24
+android.suppressUnsupportedCompileSdk=34
+compose.kotlin.suppressVersionCheck=true
+hermesEnabled=true
+android.useAndroidX=true
+suppressKotlinVersionCompatibilityCheck=true
+android.enableJetifier=true
+android.useAndroidX=true
+suppressKotlinVersionCompatibilityCheck=true
+android.suppressKotlinVersionCompatibilityCheck=true

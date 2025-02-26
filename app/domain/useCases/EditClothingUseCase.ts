@@ -10,28 +10,36 @@ class EditClothingUseCase {
         @inject(DI_TOKENS.IClothingImageRepositoryToken) private imageRepository: IClothingRepository,
     ) { }
 
-    async execute(clothing: Clothing): Promise<ResponseUseCase> {
+    async execute(clothing: Partial<Clothing>): Promise<ResponseUseCase<Clothing>> {
+
+        console.log("nos llega esta prenda para editar ", clothing);
+
 
         const errorMessage = this.generateErrorMessage();
 
         try {
 
-            // 1. Editamos la prenda desde la DB
-            const result = await this.clothingRepository.editClothing(clothing)
-            if (!result) return errorMessage
+
+            const createDisk = await this.imageRepository.saveClothing(clothing as Clothing)
+            if (!createDisk) return errorMessage
+
+            const createDB = await this.clothingRepository.saveClothing(createDisk)
+            if (!createDB) return errorMessage
 
 
-            // 2.1 Eliminamos la imagen anterior
-            const deleteOk = await this.imageRepository.deleteClothing(clothing)
-            if (!deleteOk) return errorMessage
+            const deleteDB = await this.clothingRepository.deleteClothing(clothing as Clothing)
+            if (!deleteDB) return errorMessage
 
 
-            // 2.2 agregamos la imagen
-            const saveOk = await this.imageRepository.saveClothing(clothing)
-            if (!saveOk) return errorMessage
+            const deleteDisk = await this.imageRepository.deleteClothing(clothing as Clothing)
+            if (!deleteDisk) return errorMessage
 
 
-            return this.generateSuccessMessage()
+            return {
+                success: true,
+                message: "Se ha actualizado la prenda correctamente",
+                data: createDB
+            }
 
         } catch (error) {
             console.log("Ha ocurrido un error al ejecutar EditClothingUseCase ", error);
@@ -42,19 +50,13 @@ class EditClothingUseCase {
 
     }
 
-    private generateErrorMessage(): ResponseUseCase {
+    private generateErrorMessage(): ResponseUseCase<Clothing> {
         return {
             success: false,
             message: "No se ha podido actualizar la prenda",
         }
     }
 
-    private generateSuccessMessage(): ResponseUseCase {
-        return {
-            success: true,
-            message: "Se ha actualizado la prenda correctamente",
-        }
-    }
 
 }
 
