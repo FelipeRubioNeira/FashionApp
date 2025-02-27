@@ -1,5 +1,3 @@
-import { ClothingStyle, ClothingType } from "@/app/domain/Types"
-
 type ClothingTbType = {
     clo_id: number,
     clo_uri: string,

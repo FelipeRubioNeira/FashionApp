@@ -1,46 +1,65 @@
-import { ClothingType, Clothing } from "../domain/Types";
-import IClothingRepository from "./IClothingRepository";
-import { Tables } from "./db/TableNames";
+import IClothingRepository from "./interfaces/IClothingRepository";
 import { injectable } from "tsyringe";
-import { ClothingTbType } from "./db/TableTypes";
-
-import * as SQLite from 'expo-sqlite';
-import { drizzle } from 'drizzle-orm/expo-sqlite';
-import { DBConstants } from "./db/DBConstants";
-import { ClothingTable } from "./db/Schema";
+import { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
+import { ClothingTable, ClothingTableType } from "./db/Schema";
 import { eq } from 'drizzle-orm';
+import { ClothingType, Clothing, ClothingStyle } from "../domain/Types";
+import DbConnection from "./db/DbConnection";
 
 
 @injectable()
 class ClothingRepository implements IClothingRepository {
 
-    private async getDBConection() {
-        const expo = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
-        const db = drizzle(expo);
-        return db
+    private db: ExpoSQLiteDatabase;
+
+    constructor(private dbConnection: DbConnection) {
+        this.db = this.dbConnection.db
     }
 
-    async getClothingList(clothingType?: ClothingType): Promise<ClothingTbType[]> {
+    /**
+     * mapClothingTableTypeToClothing
+     * 
+     * @param dbResult - Array con datos del tipo ClothingTableType
+     * @returns - Se retorna un listado de Clothing[]
+     */
+    private mapClothingTableTypeToClothing = (dbResult: ClothingTableType[]): Clothing[] => {
+
+        if (dbResult.length === 0) return []
+
+        return dbResult.map(clohtingDb => {
+
+            const { clo_id, clo_name, clo_style, clo_type, clo_uri } = clohtingDb
+
+            const newClothing: Clothing = {
+                id: clo_id,
+                name: clo_name,
+                style: clo_style as ClothingStyle,
+                type: clo_type as ClothingType,
+                uri: clo_uri
+            }
+
+            return newClothing
+        })
+
+    }
+
+    async getClothingList(clothingType?: ClothingType): Promise<Clothing[]> {
 
         try {
 
-            const db = await this.getDBConection()
-
-            let resultDB = []
+            let resultDb = []
 
             if (clothingType) {
-
-                resultDB = await db
+                resultDb = await this.db
                     .select()
                     .from(ClothingTable)
                     .where(eq(ClothingTable.clo_type, clothingType || ""))
 
             } else {
-                resultDB = await db.select().from(ClothingTable)
+                resultDb = await this.db.select().from(ClothingTable)
             }
 
-            return resultDB;
-
+            return this.mapClothingTableTypeToClothing(resultDb)
 
         } catch (error) {
             console.log("Error en getClothingList repository ", error);
@@ -51,14 +70,13 @@ class ClothingRepository implements IClothingRepository {
     async saveClothing({ name, style, type, uri }: Clothing): Promise<Clothing | null> {
         try {
 
-            const db = await this.getDBConection()
-
-            const result = await db.insert(ClothingTable).values({
-                clo_name: name,
-                clo_style: style,
-                clo_type: type,
-                clo_uri: uri
-            })
+            const result = await this.db.insert(ClothingTable)
+                .values({
+                    clo_name: name,
+                    clo_style: style,
+                    clo_type: type,
+                    clo_uri: uri
+                })
 
             return result.lastInsertRowId ? {
                 id: result.lastInsertRowId,
@@ -78,9 +96,7 @@ class ClothingRepository implements IClothingRepository {
 
         try {
 
-            const db = await this.getDBConection()
-
-            const resultDB = await db
+            const resultDB = await this.db
                 .delete(ClothingTable)
                 .where(eq(ClothingTable.clo_id, id))
 
@@ -99,9 +115,7 @@ class ClothingRepository implements IClothingRepository {
 
         try {
 
-            const db = await this.getDBConection()
-
-            const resultDB = await db.update(ClothingTable).set({
+            const resultDB = await this.db.update(ClothingTable).set({
                 clo_name: name,
                 clo_style: style,
                 clo_type: type,
@@ -110,7 +124,6 @@ class ClothingRepository implements IClothingRepository {
 
             return resultDB.changes ? clothing : null
 
-
         } catch (error) {
             console.log("Error editClothing repository ", error);
             return null;
@@ -118,17 +131,13 @@ class ClothingRepository implements IClothingRepository {
 
     }
 
-    async getSingleClothing(clothingId: number): Promise<ClothingTbType | null> {
+    async getSingleClothing(clothingId: number): Promise<Clothing | null> {
 
         try {
-
-            const db = await this.getDBConection()
-
-            const resultDB = await db.select().from(ClothingTable)
+            const resultDb = await this.db.select().from(ClothingTable)
                 .where(eq(ClothingTable.clo_id, clothingId))
 
-            return resultDB[0]
-
+            return this.mapClothingTableTypeToClothing(resultDb)[0]
 
         } catch (error) {
             console.log("Error en getSingleClothing repository ", error);

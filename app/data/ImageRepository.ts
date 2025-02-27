@@ -1,8 +1,9 @@
 import { injectable } from "tsyringe";
 import { Clothing, ClothingType } from "../domain/Types";
-import IClothingRepository from "./IClothingRepository";
+import IClothingRepository from "./interfaces/IClothingRepository";
 import * as FileSystem from 'expo-file-system';
-import { ClothingTbType } from "./db/TableTypes";
+import { ClothingTableType } from "./db/Schema";
+
 
 @injectable()
 class ImageRepository implements IClothingRepository {
@@ -69,12 +70,12 @@ class ImageRepository implements IClothingRepository {
         return Promise.resolve(null)
     }
 
-    getSingleClothing(clothingId: number): Promise<ClothingTbType | null> {
+    getSingleClothing(clothingId: number): Promise<Clothing | null> {
         console.log("No se ha implementado el metodo getSingleClothing")
         return Promise.resolve(null)
     }
 
-    getClothingList(type?: ClothingType): Promise<ClothingTbType[]> {
+    getClothingList(type?: ClothingType): Promise<Clothing[]> {
         console.log("No se ha implementado el metodo getClothingList ")
         return Promise.resolve([])
     }

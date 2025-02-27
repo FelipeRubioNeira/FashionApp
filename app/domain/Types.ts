@@ -8,6 +8,7 @@ const ClothingTypeList = [
 
 type ClothingType = typeof ClothingTypeList[number]
 
+
 const ClothingStylesList = [
     "Formal",
     "Semi formal",
@@ -20,6 +21,11 @@ const ClothingStylesList = [
 
 type ClothingStyle = typeof ClothingStylesList[number];
 
+/**
+ * Clothing
+ * 
+ * Unidad basica de prendas en la aplicacion
+ */
 type Clothing = {
     id: number,
     uri: string,
@@ -29,11 +35,23 @@ type Clothing = {
 }
 
 /**
+ * Outfit
+ * 
+ * Conjunto de 1 - 3 prendas que permiten generar un outfit/conjunto. Ademas existe un nombre para este conjunto de ropa
+ */
+type Outfit = {
+    name: string,
+    topClothing: Clothing,
+    bottomClothing: Clothing,
+    shoes: Clothing
+}
+
+/**
  * response use case
  * @T: tipo generico para data
  * @message: si hay mensaje entonces hubo un error
  * @success: true o false dependiendo de si la operacion fue exitosa o no
- * @data: estructura de datos o tipo opcional para ofrecer una respuesta
+ * @data: estructura de datos o tipo opcional para ofrecer un tipo de respuesta
  */
 type ResponseUseCase<T = unknown> = {
     message: string,
@@ -54,5 +72,6 @@ export {
     ResponseUseCase,
     CategorizedClothingCollection,
     ClothingStyle,
-    ClothingStylesList
+    ClothingStylesList,
+    Outfit
 }

@@ -1,8 +1,9 @@
-import { CategorizedClothingCollection, Clothing, ClothingType } from "../Types";
+import { CategorizedClothingCollection, Clothing, ClothingStyle, ClothingType } from "../Types";
 import { inject, injectable } from 'tsyringe';
-import IClothingRepository from "@/app/data/IClothingRepository";
+import IClothingRepository from "@/app/data/interfaces/IClothingRepository";
 import { DI_TOKENS } from "@/app/di/Container";
-import { ClothingTbType } from "@/app/data/db/TableTypes";
+import { ClothingTableType } from "@/app/data/db/Schema";
+
 
 @injectable()
 class GetClothingUseCase {
@@ -19,7 +20,7 @@ class GetClothingUseCase {
 
     }
 
-    private categorizeData(data: ClothingTbType[]): CategorizedClothingCollection {
+    private categorizeData(data: Clothing[]): CategorizedClothingCollection {
 
         const categorizedData: CategorizedClothingCollection = {
             topClothing: [],
@@ -29,23 +30,15 @@ class GetClothingUseCase {
 
         data.forEach((item) => {
 
-            const newClothing: Clothing = {
-                id: item.clo_id,
-                uri: item.clo_uri,
-                name: item.clo_name,
-                type: item.clo_type,
-                style: item.clo_style
-            }
-
-            switch (newClothing.type) {
+            switch (item.type) {
                 case "Superior":
-                    categorizedData.topClothing.push(newClothing)
+                    categorizedData.topClothing.push(item)
                     break;
                 case "Inferior":
-                    categorizedData.bottomClothing.push(newClothing)
+                    categorizedData.bottomClothing.push(item)
                     break;
                 case "Zapatos":
-                    categorizedData.shoes.push(newClothing)
+                    categorizedData.shoes.push(item)
                     break;
             }
         })

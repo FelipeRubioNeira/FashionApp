@@ -4,13 +4,15 @@ import { ScreenMainMenuParams } from "./ui/navigation/interfaces";
 import GetClothingUseCase from "./domain/useCases/GetClothingUseCase";
 import { Clothing, ClothingType } from "./domain/Types";
 import DeleteClothingUseCase from "./domain/useCases/DeleteClothingUseCase";
+import CreateOutfitUseCase from "./domain/useCases/CreateOutfitUseCase";
 
 
 
 
 const useMainMenuViewModel = (
     getClothingUseCase: GetClothingUseCase,
-    deleteClothingUseCase: DeleteClothingUseCase
+    deleteClothingUseCase: DeleteClothingUseCase,
+    creatOutfitUseCase: CreateOutfitUseCase
 ) => {
 
 
@@ -23,6 +25,13 @@ const useMainMenuViewModel = (
     const [topClothingList, setTopClothingList] = useState<Clothing[]>([])
     const [bottomClothingList, setBottomClothingList] = useState<Clothing[]>([])
     const [shoesList, setShoesList] = useState<Clothing[]>([])
+
+    const [currentOutfit, setCurrentOutfit] = useState({
+        topId: 0,
+        bottomId: 0,
+        shoesId: 0,
+        name: "",
+    })
 
 
 
@@ -52,9 +61,16 @@ const useMainMenuViewModel = (
             shoes
         } = await getClothingUseCase.execute()
 
+        // se llenan los datos
         setTopClothingList([...topClothing]);
         setBottomClothingList([...bottomClothing]);
         setShoesList([...shoes]);
+
+
+        // se establece el outfit por defecto
+        updateCurrentOutfit("Superior", topClothing[0].id || 0)
+        updateCurrentOutfit("Inferior", bottomClothing[0].id || 0)
+        updateCurrentOutfit("Zapatos", shoes[0].id || 0)
 
     }
 
@@ -80,6 +96,44 @@ const useMainMenuViewModel = (
 
     }
 
+    /**
+     * 
+     * @param clothingType - Tipo de prenda que se debe actualizar
+     * @param clothingId - Id de la ropa seleccionada
+     */
+    const updateCurrentOutfit = (clothingType: ClothingType, clothingId: number) => {
+
+        switch (clothingType) {
+            case "Superior":
+                setCurrentOutfit({ ...currentOutfit, topId: clothingId })
+                break;
+
+            case "Inferior":
+                setCurrentOutfit({ ...currentOutfit, bottomId: clothingId })
+                break;
+
+            case "Zapatos":
+                setCurrentOutfit({ ...currentOutfit, shoesId: clothingId })
+                break;
+        }
+
+    }
+
+    const onPressSaveOutfit = async () => {
+
+        const result = await creatOutfitUseCase.execute({
+            topClothing: { id: currentOutfit.topId } as Clothing,
+            bottomClothing: { id: currentOutfit.bottomId } as Clothing,
+            shoes: { id: currentOutfit.shoesId } as Clothing,
+            name: "default name"
+        })
+
+        console.log("result creatOutfitUseCase", result);
+
+
+
+    }
+
 
     // -------------- return -------------- //
     return {
@@ -89,7 +143,9 @@ const useMainMenuViewModel = (
 
         navigateToAddClothing,
         onPressClothing,
-        onPressDeleteClothing
+        onPressDeleteClothing,
+        updateCurrentOutfit,
+        onPressSaveOutfit
     }
 
 }

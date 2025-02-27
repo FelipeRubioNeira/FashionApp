@@ -14,7 +14,8 @@ interface ScrollableImageListProps {
     style?: ViewStyle,
     clothingList: Clothing[],
     onPressClothing: (clothing: Clothing) => void,
-    onPressDeleteClothing: (clothing: Clothing) => void
+    onPressDeleteClothing: (clothing: Clothing) => void,
+    onChangeClothing: (clothingId: number) => void
 }
 
 interface DeleteIconProps {
@@ -28,7 +29,8 @@ const ScrollableImageList = ({
     style,
     clothingList,
     onPressClothing,
-    onPressDeleteClothing
+    onPressDeleteClothing,
+    onChangeClothing
 }: ScrollableImageListProps) => {
 
 
@@ -37,9 +39,10 @@ const ScrollableImageList = ({
         isScrolling,
         handleScroll,
         handleScrollEnd,
-        flatListRef
+        flatListRef,
+        calculateItemId
         // ...
-    } = useScrollableImageListViewModel()
+    } = useScrollableImageListViewModel(clothingList)
 
 
 
@@ -50,7 +53,6 @@ const ScrollableImageList = ({
 
         return (
             <View style={localStyles.item}>
-
 
                 {/* lado izquierdo de la pantalla */}
                 <View style={localStyles.leftSide}>
@@ -67,7 +69,7 @@ const ScrollableImageList = ({
                     <Image
                         source={{ uri }}
                         resizeMode='center'
-                        style={{ flex: 1, borderWidth: 1 }}
+                        style={{ flex: 1 }}
                     />
                 </Pressable>
 
@@ -91,6 +93,7 @@ const ScrollableImageList = ({
     }
 
 
+
     // --------------- render --------------- //
     return (
         <View style={[localStyles.container, style]}>
@@ -106,6 +109,7 @@ const ScrollableImageList = ({
                 decelerationRate="fast"
                 onScrollBeginDrag={handleScroll}
                 onScrollEndDrag={handleScrollEnd}
+                onScroll={event => onChangeClothing(calculateItemId(event.nativeEvent.contentOffset.x))}
             />
         </View>
     )
@@ -118,7 +122,6 @@ const localStyles = StyleSheet.create({
 
     container: {
         width: "100%",
-        borderWidth: 1,
     },
 
     item: {
@@ -126,8 +129,7 @@ const localStyles = StyleSheet.create({
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
-        borderWidth: 1,
-        flexDirection: "row"
+        flexDirection: "row",
     },
 
     title: {
@@ -139,7 +141,6 @@ const localStyles = StyleSheet.create({
         flex: 1,
         padding: 4,
         height: "100%",
-        borderWidth: 1,
         justifyContent: "center",
         alignItems: "center"
     },

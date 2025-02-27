@@ -1,44 +1,135 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "653d7927-d7d6-4f9d-a8ed-3681b9bfb1d6",
+  "id": "384e12ed-0de2-436c-abe4-bdf49a2b4212",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "topClothes": {
-      "name": "topClothes",
+    "Clothing": {
+      "name": "Clothing",
       "columns": {
-        "id": {
-          "name": "id",
+        "clo_id": {
+          "name": "clo_id",
           "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": true
         },
-        "uri": {
-          "name": "uri",
+        "clo_uri": {
+          "name": "clo_uri",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "type": {
-          "name": "type",
+        "clo_name": {
+          "name": "clo_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "clo_type": {
+          "name": "clo_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "clo_style": {
+          "name": "clo_style",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         }
       },
-      "indexes": {
-        "uri_index": {
-          "name": "uri_index",
-          "columns": [
-            "uri"
-          ],
-          "isUnique": false
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "Outfit": {
+      "name": "Outfit",
+      "columns": {
+        "out_id": {
+          "name": "out_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "out_name": {
+          "name": "out_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "out_top_id": {
+          "name": "out_top_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "out_btn_id": {
+          "name": "out_btn_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "out_sho_id": {
+          "name": "out_sho_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
-      "foreignKeys": {},
+      "indexes": {},
+      "foreignKeys": {
+        "Outfit_out_top_id_Clothing_clo_id_fk": {
+          "name": "Outfit_out_top_id_Clothing_clo_id_fk",
+          "tableFrom": "Outfit",
+          "tableTo": "Clothing",
+          "columnsFrom": [
+            "out_top_id"
+          ],
+          "columnsTo": [
+            "clo_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "Outfit_out_btn_id_Clothing_clo_id_fk": {
+          "name": "Outfit_out_btn_id_Clothing_clo_id_fk",
+          "tableFrom": "Outfit",
+          "tableTo": "Clothing",
+          "columnsFrom": [
+            "out_btn_id"
+          ],
+          "columnsTo": [
+            "clo_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "Outfit_out_sho_id_Clothing_clo_id_fk": {
+          "name": "Outfit_out_sho_id_Clothing_clo_id_fk",
+          "tableFrom": "Outfit",
+          "tableTo": "Clothing",
+          "columnsFrom": [
+            "out_sho_id"
+          ],
+          "columnsTo": [
+            "clo_id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}

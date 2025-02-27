@@ -1,9 +1,10 @@
 import { Clothing } from "@/app/domain/Types";
 import { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
+import { screenWidth } from "../../constants/ScreenDimensions";
 
 
-const useScrollableImageListViewModel = () => {
+const useScrollableImageListViewModel = (clothingList: Clothing[]) => {
 
     // ------ state ------ //
     const [isScrolling, setIsScrolling] = useState(false);
@@ -22,15 +23,21 @@ const useScrollableImageListViewModel = () => {
         setIsScrolling(false);
     };
 
+    const calculateItemId = (xPosition: number) => {
+        const index = Math.round(xPosition / screenWidth)
+        return clothingList[index].id
+    }
 
 
 
-    // ------ returnF ------ //
+
+    // ------ return ------ //
     return {
         isScrolling,
         handleScroll,
         handleScrollEnd,
-        flatListRef
+        flatListRef,
+        calculateItemId
     }
 
 }

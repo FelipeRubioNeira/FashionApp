@@ -1,19 +1,12 @@
 {
-  "version": "7",
+  "version": "1",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
       "version": "6",
-      "when": 1734040480950,
-      "tag": "0000_bright_lizard",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1740651408066,
-      "tag": "0001_purple_strong_guy",
+      "when": 1740676668200,
+      "tag": "0000_long_karma",
       "breakpoints": true
     }
   ]
