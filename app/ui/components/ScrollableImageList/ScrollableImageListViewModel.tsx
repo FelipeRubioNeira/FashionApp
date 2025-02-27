@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
 
 
-const useScrollableImageListViewModel = (updatedClothingList: Clothing[]) => {
-
+const useScrollableImageListViewModel = () => {
 
     // ------ state ------ //
     const [isScrolling, setIsScrolling] = useState(false);
@@ -13,12 +12,6 @@ const useScrollableImageListViewModel = (updatedClothingList: Clothing[]) => {
 
 
     // ------ effects ------ //
-    useEffect(() => {
-
-        console.log("Se ha actualizado la flatlist");
-
-        handleUpdatedList()
-    }, [updatedClothingList])
 
     // ------ methods ------ //
     const handleScroll = () => {
@@ -29,9 +22,6 @@ const useScrollableImageListViewModel = (updatedClothingList: Clothing[]) => {
         setIsScrolling(false);
     };
 
-    const handleUpdatedList = () => {
-        flatListRef.current?.scrollToEnd()
-    }
 
 
 

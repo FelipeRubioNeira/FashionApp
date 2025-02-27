@@ -1,44 +1,45 @@
 import { ClothingType, Clothing } from "../domain/Types";
 import IClothingRepository from "./IClothingRepository";
 import { Tables } from "./db/TableNames";
-import * as SQLite from 'expo-sqlite';
-import { DBConstants } from "./db/DBConstants";
 import { injectable } from "tsyringe";
 import { ClothingTbType } from "./db/TableTypes";
 
+import * as SQLite from 'expo-sqlite';
+import { drizzle } from 'drizzle-orm/expo-sqlite';
+import { DBConstants } from "./db/DBConstants";
+import { ClothingTable } from "./db/Schema";
+import { eq } from 'drizzle-orm';
+
+
 @injectable()
 class ClothingRepository implements IClothingRepository {
+
+    private async getDBConection() {
+        const expo = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
+        const db = drizzle(expo);
+        return db
+    }
 
     async getClothingList(clothingType?: ClothingType): Promise<ClothingTbType[]> {
 
         try {
 
-            // 1- abrir la base de datos    
-            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
+            const db = await this.getDBConection()
 
-            // 2- crear la consulta
-            let query = `SELECT * 
-            FROM ${Tables.CLOTHING}`
+            let resultDB = []
 
-            // 3- crear los parametros
-            const params = [];
-
-            // Si 'type' es proporcionado, agregamos la cláusula WHERE
             if (clothingType) {
-                query += ` WHERE clo_type = ?`;
-                params.push(clothingType);
+
+                resultDB = await db
+                    .select()
+                    .from(ClothingTable)
+                    .where(eq(ClothingTable.clo_type, clothingType || ""))
+
+            } else {
+                resultDB = await db.select().from(ClothingTable)
             }
 
-            // 4- ejecutar la consulta
-            const statement = await db.prepareAsync(query);
-
-            // 5- Ejecutar la consulta
-            const result = await statement.executeAsync<ClothingTbType>(params);
-
-            // 6- Obtener todos los resultados
-            const rows = await result.getAllAsync();
-
-            return rows;
+            return resultDB;
 
 
         } catch (error) {
@@ -47,24 +48,29 @@ class ClothingRepository implements IClothingRepository {
         }
     }
 
-    async saveClothing(clothing: Clothing): Promise<Clothing | null> {
+    async saveClothing({ name, style, type, uri }: Clothing): Promise<Clothing | null> {
         try {
 
-            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
-            const query = `INSERT INTO ${Tables.CLOTHING} 
-            (clo_uri, clo_name, clo_type, clo_style) 
-            VALUES (?, ?, ?, ?)`;
+            const db = await this.getDBConection()
 
-            const params = [clothing.uri, clothing.name, clothing.type, clothing.style];
+            const result = await db.insert(ClothingTable).values({
+                clo_name: name,
+                clo_style: style,
+                clo_type: type,
+                clo_uri: uri
+            })
 
-            const statement = await db.prepareAsync(query)
-            const result = await statement.executeAsync(params)
-
-            return result.lastInsertRowId ? clothing : null;
+            return result.lastInsertRowId ? {
+                id: result.lastInsertRowId,
+                name,
+                style,
+                type,
+                uri
+            } : null;
 
         } catch (error) {
             console.log("Error en saveClothing repository ", error);
-            return Promise.reject(null)
+            return null
         }
     }
 
@@ -72,17 +78,13 @@ class ClothingRepository implements IClothingRepository {
 
         try {
 
-            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
-            const deleteQuery = `delete from ${Tables.CLOTHING} where clo_id = ?`;
-            const params = [id];
+            const db = await this.getDBConection()
 
-            const statement = await db.prepareAsync(deleteQuery)
-            const result = await statement.executeAsync(params)
+            const resultDB = await db
+                .delete(ClothingTable)
+                .where(eq(ClothingTable.clo_id, id))
 
-            console.log("deleteClothing repository ", result);
-            
-
-            return result.changes != 0;
+            return resultDB.changes != 0
 
         } catch (error) {
             console.log("Error en deleteClothing repository ", error);
@@ -97,22 +99,17 @@ class ClothingRepository implements IClothingRepository {
 
         try {
 
-            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
+            const db = await this.getDBConection()
 
-            const query = `UPDATE ${Tables.CLOTHING}
-            SET CLO_NAME = ?,
-            CLO_STYLE = ?,
-            CLO_TYPE = ?,
-            CLO_URI = ?`
+            const resultDB = await db.update(ClothingTable).set({
+                clo_name: name,
+                clo_style: style,
+                clo_type: type,
+                clo_uri: uri
+            }).where(eq(ClothingTable.clo_id, id))
 
-            const params = [name, style, type, uri];
+            return resultDB.changes ? clothing : null
 
-            const statement = await db.prepareAsync(query);
-            const result = await statement.executeAsync<Clothing>(params);
-            const changes = result.changes;
-
-            if (changes != 0) return clothing
-            else return null
 
         } catch (error) {
             console.log("Error editClothing repository ", error);
@@ -125,29 +122,12 @@ class ClothingRepository implements IClothingRepository {
 
         try {
 
-            // 1- abrir la base de datos    
-            const db = await SQLite.openDatabaseAsync(DBConstants.DB_NAME);
+            const db = await this.getDBConection()
 
-            // 2- crear la consulta
-            let query = `SELECT * 
-            FROM ${Tables.CLOTHING}
-            WHERE CLO_ID = ?
-            `
+            const resultDB = await db.select().from(ClothingTable)
+                .where(eq(ClothingTable.clo_id, clothingId))
 
-            // 3- crear los parametros
-            const params = [clothingId];
-
-
-            // 4- ejecutar la consulta
-            const statement = await db.prepareAsync(query);
-
-            // 5- Ejecutar la consulta
-            const result = await statement.executeAsync<ClothingTbType>(params);
-
-            // 6- Obtener todos los resultados
-            const row = await result.getFirstAsync();
-
-            return row;
+            return resultDB[0]
 
 
         } catch (error) {

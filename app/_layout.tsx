@@ -2,6 +2,7 @@ import "reflect-metadata"; // se agrega para el uso de tsyringe (dependency inye
 import { Stack } from 'expo-router';
 import useIntializeDatabase from './data/db/InitializeDatabase';
 import { useEffect } from 'react';
+import Colors from "./ui/constants/colors";
 
 
 
@@ -18,7 +19,15 @@ export default function MainLayout() {
 
   return (
     <Stack initialRouteName="index" >
-      <Stack.Screen name="index" options={{ headerShown: true, title: 'Mi closet' }} />
+      <Stack.Screen
+        name="index"
+        options={{
+          headerShown: true,
+          title: 'Mi closet',
+          headerStyle: {
+            backgroundColor: Colors.GRAY,
+          }
+        }} />
     </Stack>
   );
 }

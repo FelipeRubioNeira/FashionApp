@@ -55,13 +55,16 @@ const MyCloset = () => {
 
                 <SpacerCmp marginVertical={4} />
 
+                {/**
+                 * De momento esto se comenta
+                 */}
                 {/* componente que permite buscar prendas en la base de datos */}
-                <SearchCmp
+                {/* <SearchCmp
                     onSearch={() => console.log("Se ha llamado a buscar en index ")}
                     onChangeText={value => console.log("se ha presionado sobre buscar ", value)}
                 />
 
-                <SpacerCmp marginVertical={4} />
+                <SpacerCmp marginVertical={4} /> */}
 
                 {/* TOP list */}
                 <ScrollableImageList

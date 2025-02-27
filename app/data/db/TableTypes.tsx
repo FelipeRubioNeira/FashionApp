@@ -4,8 +4,8 @@ type ClothingTbType = {
     clo_id: number,
     clo_uri: string,
     clo_name: string,
-    clo_type: ClothingType,
-    clo_style: ClothingStyle,
+    clo_type: string,
+    clo_style: string,
 }
 
 export type {

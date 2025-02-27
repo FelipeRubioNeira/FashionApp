@@ -39,7 +39,7 @@ const ScrollableImageList = ({
         handleScrollEnd,
         flatListRef
         // ...
-    } = useScrollableImageListViewModel(clothingList)
+    } = useScrollableImageListViewModel()
 
 
 

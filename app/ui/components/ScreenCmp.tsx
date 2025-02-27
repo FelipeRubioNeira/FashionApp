@@ -1,6 +1,5 @@
-import { ScrollView, StyleSheet, ViewStyle } from 'react-native'
+import { ScrollView, StyleSheet, ViewStyle, SafeAreaView } from 'react-native'
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ScreenCmpProps {
     children?: React.ReactNode,
@@ -27,7 +26,10 @@ const ScreenCmp = ({
 
 
     return (
-        <SafeAreaView style={[localStyles.screen, style, { padding: scrollable ? 0 : 8 }]}>
+        <SafeAreaView
+
+            style={[localStyles.screen, style, { padding: scrollable ? 0 : 8 }]}
+        >
             {scrollable ? renderScrollableScreen() : children}
         </SafeAreaView >
     )
