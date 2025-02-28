@@ -1,4 +1,4 @@
-import { Outfit } from "@/app/domain/Types"
+import { Outfit } from "@/domain/Types"
 
 interface IOutfitRepository {
 

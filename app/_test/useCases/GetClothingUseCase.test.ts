@@ -1,8 +1,8 @@
 // import "reflect-metadata";
 // import { container } from 'tsyringe';
-// import GetClothingUseCase from '@/app/domain/useCases/GetClothingUseCase';
-// import { CategorizedClothingCollection } from '@/app/domain/Types';
-// import { DI_TOKENS } from '@/app/di/Container';
+// import GetClothingUseCase from '@/domain/useCases/GetClothingUseCase';
+// import { CategorizedClothingCollection } from '@/domain/Types';
+// import { DI_TOKENS } from '@/di/Container';
 // import MockClothingRepository from '../mocks/MockClothingRepository';
 
 

@@ -1,5 +1,5 @@
-import { ClothingType, } from '@/app/domain/Types'
-import { ClothingTableType } from '@/app/data/db/Schema';
+import { ClothingType, } from '@/domain/Types'
+import { ClothingTableType } from '@/data/db/Schema';
 
 // Mock del repositorio
 class MockClothingRepository {

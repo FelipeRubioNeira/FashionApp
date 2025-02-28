@@ -1,15 +1,15 @@
 import "../../../../di/Container"
 import { container } from "tsyringe";
 import { View, StyleSheet } from "react-native";
-import ScreenCmp from "@/app/ui/components/ScreenCmp";
-import ScrollableImageList from "@/app/ui/components/ScrollableImageList/ScrollableImageList";
-import SpacerCmp from "@/app/ui/components/SpacerCmp";
-import ButtonCmp from "@/app/ui/components/ButtonCmp";
-import StarIcn from "@/app/ui/components/icons/StarIcn";
-import GetClothingUseCase from "@/app/domain/useCases/GetClothingUseCase";
+import ScreenCmp from "@/ui/components/ScreenCmp";
+import ScrollableImageList from "@/ui/components/ScrollableImageList/ScrollableImageList";
+import SpacerCmp from "@/ui/components/SpacerCmp";
+import ButtonCmp from "@/ui/components/ButtonCmp";
+import StarIcn from "@/ui/components/icons/StarIcn";
+import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
 import useMyClosetViewModel from "./myClosetViewModel";
-import DeleteClothingUseCase from "@/app/domain/useCases/DeleteClothingUseCase";
-import CreateOutfitUseCase from "@/app/domain/useCases/CreateOutfitUseCase";
+import DeleteClothingUseCase from "@/domain/useCases/DeleteClothingUseCase";
+import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 
 
 // se obtiene la instancia del caso de uso
@@ -23,9 +23,7 @@ const myCloset = () => {
 
     const {
         // atributes
-        topClothingList,
-        bottomClothingList,
-        shoesList,
+        topClothing, bottomClothing, shoes,
 
         // methods
         navigateToAddClothing,
@@ -75,7 +73,7 @@ const myCloset = () => {
                 {/* TOP list */}
                 <ScrollableImageList
                     style={{ flex: 3 }}
-                    clothingList={topClothingList}
+                    clothingList={topClothing}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={onPressDeleteClothing}
                     onChangeClothing={clothingId => updateCurrentOutfit("Superior", clothingId)}
@@ -87,7 +85,7 @@ const myCloset = () => {
                 {/* Bottom list  */}
                 <ScrollableImageList
                     style={{ flex: 3 }}
-                    clothingList={bottomClothingList}
+                    clothingList={bottomClothing}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={onPressDeleteClothing}
                     onChangeClothing={clothingId => updateCurrentOutfit("Inferior", clothingId)}
@@ -99,7 +97,7 @@ const myCloset = () => {
                 {/* Shoes list  */}
                 <ScrollableImageList
                     style={{ flex: 1 }}
-                    clothingList={shoesList}
+                    clothingList={shoes}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={onPressDeleteClothing}
                     onChangeClothing={clothingId => updateCurrentOutfit("Zapatos", clothingId)}

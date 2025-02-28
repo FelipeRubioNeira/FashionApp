@@ -1,10 +1,15 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScreenMainMenuParams } from "@/app/ui/navigation/interfaces";
-import GetClothingUseCase from "@/app/domain/useCases/GetClothingUseCase";
-import { Clothing, ClothingType } from "@/app/domain/Types";
-import DeleteClothingUseCase from "@/app/domain/useCases/DeleteClothingUseCase";
-import CreateOutfitUseCase from "@/app/domain/useCases/CreateOutfitUseCase";
+import { ScreenMainMenuParams } from "@/ui/navigation/interfaces";
+import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
+import { Clothing, ClothingType } from "@/domain/Types";
+import DeleteClothingUseCase from "@/domain/useCases/DeleteClothingUseCase";
+import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
+
+// ---------- store ---------- //
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from "@/store/Store";
+import { initialiceItems } from "@/store/ClosetSlice";
 
 
 
@@ -17,14 +22,13 @@ const useMyClsetViewModel = (
 
 
     // -------------- hooks -------------- //
+    const { topClothing, bottomClothing, shoes } = useSelector((state: RootState) => state.closet)
+    const dispatch = useDispatch()
+
+
     const router = useRouter();
     const { clothingType, imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
 
-
-    // -------------- state -------------- //
-    const [topClothingList, setTopClothingList] = useState<Clothing[]>([])
-    const [bottomClothingList, setBottomClothingList] = useState<Clothing[]>([])
-    const [shoesList, setShoesList] = useState<Clothing[]>([])
 
     const [currentOutfit, setCurrentOutfit] = useState({
         topId: 0,
@@ -71,11 +75,16 @@ const useMyClsetViewModel = (
             shoes
         } = await getClothingUseCase.execute()
 
-        // se llenan los datos
-        setTopClothingList([...topClothing]);
-        setBottomClothingList([...bottomClothing]);
-        setShoesList([...shoes]);
+        dispatch(initialiceItems({
+            bottomClothing,
+            topClothing,
+            shoes
+        }))
 
+        // // se llenan los datos
+        // setTopClothingList([...topClothing]);
+        // setBottomClothingList([...bottomClothing]);
+        // setShoesList([...shoes]);
 
         // se establece el outfit por defecto
         updateCurrentOutfit("Superior", topClothing[0].id || 0)
@@ -140,10 +149,7 @@ const useMyClsetViewModel = (
 
     // -------------- return -------------- //
     return {
-        topClothingList,
-        bottomClothingList,
-        shoesList,
-
+        topClothing, bottomClothing, shoes,
         navigateToAddClothing,
         onPressDeleteClothing,
         updateCurrentOutfit,

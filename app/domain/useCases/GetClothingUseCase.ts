@@ -1,8 +1,8 @@
 import { CategorizedClothingCollection, Clothing, ClothingStyle, ClothingType } from "../Types";
 import { inject, injectable } from 'tsyringe';
-import IClothingRepository from "@/app/data/interfaces/IClothingRepository";
-import { DI_TOKENS } from "@/app/di/Container";
-import { ClothingTableType } from "@/app/data/db/Schema";
+import IClothingRepository from "@/data/interfaces/IClothingRepository";
+import { DI_TOKENS } from "@/di/Container";
+import { ClothingTableType } from "@/data/db/Schema";
 
 
 @injectable()

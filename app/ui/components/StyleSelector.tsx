@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React from 'react'
-import { ClothingStyle, ClothingStylesList } from '@/app/domain/Types'
+import { ClothingStyle, ClothingStylesList } from '@/domain/Types'
 import Colors from '../constants/colors'
 
 

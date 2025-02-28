@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-n
 import React, { useEffect } from 'react'
 import { screenWidth } from '../../constants/ScreenDimensions'
 import { useRouter } from 'expo-router';
-import { Clothing } from '@/app/domain/Types';
+import { Clothing } from '@/domain/Types';
 import useScrollableImageListViewModel from './ScrollableImageListViewModel';
 import IconDefault from '../icons/IconDefault';
 

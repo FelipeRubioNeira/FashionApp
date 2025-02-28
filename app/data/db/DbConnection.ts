@@ -3,7 +3,7 @@ import * as SQLite from 'expo-sqlite';
 import { drizzle, ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
 import { DBConstants } from "./DBConstants";
 import { migrate } from 'drizzle-orm/expo-sqlite/migrator';
-import migrations from '@/drizzle/migrations'
+import migrations from "../../../drizzle/migrations";
 
 
 @injectable()

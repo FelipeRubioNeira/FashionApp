@@ -1,4 +1,4 @@
-import { Clothing, ClothingType } from "@/app/domain/Types";
+import { Clothing, ClothingType } from "@/domain/Types";
 
 
 interface ScreenMainMenuParams {

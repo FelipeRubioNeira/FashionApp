@@ -1,5 +1,5 @@
-import IClothingRepository from "@/app/data/interfaces/IClothingRepository";
-import { DI_TOKENS } from "@/app/di/Container";
+import IClothingRepository from "@/data/interfaces/IClothingRepository";
+import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
 import { Clothing, ResponseUseCase } from "../Types";
 

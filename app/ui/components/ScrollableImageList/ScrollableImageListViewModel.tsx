@@ -1,4 +1,4 @@
-import { Clothing } from "@/app/domain/Types";
+import { Clothing } from "@/domain/Types";
 import { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
 import { screenWidth } from "../../constants/ScreenDimensions";

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import useGalleryViewCmp from '@/app/ui/components/GalleryViewCmp';
+import useGalleryViewCmp from '@/ui/components/GalleryViewCmp';
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useNavigation } from '@react-navigation/native';
-import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase';
-import { Clothing, ClothingStyle, ClothingType, ResponseUseCase } from '@/app/domain/Types';
-import { ScreenAddClothingParams } from '@/app/ui/navigation/interfaces';
-import EditClothingUseCase from '@/app/domain/useCases/EditClothingUseCase';
-import { ClothingStylesList, ClothingTypeList } from '@/app/domain/Types';
+import AddClothingUseCase from '@/domain/useCases/AddClothingUseCase';
+import { Clothing, ClothingStyle, ClothingType, ResponseUseCase } from '@/domain/Types';
+import { ScreenAddClothingParams } from '@/ui/navigation/interfaces';
+import EditClothingUseCase from '@/domain/useCases/EditClothingUseCase';
+import { ClothingStylesList, ClothingTypeList } from '@/domain/Types';
 
 
 
