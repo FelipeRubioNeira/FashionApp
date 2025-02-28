@@ -1,15 +1,15 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScreenMainMenuParams } from "./ui/navigation/interfaces";
-import GetClothingUseCase from "./domain/useCases/GetClothingUseCase";
-import { Clothing, ClothingType } from "./domain/Types";
-import DeleteClothingUseCase from "./domain/useCases/DeleteClothingUseCase";
-import CreateOutfitUseCase from "./domain/useCases/CreateOutfitUseCase";
+import { ScreenMainMenuParams } from "@/app/ui/navigation/interfaces";
+import GetClothingUseCase from "@/app/domain/useCases/GetClothingUseCase";
+import { Clothing, ClothingType } from "@/app/domain/Types";
+import DeleteClothingUseCase from "@/app/domain/useCases/DeleteClothingUseCase";
+import CreateOutfitUseCase from "@/app/domain/useCases/CreateOutfitUseCase";
 
 
 
 
-const useMainMenuViewModel = (
+const useMyClsetViewModel = (
     getClothingUseCase: GetClothingUseCase,
     deleteClothingUseCase: DeleteClothingUseCase,
     creatOutfitUseCase: CreateOutfitUseCase
@@ -49,8 +49,18 @@ const useMainMenuViewModel = (
 
 
     // -------------- funtions -------------- //
-    const navigateToAddClothing = () => {
-        router.navigate("/ui/screens/addClothingScreen")
+    const navigateToAddClothing = (clothing?: Clothing) => {
+
+        const path = "/ui/screens/addClothingScreen"
+
+        // si nos llegan valores entonces navegamos con ellos
+        if (clothing) {
+            router.navigate({ pathname: path, params: { ...clothing } })
+            return
+        }
+
+        // de otra manera navegamos sin valores
+        router.navigate(path)
     }
 
     const getAllClothing = async (filter?: ClothingType) => {
@@ -74,12 +84,7 @@ const useMainMenuViewModel = (
 
     }
 
-    const onPressClothing = (clothing: Clothing) => {
-        router.navigate({
-            pathname: "/ui/screens/addClothingScreen",
-            params: { ...clothing }
-        })
-    }
+
 
     /**
      * 
@@ -130,8 +135,6 @@ const useMainMenuViewModel = (
 
         console.log("result creatOutfitUseCase", result);
 
-
-
     }
 
 
@@ -142,7 +145,6 @@ const useMainMenuViewModel = (
         shoesList,
 
         navigateToAddClothing,
-        onPressClothing,
         onPressDeleteClothing,
         updateCurrentOutfit,
         onPressSaveOutfit
@@ -152,4 +154,4 @@ const useMainMenuViewModel = (
 
 
 
-export default useMainMenuViewModel;
+export default useMyClsetViewModel;

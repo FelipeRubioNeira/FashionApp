@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react'
-import useGalleryViewCmp from '../../components/GalleryViewCmp'
+import useGalleryViewCmp from '@/app/ui/components/GalleryViewCmp';
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import * as FileSystem from 'expo-file-system';
-import { Tables } from '../../../data/db/TableNames'
 import { useNavigation } from '@react-navigation/native';
-import * as SQLite from 'expo-sqlite';
 import AddClothingUseCase from '@/app/domain/useCases/AddClothingUseCase';
 import { Clothing, ClothingStyle, ClothingType, ResponseUseCase } from '@/app/domain/Types';
-import { DBConstants } from '@/app/data/db/DBConstants';
-import { ScreenAddClothingParams } from '../../navigation/interfaces';
+import { ScreenAddClothingParams } from '@/app/ui/navigation/interfaces';
 import EditClothingUseCase from '@/app/domain/useCases/EditClothingUseCase';
 import { ClothingStylesList, ClothingTypeList } from '@/app/domain/Types';
 

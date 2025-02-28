@@ -1,7 +1,4 @@
 import { Clothing, ClothingType } from "@/app/domain/Types"
-import { ClothingTableType } from "../db/Schema"
-
-
 
 
 // TODO: Cambiar el retorno de la promesa dado que el actual esta asociado a una implementacion concreta
