@@ -1,5 +1,5 @@
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import { ScreenMainMenuParams } from "@/ui/navigation/interfaces";
 import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
 import { Clothing, ClothingType } from "@/domain/Types";
@@ -8,9 +8,8 @@ import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 
 // ---------- store ---------- //
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from "@/store/Store";
 import { initialiceItems } from "@/store/ClosetSlice";
-
+import { closetState } from "@/store/ClosetSlice";
 
 
 
@@ -22,7 +21,7 @@ const useMyClsetViewModel = (
 
 
     // -------------- hooks -------------- //
-    const { topClothing, bottomClothing, shoes } = useSelector((state: RootState) => state.closet)
+    const { topClothing, bottomClothing, shoes } = useSelector(closetState)
     const dispatch = useDispatch()
 
 
@@ -43,17 +42,21 @@ const useMyClsetViewModel = (
 
     // -------------- effects -------------- //
     useEffect(() => {
-        getAllClothing()
-    }, [])
-
-    useEffect(() => {
         getAllClothing(clothingType)
     }, [imageUri])
+
+    useFocusEffect(
+        useCallback(() => {
+        }, [])
+    )
 
 
 
     // -------------- funtions -------------- //
     const navigateToAddClothing = (clothing?: Clothing) => {
+
+        console.log("clothing ", clothing);
+
 
         const path = "/ui/screens/addClothingScreen"
 
@@ -136,6 +139,7 @@ const useMyClsetViewModel = (
     const onPressSaveOutfit = async () => {
 
         const result = await creatOutfitUseCase.execute({
+            id: 0, // or any appropriate id
             topClothing: { id: currentOutfit.topId } as Clothing,
             bottomClothing: { id: currentOutfit.bottomId } as Clothing,
             shoes: { id: currentOutfit.shoesId } as Clothing,

@@ -40,10 +40,11 @@ type Clothing = {
  * Conjunto de 1 - 3 prendas que permiten generar un outfit/conjunto. Ademas existe un nombre para este conjunto de ropa
  */
 type Outfit = {
+    id: number,
     name: string,
     topClothing: Clothing,
     bottomClothing: Clothing,
-    shoes: Clothing
+    shoes: Clothing,
 }
 
 /**

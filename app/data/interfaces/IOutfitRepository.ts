@@ -8,6 +8,18 @@ interface IOutfitRepository {
      */
     save(newOutfit: Partial<Outfit>): Promise<boolean>
 
+    /**
+     * getAll
+     * @returns retorna un array de outfits
+     */
+    getAll(): Promise<Outfit[]>
+
+    /**
+     * delete
+     * @param outfitId - id del outfit a eliminar
+     */
+    delete(outfitId: number): Promise<boolean>
+
 }
 
 export default IOutfitRepository

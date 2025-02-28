@@ -48,7 +48,7 @@ const myCloset = () => {
                     <ButtonCmp
                         style={{ height: "100%", flex: 4, }}
                         text="Agregar prenda"
-                        onPress={navigateToAddClothing}
+                        onPress={() => navigateToAddClothing(undefined)}
                     />
 
                     <View style={{ flex: 1 }}></View>

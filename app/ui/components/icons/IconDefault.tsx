@@ -9,7 +9,8 @@ interface IconDefaultProps {
     size?: number,
     name: ComponentProps<typeof Feather>['name'],
     style?: ViewStyle,
-    onPress: () => void
+    disabled?: boolean,
+    onPress?: () => void
 }
 
 const IconDefault = ({
@@ -17,12 +18,14 @@ const IconDefault = ({
     color = Colors.BLACK,
     size = measures.ICON,
     style,
+    disabled,
     onPress
 }: IconDefaultProps) => {
     return (
         <TouchableOpacity
             onPress={onPress}
             style={style}
+            disabled={disabled}
         >
             <Feather
                 name={name}

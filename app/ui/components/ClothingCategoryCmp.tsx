@@ -32,7 +32,7 @@ const ClothingCategoryCmp = ({
 
                         <LabelCmp
                             labelValue={categoryItem}
-                            labelStyle={selectedValue !== categoryItem ? localStyles.categoryItemTextDefault : localStyles.categoryItemTextSelected}
+                            style={selectedValue !== categoryItem ? localStyles.categoryItemTextDefault : localStyles.categoryItemTextSelected}
                         />
 
                     </TouchableOpacity>

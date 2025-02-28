@@ -26,10 +26,7 @@ const ScreenCmp = ({
 
 
     return (
-        <SafeAreaView
-
-            style={[localStyles.screen, style, { padding: scrollable ? 0 : 8 }]}
-        >
+        <SafeAreaView style={[localStyles.screen, { padding: scrollable ? 0 : 8 }, style]}>
             {scrollable ? renderScrollableScreen() : children}
         </SafeAreaView >
     )

@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CategorizedClothingCollection } from '../domain/Types';
+import { RootState } from "@/store/Store";
+
+
 
 const initialState: CategorizedClothingCollection = {
     topClothing: [],
@@ -19,8 +22,23 @@ const closetSlice = createSlice({
     },
 });
 
+/**
+ * 
+ * @param state - recibe el estado actual
+ * @returns retorna el estado completo del slice
+ */
+const closetState = (state: RootState) => state.closet
+
+
+
+// ------------ export ------------ //
+
 export const {
     initialiceItems,
 } = closetSlice.actions;
+
+export {
+    closetState
+}
 
 export default closetSlice.reducer;

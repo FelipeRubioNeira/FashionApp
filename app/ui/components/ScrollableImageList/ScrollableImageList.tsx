@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { screenWidth } from '../../constants/ScreenDimensions'
-import { useRouter } from 'expo-router';
 import { Clothing } from '@/domain/Types';
 import useScrollableImageListViewModel from './ScrollableImageListViewModel';
 import IconDefault from '../icons/IconDefault';

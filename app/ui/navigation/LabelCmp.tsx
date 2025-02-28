@@ -3,16 +3,16 @@ import React from 'react'
 
 interface ILabelCmp {
     labelValue: string,
-    labelStyle?: TextStyle
+    style?: TextStyle
 }
 
 const LabelCmp = ({
     labelValue = "",
-    labelStyle
+    style
 }: ILabelCmp) => {
 
     return (
-        <Text style={[localStyles.label, labelStyle]}>
+        <Text style={[localStyles.label, style]}>
             {labelValue}
         </Text>
 
