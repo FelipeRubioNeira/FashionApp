@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import LabelCmp from '../navigation/LabelCmp'
+import LabelCmp from './LabelCmp'
 import { ClothingType } from '@/domain/Types'
 
 interface IClothingCategoryCmp {

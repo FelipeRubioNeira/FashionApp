@@ -9,10 +9,10 @@ const DrawerLayout = () => {
         <Provider store={store}>
 
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <Drawer screenOptions={{ drawerItemStyle: { display: 'none' } }}>
+                <Drawer screenOptions={{ title: "Mi Closet", drawerItemStyle: { display: 'none' } }}>
 
                     <Drawer.Screen
-                        name="screens/myCloset/index"
+                        name="(closetStack)"
                         options={{
                             title: "Mi closet",
                             drawerItemStyle: { display: 'flex' }
@@ -20,20 +20,14 @@ const DrawerLayout = () => {
                     />
 
                     <Drawer.Screen
-                        name="screens/myOutfits/index"
+                        name="(outfitsStack)"
                         options={{
                             title: "Mis outfits",
                             drawerItemStyle: { display: 'flex' }
                         }}
                     />
 
-                    <Drawer.Screen
-                        name="screens/addClothingScreen/index"
-                        options={{
-                            title: "Agregar prenda",
-                            drawerItemStyle: { display: 'flex' }
-                        }}
-                    />
+
                 </Drawer>
             </GestureHandlerRootView>
         </Provider>

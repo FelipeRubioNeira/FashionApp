@@ -58,7 +58,7 @@ const useMyClsetViewModel = (
         console.log("clothing ", clothing);
 
 
-        const path = "/ui/screens/addClothingScreen"
+        const path = "/ui/(drawer)/(closetStack)/addClothingScreen"
 
         // si nos llegan valores entonces navegamos con ellos
         if (clothing) {
@@ -83,11 +83,6 @@ const useMyClsetViewModel = (
             topClothing,
             shoes
         }))
-
-        // // se llenan los datos
-        // setTopClothingList([...topClothing]);
-        // setBottomClothingList([...bottomClothing]);
-        // setShoesList([...shoes]);
 
         // se establece el outfit por defecto
         updateCurrentOutfit("Superior", topClothing[0].id || 0)
@@ -136,6 +131,10 @@ const useMyClsetViewModel = (
 
     }
 
+    /**
+     *  onPressSaveOutfit
+     * Se guarda el outfit completo 
+     */
     const onPressSaveOutfit = async () => {
 
         const result = await creatOutfitUseCase.execute({

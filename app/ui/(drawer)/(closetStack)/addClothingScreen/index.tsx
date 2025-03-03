@@ -6,7 +6,7 @@ import ButtonCmp from '@/ui/components/ButtonCmp'
 import CamaraViewCmp from '@/ui/components/CamaraViewCmp'
 import ScreenCmp from '@/ui/components/ScreenCmp'
 import TextInputCmp from '@/ui/components/TextInputCmp'
-import LabelCmp from '@/ui/navigation/LabelCmp'
+import LabelCmp from '@/ui/components/LabelCmp'
 import useAddClouthingViewModel from './addClothingViewModel'
 import ClothingCategoryCmp from '@/ui/components/ClothingCategoryCmp'
 import SpacerCmp from '@/ui/components/SpacerCmp'
@@ -51,7 +51,7 @@ const addClothing = () => {
 
 
             {/* ----------------- titulo ----------------- */}
-            <Text>Agregar nueva ropa</Text>
+            <LabelCmp labelValue='Agregar nueva ropa'></LabelCmp>
 
 
 
@@ -111,7 +111,7 @@ const addClothing = () => {
             <LabelCmp labelValue='Estilo' />
             <StyleSelector
                 styleList={ClothingStylesList}
-                styleSelected = {newClothing.style}
+                styleSelected={newClothing.style}
                 onPress={updateClothingStyle}
             />
 

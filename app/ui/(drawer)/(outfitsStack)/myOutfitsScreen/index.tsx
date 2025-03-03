@@ -8,7 +8,7 @@ import GetOutfitsUseCase from '@/domain/useCases/GetOutfitsUseCase'
 import { Outfit } from '@/domain/Types'
 import { screenWidth } from '@/ui/constants/ScreenDimensions'
 import SpacerCmp from '@/ui/components/SpacerCmp'
-import LabelCmp from '@/ui/navigation/LabelCmp'
+import LabelCmp from '@/ui/components/LabelCmp'
 import measures from '@/ui/constants/measures'
 import Colors from '@/ui/constants/colors'
 import IconDefault from '@/ui/components/icons/IconDefault'
@@ -25,7 +25,8 @@ const index = () => {
   // ----------- viewModel ----------- //
   const {
     outfits,
-    onPressDeleteOutfit
+    onPressDeleteOutfit,
+    onPressEditOutfit
   } = useMyOutfitsViewMode(getOutfitsUseCase, deleteOutfitUseCase)
 
 
@@ -65,7 +66,7 @@ const index = () => {
         />
 
 
-        <EditButton onPress={() => { }} />
+        <EditButton onPress={onPressEditOutfit} />
 
         <DeleteButton onPress={() => onPressDeleteOutfit(id)} />
 

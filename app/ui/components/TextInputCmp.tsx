@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextInput, TextStyle, View } from 'react-native'
 import React, { ReactElement } from 'react'
-import { ILabelCmp } from '../navigation/LabelCmp'
+import { ILabelCmp } from './LabelCmp'
 
 
 interface ITextInputCpm {

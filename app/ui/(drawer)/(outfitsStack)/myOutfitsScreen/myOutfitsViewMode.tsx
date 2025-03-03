@@ -1,10 +1,8 @@
-import { useSelector } from 'react-redux';
-import { closetState } from "@/store/ClosetSlice";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Outfit } from '@/domain/Types';
 import GetOutfitsUseCase from '@/domain/useCases/GetOutfitsUseCase';
 import DeleteOutfitUseCase from '@/domain/useCases/DeleteOutfitUseCase';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 interface ActionButton {
     onPress: () => void
@@ -19,6 +17,9 @@ const useMyOutfitsViewMode = (
 
 
     // ----------- hooks ----------- //
+
+    const router = useRouter()
+
     // const {
     //     bottomClothing,
     //     shoes,
@@ -51,21 +52,19 @@ const useMyOutfitsViewMode = (
     }
 
     const onPressDeleteOutfit = async (outfitId: number) => {
-
         const { success, message } = await deleteOutfitUseCase.execute(outfitId)
         getAllOutfits()
-        console.log("onPressDeleteOutfit", success, message);
-
     }
 
-    const onPressEditOutfit = (outfit: Outfit) => {
-
+    const onPressEditOutfit = () => {
+        router.navigate("/ui/editOutfitScreen")
     }
 
 
     return {
         outfits,
         onPressDeleteOutfit,
+        onPressEditOutfit
     }
 
 

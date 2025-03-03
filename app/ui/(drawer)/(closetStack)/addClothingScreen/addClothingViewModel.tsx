@@ -44,7 +44,7 @@ const useAddClouthingViewModel = (
     }, [])
 
     useEffect(() => {
-        if (id) fillClothingInformation({ id, name, style, type, uri })
+        fillClothingInformation({ id, name, style, type, uri })
     }, [id])
 
 
@@ -150,8 +150,22 @@ const useAddClouthingViewModel = (
 
 
     const fillClothingInformation = async (clothing: Clothing): Promise<void> => {
-        if (!clothing) return
+
+        if (!clothing) {
+            resetForm()
+            return
+        }
+
         setNewClothing({ ...clothing })
+    }
+
+    const resetForm = () => {
+        setNewClothing({
+            uri: "",
+            name: "",
+            style: "",
+            type: "",
+        })
     }
 
 

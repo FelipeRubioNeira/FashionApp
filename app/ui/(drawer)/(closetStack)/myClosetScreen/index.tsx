@@ -1,4 +1,4 @@
-import "../../../../di/Container"
+import "@/di/Container"
 import { container } from "tsyringe";
 import { View, StyleSheet } from "react-native";
 import ScreenCmp from "@/ui/components/ScreenCmp";
