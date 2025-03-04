@@ -2,13 +2,12 @@ import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { ScreenMainMenuParams } from "@/ui/navigation/interfaces";
 import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
-import { Clothing, ClothingType } from "@/domain/Types";
+import { CategorizedClothingCollection, Clothing, ClothingType } from "@/domain/Types";
 import DeleteClothingUseCase from "@/domain/useCases/DeleteClothingUseCase";
 import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 
 // ---------- store ---------- //
 import { useSelector, useDispatch } from 'react-redux';
-import { initialiceItems } from "@/store/ClosetSlice";
 import { closetState } from "@/store/ClosetSlice";
 
 
@@ -22,9 +21,6 @@ const useMyClsetViewModel = (
 
     // -------------- hooks -------------- //
     const { topClothing, bottomClothing, shoes } = useSelector(closetState)
-    const dispatch = useDispatch()
-
-
     const router = useRouter();
     const { clothingType, imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
 
@@ -45,18 +41,10 @@ const useMyClsetViewModel = (
         getAllClothing(clothingType)
     }, [imageUri])
 
-    useFocusEffect(
-        useCallback(() => {
-        }, [])
-    )
-
 
 
     // -------------- funtions -------------- //
     const navigateToAddClothing = (clothing?: Clothing) => {
-
-        console.log("clothing ", clothing);
-
 
         const path = "/ui/(drawer)/(closetStack)/addClothingScreen"
 
@@ -71,24 +59,18 @@ const useMyClsetViewModel = (
     }
 
     const getAllClothing = async (filter?: ClothingType) => {
+        const categotizedData = await getClothingUseCase.execute(filter)
+        setupDefaultOutfit(categotizedData)
+    }
 
-        const {
-            topClothing,
-            bottomClothing,
-            shoes
-        } = await getClothingUseCase.execute()
-
-        dispatch(initialiceItems({
-            bottomClothing,
-            topClothing,
-            shoes
-        }))
-
-        // se establece el outfit por defecto
+    /**
+     * 
+     * @param topClothing, bottomClothing, shoes = Valores categorizados para esteblecer el primer outfit por defecto
+     */
+    const setupDefaultOutfit = ({ topClothing, bottomClothing, shoes }: CategorizedClothingCollection) => {
         updateCurrentOutfit("Superior", topClothing[0].id || 0)
         updateCurrentOutfit("Inferior", bottomClothing[0].id || 0)
         updateCurrentOutfit("Zapatos", shoes[0].id || 0)
-
     }
 
 

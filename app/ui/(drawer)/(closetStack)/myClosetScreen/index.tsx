@@ -11,7 +11,6 @@ import useMyClosetViewModel from "./myClosetViewModel";
 import DeleteClothingUseCase from "@/domain/useCases/DeleteClothingUseCase";
 import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 
-
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
 const deleteClothingUseCase = container.resolve(DeleteClothingUseCase)
