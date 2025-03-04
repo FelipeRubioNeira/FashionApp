@@ -5,7 +5,6 @@ import { store } from '@/store/Store';
 
 const DrawerLayout = () => {
     return (
-
         <Provider store={store}>
 
             <GestureHandlerRootView style={{ flex: 1 }}>
