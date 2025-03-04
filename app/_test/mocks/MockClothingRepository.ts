@@ -1,22 +1,40 @@
-import { ClothingType, } from '@/domain/Types'
+import { Clothing, ClothingType, } from '@/domain/Types'
 import { ClothingTableType } from '@/data/db/Schema';
+import IClothingRepository from '@/data/interfaces/IClothingRepository';
 
 // Mock del repositorio
-class MockClothingRepository {
-    async getClothingList(clothingType?: ClothingType): Promise<ClothingTableType[]> {
+class MockClothingRepository implements IClothingRepository {
+    async getClothingList(clothingType?: ClothingType): Promise<Clothing[]> {
 
-        const items: ClothingTableType[] = [
-            { clo_id: 1, clo_uri: 'uri1', clo_name: 'Shirt', clo_type: 'TOP', clo_style: 'Casual' },
-            { clo_id: 2, clo_uri: 'uri2', clo_name: 'Jeans', clo_type: 'BOTTOM', clo_style: 'Casual' },
-            { clo_id: 3, clo_uri: 'uri3', clo_name: 'Sneakers', clo_type: 'SHOES', clo_style: 'Sport' },
+        const items: Clothing[] = [
+            { id: 1, uri: 'uri1', name: 'Shirt', type: 'Superior', style: 'Casual' },
+            { id: 2, uri: 'uri2', name: 'Jeans', type: 'Inferior', style: 'Casual' },
+            { id: 3, uri: 'uri3', name: 'Sneakers', type: 'Zapatos', style: 'Sport' },
         ];
 
         if (!clothingType) {
             return items;
         }
 
-        return items.filter(item => item.clo_type === clothingType);
+        return items.filter(item => item.type === clothingType);
     }
+
+    saveClothing(clothing: Clothing): Promise<Clothing | null> {
+        return Promise.reject(null)
+    }
+
+    deleteClothing(clothing: Clothing): Promise<boolean> {
+        return Promise.reject(false)
+    }
+
+    editClothing(clothing: Clothing): Promise<Clothing | null> {
+        return Promise.reject(null)
+    }
+
+    getSingleClothing(clothingId: number): Promise<Clothing | null> {
+        return Promise.reject(null)
+    }
+
 }
 
 export default MockClothingRepository
