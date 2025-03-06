@@ -32,7 +32,6 @@ const closetState = (state: RootState) => state.closet
 
 
 // ------------ export ------------ //
-
 export const {
     initialiceItems,
 } = closetSlice.actions;

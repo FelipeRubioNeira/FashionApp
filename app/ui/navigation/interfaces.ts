@@ -16,7 +16,18 @@ interface ScreenAddClothingParams extends Clothing {
     [key: string]: any;
 }
 
+interface ScreenEditOutfitParams {
+    outfitId: number,
+    outfitName: string,
+    topClothingId: number,
+    bottomClothingId: number,
+    shoesId: number,
+    [key: string]: any;
+}
+
+
 export type {
     ScreenMainMenuParams,
-    ScreenAddClothingParams
+    ScreenAddClothingParams,
+    ScreenEditOutfitParams
 }

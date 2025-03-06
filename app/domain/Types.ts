@@ -48,6 +48,19 @@ type Outfit = {
 }
 
 /**
+ * EditOutfitInformation
+ * 
+ * Cuando se desea editar un outfit, estos son los datos basicos que se requieren
+ */
+type EditOutfitInformation = {
+    outfitId: number,
+    name: string,
+    topId: number,
+    bottomId: number,
+    shoesId: number
+}
+
+/**
  * response use case
  * @T: tipo generico para data
  * @message: si hay mensaje entonces hubo un error
@@ -74,5 +87,6 @@ export {
     CategorizedClothingCollection,
     ClothingStyle,
     ClothingStylesList,
-    Outfit
+    Outfit,
+    EditOutfitInformation
 }

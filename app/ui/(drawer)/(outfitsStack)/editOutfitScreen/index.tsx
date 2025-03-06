@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import ScrollableImageList from '@/ui/components/ScrollableImageList/ScrollableImageList'
 import SpacerCmp from '@/ui/components/SpacerCmp'
@@ -10,11 +10,13 @@ import ButtonCmp from '@/ui/components/ButtonCmp'
 const index = () => {
 
     const {
+        currentOutfit,
         topClothing,
         bottomClothing,
         shoes,
 
         updateCurrentOutfit,
+        onPressUpdateOutfit
     } = useEditOutfitViewModel()
 
 
@@ -54,16 +56,13 @@ const index = () => {
 
             <SpacerCmp marginVertical={4} />
 
-            <ButtonCmp text='Guardar' onPress={() => { }} />
+            <ButtonCmp text='Guardar' onPress={() => onPressUpdateOutfit(currentOutfit)} />
 
         </ScreenCmp>
     )
 }
 
 
-const localStyles = StyleSheet.create({
-
-})
 
 
 export default index

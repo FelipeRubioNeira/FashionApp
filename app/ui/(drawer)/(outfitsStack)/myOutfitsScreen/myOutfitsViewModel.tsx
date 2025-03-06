@@ -1,15 +1,14 @@
 import { useCallback, useState } from "react";
-import { Outfit } from '@/domain/Types';
 import GetOutfitsUseCase from '@/domain/useCases/GetOutfitsUseCase';
 import DeleteOutfitUseCase from '@/domain/useCases/DeleteOutfitUseCase';
 import { useFocusEffect, useRouter } from 'expo-router';
+import { useSelector } from "react-redux";
+import { OutfitState } from "@/store/OutfitsSlice";
+import { Outfit } from "@/domain/Types";
+import { ScreenEditOutfitParams } from "@/ui/navigation/interfaces";
 
-interface ActionButton {
-    onPress: () => void
-}
 
-
-const useMyOutfitsViewMode = (
+const useMyOutfitsViewModel = (
     getOutfitsUseCase: GetOutfitsUseCase,
     deleteOutfitUseCase: DeleteOutfitUseCase
 ) => {
@@ -17,25 +16,12 @@ const useMyOutfitsViewMode = (
 
 
     // ----------- hooks ----------- //
-
+    const { outfits } = useSelector(OutfitState)
     const router = useRouter()
 
-    // const {
-    //     bottomClothing,
-    //     shoes,
-    //     topClothing
-    // } = useSelector(closetState)
-
-
-    // ----------- states ----------- //
-    const [outfits, setOutfits] = useState<Outfit[]>([])
 
 
     // ----------- effects ----------- //
-    // useEffect(() => {
-    //     getAllOutfits()
-    // }, []) 
-    // TODO: agregar dependencias para que se actualice cada vez que cambie el estado global
 
     useFocusEffect(
         useCallback(() => {
@@ -47,8 +33,8 @@ const useMyOutfitsViewMode = (
 
     // ----------- methods ----------- //
     const getAllOutfits = async () => {
-        const outfitList = await getOutfitsUseCase.execute()
-        setOutfits(outfitList)
+        // esperamos pero no hacemos nada de momento
+        await getOutfitsUseCase.execute()
     }
 
     const onPressDeleteOutfit = async (outfitId: number) => {
@@ -56,8 +42,18 @@ const useMyOutfitsViewMode = (
         getAllOutfits()
     }
 
-    const onPressEditOutfit = () => {
-        router.navigate("/ui/editOutfitScreen")
+    const onPressEditOutfit = (outfit: Outfit) => {
+        const { topClothing, bottomClothing, shoes } = outfit
+
+        const params: ScreenEditOutfitParams = {
+            outfitId: outfit.id,
+            outfitName: outfit.name,
+            topClothingId: topClothing.id,
+            bottomClothingId: bottomClothing.id,
+            shoesId: shoes.id
+        }
+
+        router.navigate({ pathname: "/ui/editOutfitScreen", params })
     }
 
 
@@ -70,8 +66,4 @@ const useMyOutfitsViewMode = (
 
 }
 
-export default useMyOutfitsViewMode;
-
-export type {
-    ActionButton
-}
+export default useMyOutfitsViewModel;

@@ -6,13 +6,12 @@ import { RootState } from "./Store";
 class ReduxDispatcher {
     constructor(@inject("Store") private store: Store<RootState>) { }
 
-    getDispatch() {
-        return this.store.dispatch;
-    }
-
+    /**
+     * 
+     * @param action Este parametro es una forma de detectar el tipo que nos llegada del store
+     */
     dispatch(action: Parameters<Store["dispatch"]>[0]){
-        const dispatch = this.getDispatch()
-        dispatch(action)
+        this.store.dispatch(action)
     }
 }
 

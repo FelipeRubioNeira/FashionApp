@@ -1,25 +1,33 @@
 import { useSelector } from 'react-redux';
 import { closetState } from "@/store/ClosetSlice";
-import { useState } from 'react';
-import { ClothingType } from '@/domain/Types';
+import { useEffect, useState } from 'react';
+import { ClothingType, EditOutfitInformation } from '@/domain/Types';
+import { useLocalSearchParams } from 'expo-router';
+import { ScreenEditOutfitParams } from '@/ui/navigation/interfaces';
 
 
-type OutfitInformation = {
-    name: string,
-    topId: number,
-    bottomId: number,
-    shoesId: number
-}
+const useEditOutfitViewModel = (
+
+) => {
 
 
-const useEditOutfitViewModel = () => {
+    const params = useLocalSearchParams<ScreenEditOutfitParams>()
+
+    const {
+        outfitId,
+        outfitName,
+        topClothingId,
+        bottomClothingId,
+        shoesId
+    } = params
 
 
     // ----------- hooks ----------- //
     const { topClothing, bottomClothing, shoes } = useSelector(closetState)
 
     // ----------- state ----------- //
-    const [currentOutfit, setCurrentOutfit] = useState<OutfitInformation>({
+    const [currentOutfit, setCurrentOutfit] = useState<EditOutfitInformation>({
+        outfitId: 0,
         name: "",
         topId: 0,
         bottomId: 0,
@@ -27,12 +35,36 @@ const useEditOutfitViewModel = () => {
     })
 
 
-    const updateOutfit = () => {
+
+
+    // ----------- effets ----------- //
+    useEffect(() => {
+
+        loadOutfit({
+            outfitId: outfitId,
+            name: outfitName,
+            topId: topClothingId,
+            bottomId: bottomClothingId,
+            shoesId: shoesId
+        })
+
+    }, [outfitId])
+
+
+    const loadOutfit = (outfitInformation: EditOutfitInformation) => {
+        setCurrentOutfit({ ...outfitInformation })
+    }
+
+
+    const onPressUpdateOutfit = (currentOutfit: EditOutfitInformation) => {
+
+        console.log("Se ha presionado onPressUpdateOutfit", currentOutfit);
 
     }
 
 
     /**
+     * Se actualiza el id de la prenda automaticamente cada vez que se hace scroll
      * 
      * @param clothingType - Tipo de prenda que se debe actualizar
      * @param clothingId - Id de la ropa seleccionada
@@ -56,10 +88,12 @@ const useEditOutfitViewModel = () => {
     }
 
     return {
+        currentOutfit,
         topClothing,
         bottomClothing,
         shoes,
-        updateCurrentOutfit
+        updateCurrentOutfit,
+        onPressUpdateOutfit,
     }
 }
 

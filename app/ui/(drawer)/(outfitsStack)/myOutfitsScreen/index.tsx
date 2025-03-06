@@ -1,6 +1,6 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import useMyOutfitsViewMode, { ActionButton } from './myOutfitsViewMode'
+import useMyOutfitsViewModel from './myOutfitsViewModel'
 import ScreenCmp from '@/ui/components/ScreenCmp'
 import { FlatList } from 'react-native-gesture-handler'
 import { container } from 'tsyringe'
@@ -13,6 +13,7 @@ import measures from '@/ui/constants/measures'
 import Colors from '@/ui/constants/colors'
 import IconDefault from '@/ui/components/icons/IconDefault'
 import DeleteOutfitUseCase from '@/domain/useCases/DeleteOutfitUseCase'
+import { ActionButton } from '@/ui/UITypes'
 
 
 
@@ -27,13 +28,12 @@ const index = () => {
     outfits,
     onPressDeleteOutfit,
     onPressEditOutfit
-  } = useMyOutfitsViewMode(getOutfitsUseCase, deleteOutfitUseCase)
+  } = useMyOutfitsViewModel(getOutfitsUseCase, deleteOutfitUseCase)
 
 
   const Card = (outfit: Outfit) => {
 
     const { id, name, topClothing, bottomClothing, shoes } = outfit
-
     const { uri: uriTop } = topClothing
     const { uri: uriBottom } = bottomClothing
     const { uri: uriShoes } = shoes
@@ -66,7 +66,7 @@ const index = () => {
         />
 
 
-        <EditButton onPress={onPressEditOutfit} />
+        <EditButton onPress={() => onPressEditOutfit(outfit)} />
 
         <DeleteButton onPress={() => onPressDeleteOutfit(id)} />
 
@@ -80,7 +80,9 @@ const index = () => {
 
     return (
 
-      <TouchableOpacity style={localStyles.buttonContainer} onPress={onPress}>
+      <TouchableOpacity
+        style={localStyles.buttonContainer}
+        onPress={onPress}>
         <IconDefault
           name='edit-2'
           color='white'

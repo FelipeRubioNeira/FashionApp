@@ -3,6 +3,7 @@ import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
 import { Clothing, ResponseUseCase } from "../Types";
 
+
 @injectable()
 class EditClothingUseCase {
     constructor(

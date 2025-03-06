@@ -1,4 +1,4 @@
-import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { ScreenMainMenuParams } from "@/ui/navigation/interfaces";
 import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
@@ -7,7 +7,7 @@ import DeleteClothingUseCase from "@/domain/useCases/DeleteClothingUseCase";
 import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 
 // ---------- store ---------- //
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { closetState } from "@/store/ClosetSlice";
 
 
