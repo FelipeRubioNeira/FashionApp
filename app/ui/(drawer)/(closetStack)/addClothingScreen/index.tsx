@@ -1,7 +1,6 @@
 import { container } from 'tsyringe'
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import ButtonCmp from '@/ui/components/ButtonCmp'
 import CamaraViewCmp from '@/ui/components/CamaraViewCmp'
 import ScreenCmp from '@/ui/components/ScreenCmp'
@@ -13,10 +12,14 @@ import SpacerCmp from '@/ui/components/SpacerCmp'
 import AddClothingUseCase from '@/domain/useCases/AddClothingUseCase'
 import EditClothingUseCase from '@/domain/useCases/EditClothingUseCase'
 import StyleSelector from '@/ui/components/StyleSelector'
+import Colors from '@/ui/constants/colors'
+import DeleteClothingUseCase from '@/domain/useCases/DeleteClothingUseCase'
+import { Clothing } from '@/domain/Types'
 
 
 const addClothingUseCase = container.resolve(AddClothingUseCase)
 const editClothingUseCase = container.resolve(EditClothingUseCase)
+const deleteClothingUseCase = container.resolve(DeleteClothingUseCase)
 
 
 // --------------- component --------------- //
@@ -39,7 +42,12 @@ const addClothing = () => {
         updateClothingName,
         onChangeCategory,
         updateClothingStyle,
-    } = useAddClouthingViewModel(addClothingUseCase, editClothingUseCase);
+        deleteImage,
+    } = useAddClouthingViewModel(
+        addClothingUseCase,
+         editClothingUseCase,
+         deleteClothingUseCase
+        );
 
 
 
@@ -117,11 +125,24 @@ const addClothing = () => {
 
 
             {/* ----------------- boton para guardar ----------------- */}
-            <ButtonCmp
-                style={localStyles.saveButton}
-                text="Guardar"
-                onPress={() => saveImage(newClothing)}
-            />
+
+            <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+
+                <ButtonCmp
+                    style={localStyles.deleteButton}
+                    text="Eliminar"
+                    onPress={() => deleteImage(newClothing as Clothing)}
+                />
+
+                <SpacerCmp marginHorizontal={8} />
+
+                <ButtonCmp
+                    style={localStyles.saveButton}
+                    text="Guardar"
+                    onPress={() => saveImage(newClothing)}
+                />
+
+            </View>
 
 
         </ScreenCmp>
@@ -151,7 +172,12 @@ const localStyles = StyleSheet.create({
     },
     saveButton: {
         marginVertical: 10,
-        backgroundColor: Colors.primary
+        flex:1
+    },
+    deleteButton: {
+        marginVertical: 10,
+        flex:1,
+        backgroundColor: Colors.DANGER
     }
 
 })

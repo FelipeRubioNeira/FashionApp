@@ -14,7 +14,7 @@ interface ScrollableImageListProps {
     clothingList: Clothing[],
     initialValue?: number,
     onPressClothing: (clothing: Clothing) => void,
-    onPressDeleteClothing: (clothing: Clothing) => void,
+    onPressDeleteClothing?: (clothing: Clothing) => void,
     onChangeClothing: (clothingId: number) => void,
 }
 
@@ -29,7 +29,6 @@ const ScrollableImageList = ({
     style,
     clothingList,
     onPressClothing,
-    onPressDeleteClothing,
     onChangeClothing,
     initialValue
 }: ScrollableImageListProps) => {
@@ -55,12 +54,6 @@ const ScrollableImageList = ({
         return (
             <View style={localStyles.item}>
 
-                {/* lado izquierdo de la pantalla */}
-                <View style={localStyles.leftSide}>
-                    <DeleteIcon onPress={() => onPressDeleteClothing(clothing)} />
-                </View>
-
-
                 {/* foto de la prenda */}
                 <Pressable
                     style={({ pressed }) => ({ flex: 4, opacity: pressed ? 0.5 : 1 })}
@@ -74,23 +67,8 @@ const ScrollableImageList = ({
                     />
                 </Pressable>
 
-
-                {/* lado derecho */}
-                <View style={localStyles.rightSide}></View>
-
             </View >
         )
-    }
-
-    const DeleteIcon = ({ onPress }: DeleteIconProps) => {
-
-        return (
-            <IconDefault
-                name='delete'
-                onPress={onPress}
-            />
-        )
-
     }
 
 

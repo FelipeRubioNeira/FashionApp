@@ -1,7 +1,9 @@
-import { Clothing, ResponseUseCase } from "../Types";
+import { Clothing, ClothingType, ResponseUseCase } from "../Types";
 import { inject, injectable } from "tsyringe";
 import IClothingRepository from "@/data/interfaces/IClothingRepository";
 import { DI_TOKENS } from "@/di/Container";
+import ReduxDispatcher from "@/store/ReduxDispatcher";
+import { deteleClothing } from '@/store/ClosetSlice'
 
 @injectable()
 class DeleteClothingUseCase {
@@ -13,6 +15,7 @@ class DeleteClothingUseCase {
     constructor(
         @inject(DI_TOKENS.IClothingImageRepositoryToken) private imageRepository: IClothingRepository,
         @inject(DI_TOKENS.IClothingRepositoryToken) private clothingRepository: IClothingRepository,
+        private dispatcher: ReduxDispatcher
     ) { }
 
     async execute(clothing: Clothing): Promise<ResponseUseCase> {
@@ -37,6 +40,12 @@ class DeleteClothingUseCase {
                     message: "No se pudo eliminar la ropa de la base de datos",
                 };
             }
+
+
+            this.dispatcher.dispatch(deteleClothing({
+                clothingId: clothing.id,
+                clothingType: clothing.type
+            }));
 
             // 3. Éxito total
             return {

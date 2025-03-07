@@ -14,7 +14,6 @@ import { closetState } from "@/store/ClosetSlice";
 
 const useMyClsetViewModel = (
     getClothingUseCase: GetClothingUseCase,
-    deleteClothingUseCase: DeleteClothingUseCase,
     creatOutfitUseCase: CreateOutfitUseCase
 ) => {
 
@@ -22,7 +21,7 @@ const useMyClsetViewModel = (
     // -------------- hooks -------------- //
     const { topClothing, bottomClothing, shoes } = useSelector(closetState)
     const router = useRouter();
-    const { clothingType, imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
+    const {imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
 
 
     const [currentOutfit, setCurrentOutfit] = useState({
@@ -38,7 +37,7 @@ const useMyClsetViewModel = (
 
     // -------------- effects -------------- //
     useEffect(() => {
-        getAllClothing(clothingType)
+        getAllClothing()
     }, [imageUri])
 
 
@@ -58,8 +57,8 @@ const useMyClsetViewModel = (
         router.navigate(path)
     }
 
-    const getAllClothing = async (filter?: ClothingType) => {
-        const categotizedData = await getClothingUseCase.execute(filter)
+    const getAllClothing = async () => {
+        const categotizedData = await getClothingUseCase.execute()
         setupDefaultOutfit(categotizedData)
     }
 
@@ -71,23 +70,6 @@ const useMyClsetViewModel = (
         updateCurrentOutfit("Superior", topClothing[0].id || 0)
         updateCurrentOutfit("Inferior", bottomClothing[0].id || 0)
         updateCurrentOutfit("Zapatos", shoes[0].id || 0)
-    }
-
-
-
-    /**
-     * 
-     * @param clothing - La prenda que se desea eliminar
-     */
-    const onPressDeleteClothing = async (clothing: Clothing) => {
-
-        const {
-            success,
-            message
-        } = await deleteClothingUseCase.execute(clothing)
-
-        if (success) getAllClothing()
-
     }
 
     /**
@@ -136,7 +118,6 @@ const useMyClsetViewModel = (
     return {
         topClothing, bottomClothing, shoes,
         navigateToAddClothing,
-        onPressDeleteClothing,
         updateCurrentOutfit,
         onPressSaveOutfit
     }

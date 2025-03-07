@@ -7,13 +7,15 @@ import { Clothing, ClothingStyle, ClothingType, ResponseUseCase } from '@/domain
 import { ScreenAddClothingParams } from '@/ui/navigation/interfaces';
 import EditClothingUseCase from '@/domain/useCases/EditClothingUseCase';
 import { ClothingStylesList, ClothingTypeList } from '@/domain/Types';
+import DeleteClothingUseCase from '@/domain/useCases/DeleteClothingUseCase';
 
 
 
 
 const useAddClouthingViewModel = (
     addClothingUseCase: AddClothingUseCase,
-    editClothingUseCase: EditClothingUseCase
+    editClothingUseCase: EditClothingUseCase,
+    deleteClothingUseCase: DeleteClothingUseCase
 ) => {
 
 
@@ -40,13 +42,8 @@ const useAddClouthingViewModel = (
 
     // --------------- effects --------------- //
     useEffect(() => {
-        navigation.setOptions({ headerShown: false })
-    }, [])
-
-    useEffect(() => {
         fillClothingInformation({ id, name, style, type, uri })
     }, [id])
-
 
 
     // --------------- methods --------------- //
@@ -77,8 +74,6 @@ const useAddClouthingViewModel = (
      */
     const saveImage = async (newClothing: Partial<Clothing>) => {
 
-        console.log("saveImage ", newClothing, id);
-
         try {
 
             let resposeUseCase: ResponseUseCase<Clothing> = {
@@ -95,17 +90,11 @@ const useAddClouthingViewModel = (
                 resposeUseCase.data = data
                 resposeUseCase.message = message
 
-                console.log("edit ", resposeUseCase);
-
-
             } else {
                 const { success, data, message } = await addClothingUseCase.execute(newClothing)
                 resposeUseCase.success = success
                 resposeUseCase.data = data
                 resposeUseCase.message = message
-
-                console.log("create ", success, data);
-
 
             }
 
@@ -129,6 +118,24 @@ const useAddClouthingViewModel = (
         }
 
 
+    }
+
+    const deleteImage = async (clothing: Clothing) => {
+
+        // si no se recibe un id entonces no se puede eliminar y por tanto solo navegamos hacia atras
+        if (!id) {
+            router.back()
+            return
+        }
+
+        const { success, message } = await deleteClothingUseCase.execute(clothing)
+
+        console.log("deleteImage ", success, message);
+        
+
+        if (success) {
+            router.back()
+        }
     }
 
 
@@ -187,7 +194,8 @@ const useAddClouthingViewModel = (
         updateClothingName,
         onChangeCategory,
 
-        updateClothingStyle
+        updateClothingStyle,
+        deleteImage
     }
 
 

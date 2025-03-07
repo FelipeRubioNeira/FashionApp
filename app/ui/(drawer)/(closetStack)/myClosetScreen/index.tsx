@@ -13,7 +13,6 @@ import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
-const deleteClothingUseCase = container.resolve(DeleteClothingUseCase)
 const creatOutfitUseCase = container.resolve(CreateOutfitUseCase)
 
 
@@ -26,12 +25,10 @@ const myCloset = () => {
 
         // methods
         navigateToAddClothing,
-        onPressDeleteClothing,
         updateCurrentOutfit,
         onPressSaveOutfit
     } = useMyClosetViewModel(
         getClothingUseCase,
-        deleteClothingUseCase,
         creatOutfitUseCase,
     )
 
@@ -74,7 +71,7 @@ const myCloset = () => {
                     style={{ flex: 3 }}
                     clothingList={topClothing}
                     onPressClothing={navigateToAddClothing}
-                    onPressDeleteClothing={onPressDeleteClothing}
+                    onPressDeleteClothing={() => { }}
                     onChangeClothing={clothingId => updateCurrentOutfit("Superior", clothingId)}
                 />
 
@@ -86,7 +83,7 @@ const myCloset = () => {
                     style={{ flex: 3 }}
                     clothingList={bottomClothing}
                     onPressClothing={navigateToAddClothing}
-                    onPressDeleteClothing={onPressDeleteClothing}
+                    onPressDeleteClothing={() => { }}
                     onChangeClothing={clothingId => updateCurrentOutfit("Inferior", clothingId)}
                 />
 
@@ -98,7 +95,7 @@ const myCloset = () => {
                     style={{ flex: 1 }}
                     clothingList={shoes}
                     onPressClothing={navigateToAddClothing}
-                    onPressDeleteClothing={onPressDeleteClothing}
+                    onPressDeleteClothing={() => { }}
                     onChangeClothing={clothingId => updateCurrentOutfit("Zapatos", clothingId)}
                 />
 
