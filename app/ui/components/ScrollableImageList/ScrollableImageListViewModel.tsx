@@ -4,7 +4,7 @@ import { FlatList } from "react-native";
 import { screenWidth } from "../../constants/ScreenDimensions";
 
 
-const useScrollableImageListViewModel = (clothingList: Clothing[]) => {
+const useScrollableImageListViewModel = (clothingList: Clothing[], initialValue?: number) => {
 
     // ------ state ------ //
     const [isScrolling, setIsScrolling] = useState(false);
@@ -13,6 +13,9 @@ const useScrollableImageListViewModel = (clothingList: Clothing[]) => {
 
 
     // ------ effects ------ //
+    useEffect(() => {
+        updateFlatlistPosition(clothingList, initialValue)
+    }, [initialValue])
 
     // ------ methods ------ //
     const handleScroll = () => {
@@ -26,6 +29,25 @@ const useScrollableImageListViewModel = (clothingList: Clothing[]) => {
     const calculateItemId = (xPosition: number) => {
         const index = Math.round(xPosition / screenWidth)
         return clothingList[index].id
+    }
+
+    const updateFlatlistPosition = (clothingList: Clothing[], initialValue?: number) => {
+        if (!initialValue && clothingList.length > 0) return;
+
+        const index = clothingList.findIndex(clothing => clothing.id == initialValue);
+
+        console.log("index => ", index);
+
+        if (index !== -1) {
+            try {
+                flatListRef.current?.scrollToIndex({
+                    index,
+                    animated: true,
+                });
+            } catch (error) {
+                console.error("Error scrolling to index:", error);
+            }
+        }
     }
 
 

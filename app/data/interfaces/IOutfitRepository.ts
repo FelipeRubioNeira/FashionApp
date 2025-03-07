@@ -1,6 +1,14 @@
-import { Outfit } from "@/domain/Types"
+import { EditOutfitInformation, Outfit } from "@/domain/Types"
 
 interface IOutfitRepository {
+
+
+    /**
+     * getById
+     * @param outfitId - id del outfit a buscar
+     * @returns outfit encontrado
+     */
+    getById(outfitId: number): Promise<Outfit | null>
 
     /**
      * save
@@ -19,6 +27,15 @@ interface IOutfitRepository {
      * @param outfitId - id del outfit a eliminar
      */
     delete(outfitId: number): Promise<boolean>
+
+
+
+    /**
+     * 
+     * {@link EditOutfitInformation} - tipo de dato que contiene la información necesaria para editar un outfit
+     * @returns outfit actualizado
+     */
+    update(outfitInformation: EditOutfitInformation): Promise<Outfit | null>
 
 }
 

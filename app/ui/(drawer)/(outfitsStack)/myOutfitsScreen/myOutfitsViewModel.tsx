@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { OutfitState } from "@/store/OutfitsSlice";
 import { Outfit } from "@/domain/Types";
 import { ScreenEditOutfitParams } from "@/ui/navigation/interfaces";
+import { setCurrentOutfit } from '@/store/OutfitsSlice'
+
 
 
 const useMyOutfitsViewModel = (
@@ -43,6 +45,7 @@ const useMyOutfitsViewModel = (
     }
 
     const onPressEditOutfit = (outfit: Outfit) => {
+        
         const { topClothing, bottomClothing, shoes } = outfit
 
         const params: ScreenEditOutfitParams = {

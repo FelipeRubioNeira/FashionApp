@@ -21,6 +21,7 @@ const getOutfitsUseCase = container.resolve(GetOutfitsUseCase)
 const deleteOutfitUseCase = container.resolve(DeleteOutfitUseCase)
 
 
+
 const index = () => {
 
   // ----------- viewModel ----------- //
@@ -42,33 +43,37 @@ const index = () => {
     return (
       <View style={localStyles.containerCard}>
 
-        <View style={localStyles.title}>
-          <LabelCmp labelValue={name} style={{ textAlign: "center" }} />
+        <View style={localStyles.card}>
+
+          <View style={localStyles.title}>
+            <LabelCmp labelValue={name} style={{ textAlign: "center" }} />
+          </View>
+
+          <Image
+            source={{ uri: uriTop }}
+            resizeMode='center'
+            style={{ flex: 3 }}
+          />
+
+          <Image
+            source={{ uri: uriBottom }}
+            resizeMode='center'
+            style={{ flex: 3 }}
+          />
+
+
+          <Image
+            source={{ uri: uriShoes }}
+            resizeMode='center'
+            style={{ flex: 1 }}
+          />
+
+
+          <EditButton onPress={() => onPressEditOutfit(outfit)} />
+
+          <DeleteButton onPress={() => onPressDeleteOutfit(id)} />
+
         </View>
-
-        <Image
-          source={{ uri: uriTop }}
-          resizeMode='center'
-          style={{ flex: 3 }}
-        />
-
-        <Image
-          source={{ uri: uriBottom }}
-          resizeMode='center'
-          style={{ flex: 3 }}
-        />
-
-
-        <Image
-          source={{ uri: uriShoes }}
-          resizeMode='center'
-          style={{ flex: 1 }}
-        />
-
-
-        <EditButton onPress={() => onPressEditOutfit(outfit)} />
-
-        <DeleteButton onPress={() => onPressDeleteOutfit(id)} />
 
       </View>
     )
@@ -116,18 +121,19 @@ const index = () => {
   return (
     <ScreenCmp style={{ padding: 0 }}>
 
-      <View style={localStyles.mainContainer}>
+      <FlatList
+        data={outfits}
+        renderItem={({ item }) => Card(item)}
+        keyExtractor={({ id }) => id.toString()}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        //ItemSeparatorComponent={() => <SpacerCmp marginHorizontal={10} />}
+        //contentContainerStyle={localStyles.contentContainer}
+        snapToInterval={screenWidth}
+        snapToAlignment="center"
+        decelerationRate="fast"
+      />
 
-        <FlatList
-          data={outfits}
-          renderItem={({ item }) => Card(item)}
-          keyExtractor={({ id }) => id.toString()}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => <SpacerCmp marginHorizontal={10} />}
-          contentContainerStyle={localStyles.contentContainer}
-        />
-      </View>
 
     </ScreenCmp>
   )
@@ -146,8 +152,13 @@ const localStyles = StyleSheet.create({
   },
   containerCard: {
     height: "100%",
-    width: screenWidth * 0.8, // Ancho fijo para las tarjetas
-    marginHorizontal: 10, // Margen entre tarjetas
+    width: screenWidth, // Ancho fijo para las tarjetas,
+    padding: 40,
+  },
+  card: {
+    height: "100%",
+    width:"100%",
+    //marginHorizontal: 10, // Margen entre tarjetas
     backgroundColor: '#f0f0f0', // Color de fondo de la tarjeta
     borderRadius: 16, // Borde redondeado
 

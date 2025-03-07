@@ -1,18 +1,22 @@
 import { useSelector } from 'react-redux';
-import { closetState } from "@/store/ClosetSlice";
 import { useEffect, useState } from 'react';
 import { ClothingType, EditOutfitInformation } from '@/domain/Types';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenEditOutfitParams } from '@/ui/navigation/interfaces';
+import EditOutfitUseCase from '@/domain/useCases/EditOutfitUseCase';
+import { closetState } from "@/store/ClosetSlice";
+
 
 
 const useEditOutfitViewModel = (
-
+    editOutfitUseCase: EditOutfitUseCase
 ) => {
 
+    // ----------- global state ----------- //
+    const { topClothing, bottomClothing, shoes } = useSelector(closetState)
 
+    // ----------- hooks ----------- //
     const params = useLocalSearchParams<ScreenEditOutfitParams>()
-
     const {
         outfitId,
         outfitName,
@@ -21,9 +25,10 @@ const useEditOutfitViewModel = (
         shoesId
     } = params
 
+    const router = useRouter()
 
-    // ----------- hooks ----------- //
-    const { topClothing, bottomClothing, shoes } = useSelector(closetState)
+
+
 
     // ----------- state ----------- //
     const [currentOutfit, setCurrentOutfit] = useState<EditOutfitInformation>({
@@ -32,6 +37,12 @@ const useEditOutfitViewModel = (
         topId: 0,
         bottomId: 0,
         shoesId: 0
+    })
+
+    const [initialOutfit] = useState({
+        topId: topClothingId,
+        bottomId: bottomClothingId,
+        shoesId: shoesId
     })
 
 
@@ -52,13 +63,17 @@ const useEditOutfitViewModel = (
 
 
     const loadOutfit = (outfitInformation: EditOutfitInformation) => {
+        console.log("se ha cargado este outfit", outfitInformation);
         setCurrentOutfit({ ...outfitInformation })
     }
 
 
-    const onPressUpdateOutfit = (currentOutfit: EditOutfitInformation) => {
+    const onPressUpdateOutfit = async (currentOutfit: EditOutfitInformation) => {
 
         console.log("Se ha presionado onPressUpdateOutfit", currentOutfit);
+        const { success, message } = await editOutfitUseCase.execute(currentOutfit)
+
+        if (success) router.back()
 
     }
 
@@ -70,6 +85,9 @@ const useEditOutfitViewModel = (
      * @param clothingId - Id de la ropa seleccionada
      */
     const updateCurrentOutfit = (clothingType: ClothingType, clothingId: number) => {
+
+        console.log("Se ha hecho scroll en el outfit ", clothingType, clothingId);
+
 
         switch (clothingType) {
             case "Superior":
@@ -88,6 +106,7 @@ const useEditOutfitViewModel = (
     }
 
     return {
+        initialOutfit,
         currentOutfit,
         topClothing,
         bottomClothing,

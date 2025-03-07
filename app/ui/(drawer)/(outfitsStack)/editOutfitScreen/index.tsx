@@ -5,11 +5,18 @@ import SpacerCmp from '@/ui/components/SpacerCmp'
 import useEditOutfitViewModel from './editOutfitViewModel'
 import ScreenCmp from '@/ui/components/ScreenCmp'
 import ButtonCmp from '@/ui/components/ButtonCmp'
+import { container } from 'tsyringe'
+import EditOutfitUseCase from '@/domain/useCases/EditOutfitUseCase'
+
+
+// ----------- inyeccion de depdendencias ----------- //
+const editOutfitUseCase = container.resolve(EditOutfitUseCase)
 
 
 const index = () => {
 
     const {
+        initialOutfit,
         currentOutfit,
         topClothing,
         bottomClothing,
@@ -17,13 +24,17 @@ const index = () => {
 
         updateCurrentOutfit,
         onPressUpdateOutfit
-    } = useEditOutfitViewModel()
+    } = useEditOutfitViewModel(editOutfitUseCase)
+
+    const { topId, bottomId, shoesId } = initialOutfit
 
 
     return (
         <ScreenCmp>
+
             <ScrollableImageList
                 style={{ flex: 3 }}
+                initialValue={topId}
                 clothingList={topClothing}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
@@ -36,6 +47,7 @@ const index = () => {
             {/* Bottom list  */}
             <ScrollableImageList
                 style={{ flex: 3 }}
+                initialValue={bottomId}
                 clothingList={bottomClothing}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
@@ -48,6 +60,7 @@ const index = () => {
             {/* Shoes list  */}
             <ScrollableImageList
                 style={{ flex: 1 }}
+                initialValue={shoesId}
                 clothingList={shoes}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}

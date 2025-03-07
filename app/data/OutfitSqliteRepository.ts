@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { Clothing, ClothingStyle, ClothingType, Outfit } from "../domain/Types";
+import {ClothingStyle, ClothingType, EditOutfitInformation, Outfit } from "../domain/Types";
 import IOutfitRepository from "./interfaces/IOutfitRepository";
 import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
 import DbConnection from "./db/DbConnection";
@@ -77,6 +77,41 @@ class OutfitSqliteRepository implements IOutfitRepository {
 
 
     // ----------- public methods ----------- //
+
+
+    async getById(outfitId: number): Promise<Outfit | null> {
+
+        try {
+
+            const topClothingTable = aliasedTable(ClothingTable, "topClothing")
+            const bottomClothingTable = aliasedTable(ClothingTable, "bottomClothing")
+            const shoesTable = aliasedTable(ClothingTable, "shoes")
+
+            const dbResult = await this.db
+                .select({
+                    outfit: OutfitTable,
+                    topClothing: topClothingTable,
+                    bottomClothing: bottomClothingTable,
+                    shoes: shoesTable
+                }).from(OutfitTable)
+                .leftJoin(topClothingTable, eq(OutfitTable.out_top_id, topClothingTable.clo_id))
+                .leftJoin(bottomClothingTable, eq(OutfitTable.out_btn_id, bottomClothingTable.clo_id))
+                .leftJoin(shoesTable, eq(OutfitTable.out_sho_id, shoesTable.clo_id))
+                .where(eq(OutfitTable.out_id, outfitId))
+
+            if (dbResult.length === 0) return null
+
+            const outfitsList = this.mapOutfitTableTypeToOutfit(dbResult)
+
+            return outfitsList[0]
+
+        } catch (error) {
+            this.logError("getById()", error)
+            return null
+        }
+
+    }
+
     async save({ name, topClothing, bottomClothing, shoes }: Outfit): Promise<boolean> {
 
         try {
@@ -146,17 +181,43 @@ class OutfitSqliteRepository implements IOutfitRepository {
         }
 
     }
+
+    async update({ outfitId, name, topId, bottomId, shoesId }: EditOutfitInformation): Promise<Outfit | null> {
+
+        try {
+
+            return this.db.transaction(async (tx) => {
+
+                const updateResult = await tx
+                    .update(OutfitTable)
+                    .set({
+                        out_name: name,
+                        out_top_id: topId,
+                        out_btn_id: bottomId,
+                        out_sho_id: shoesId
+                    })
+                    .where(eq(OutfitTable.out_id, outfitId))
+
+                if (updateResult.changes === 0) {
+                    throw new Error("No se pudo actualizar el outfit")
+                }
+
+                return this.getById(outfitId)
+
+            })
+
+
+        } catch (error) {
+            this.logError("editOutfit()", error)
+            return null
+        }
+
+    }
+
+
+
 }
 
-/**
- * 
- * const query = await db.select().from(users).prepare();
-const iterator = await query.iterator();
 
-for await (const row of iterator) {
-  console.log(row);
-}
-
- */
 
 export default OutfitSqliteRepository

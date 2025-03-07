@@ -12,9 +12,10 @@ import IconDefault from '../icons/IconDefault';
 interface ScrollableImageListProps {
     style?: ViewStyle,
     clothingList: Clothing[],
+    initialValue?: number,
     onPressClothing: (clothing: Clothing) => void,
     onPressDeleteClothing: (clothing: Clothing) => void,
-    onChangeClothing: (clothingId: number) => void
+    onChangeClothing: (clothingId: number) => void,
 }
 
 interface DeleteIconProps {
@@ -29,7 +30,8 @@ const ScrollableImageList = ({
     clothingList,
     onPressClothing,
     onPressDeleteClothing,
-    onChangeClothing
+    onChangeClothing,
+    initialValue
 }: ScrollableImageListProps) => {
 
 
@@ -41,7 +43,7 @@ const ScrollableImageList = ({
         flatListRef,
         calculateItemId
         // ...
-    } = useScrollableImageListViewModel(clothingList)
+    } = useScrollableImageListViewModel(clothingList, initialValue)
 
 
 
@@ -108,7 +110,11 @@ const ScrollableImageList = ({
                 decelerationRate="fast"
                 onScrollBeginDrag={handleScroll}
                 onScrollEndDrag={handleScrollEnd}
-                onScroll={event => onChangeClothing(calculateItemId(event.nativeEvent.contentOffset.x))}
+                onMomentumScrollEnd={event => onChangeClothing(calculateItemId(event.nativeEvent.contentOffset.x))}
+                getItemLayout={(data, index) => (
+                    { length: screenWidth, offset: screenWidth * index, index }
+                )}
+
             />
         </View>
     )
@@ -129,6 +135,7 @@ const localStyles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
+
     },
 
     title: {

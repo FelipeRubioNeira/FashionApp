@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import closetReducer from './ClosetSlice';
-import outfitsReducer from './OutfitsSlice';
+import closetSlice from './ClosetSlice';
+import outfitsSlice from './OutfitsSlice';
 
 export const store = configureStore({
   reducer: {
-    closet: closetReducer,
-    outfits: outfitsReducer,
+    closet: closetSlice,
+    outfits: outfitsSlice,
     // Puedes agregar más reducers aquí si es necesario
   },
 });
