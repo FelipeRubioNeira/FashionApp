@@ -1,35 +1,41 @@
-import { StyleSheet, Text, TextInput, TextStyle, View } from 'react-native'
-import React, { ReactElement } from 'react'
-import { ILabelCmp } from './LabelCmp'
+import { StyleSheet, TextInput, TextStyle, View } from 'react-native'
+import React from 'react'
+import LabelCmp from './LabelCmp'
 
 
 interface ITextInputCpm {
-    inputValue?: string
-    placeholder: string,
     onChangeText: (text: string) => void,
-    inputStyle?: TextStyle,
-    label?: ReactElement<ILabelCmp>
+    placeholder?: string,
+    value?: string
+    style?: TextStyle,
+    label?: string,
+    maxLength?: number,
+    multiline?: boolean,
 }
 
 const TextInputCmp = ({
-    inputValue = "",
+    value = "",
     placeholder = "Ingrese valor",
     onChangeText,
-    inputStyle,
-    label
+    style,
+    label,
+    maxLength = 50,
+    multiline = false,
 }: ITextInputCpm) => {
     return (
 
         <View style={localStyles.container}>
 
-            {label}
+            {label && <LabelCmp labelValue={label} style={{ fontSize: 12 }} />}
 
             <TextInput
-                value={inputValue}
+                style={[localStyles.textInputFrame, style]}
+                value={value}
                 onChangeText={onChangeText}
                 placeholder={placeholder}
-                style={[localStyles.textInputFrame, inputStyle]}
                 placeholderTextColor={"gray"}
+                maxLength={maxLength}
+                multiline={multiline}
             />
 
         </View>
@@ -49,7 +55,7 @@ const localStyles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         height: 60,
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
     }
 
 })

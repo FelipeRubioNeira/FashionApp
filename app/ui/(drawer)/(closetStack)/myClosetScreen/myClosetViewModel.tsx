@@ -9,6 +9,8 @@ import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 // ---------- store ---------- //
 import { useSelector } from 'react-redux';
 import { closetState } from "@/store/ClosetSlice";
+import { ModalCmpProps } from "@/ui/UITypes";
+import useModalViewModel from "@/ui/components/modal/ModalViewModel";
 
 
 
@@ -21,7 +23,33 @@ const useMyClsetViewModel = (
     // -------------- hooks -------------- //
     const { topClothing, bottomClothing, shoes } = useSelector(closetState)
     const router = useRouter();
-    const {imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
+    const { imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
+
+
+
+    const {
+        title,
+        buttonList,
+        visible,
+        hideModal,
+        showModal,
+    } = useModalViewModel({
+        title: "Guardar combinacion",
+        visible: false,
+        buttonList: [
+            {
+                label: "Guardar",
+                onPress: () => hideModal()
+            },
+            {
+                label: "Cancelar",
+                onPress: () => {
+
+                }
+            }
+        ]
+    })
+
 
 
     const [currentOutfit, setCurrentOutfit] = useState({
@@ -95,23 +123,33 @@ const useMyClsetViewModel = (
 
     }
 
+    const updateName = (name: string) => {
+        setCurrentOutfit({ ...currentOutfit, name })
+    }
+
     /**
      *  onPressSaveOutfit
      * Se guarda el outfit completo 
      */
     const onPressSaveOutfit = async () => {
 
-        const result = await creatOutfitUseCase.execute({
-            id: 0, // or any appropriate id
-            topClothing: { id: currentOutfit.topId } as Clothing,
-            bottomClothing: { id: currentOutfit.bottomId } as Clothing,
-            shoes: { id: currentOutfit.shoesId } as Clothing,
-            name: "default name"
-        })
+        showModal()
 
-        console.log("result creatOutfitUseCase", result);
+        // const result = await creatOutfitUseCase.execute({
+        //     id: 0, // or any appropriate id
+        //     topClothing: { id: currentOutfit.topId } as Clothing,
+        //     bottomClothing: { id: currentOutfit.bottomId } as Clothing,
+        //     shoes: { id: currentOutfit.shoesId } as Clothing,
+        //     name: "default name"
+        // })
+
+        // console.log("result creatOutfitUseCase", result);
 
     }
+
+
+
+
 
 
     // -------------- return -------------- //
@@ -119,7 +157,13 @@ const useMyClsetViewModel = (
         topClothing, bottomClothing, shoes,
         navigateToAddClothing,
         updateCurrentOutfit,
-        onPressSaveOutfit
+        onPressSaveOutfit,
+        modalTitle: title,
+        modalVisible: visible,
+        ModalButtonList: buttonList,
+        updateName,
+        outfitName: currentOutfit.name,
+        hideModal
     }
 
 }

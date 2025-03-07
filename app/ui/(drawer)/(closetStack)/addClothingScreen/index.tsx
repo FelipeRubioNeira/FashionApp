@@ -98,7 +98,7 @@ const addClothing = () => {
             <TextInputCmp
                 label={<LabelCmp labelValue='Nombre de prenda' />}
                 placeholder='Ingrese nombre'
-                inputValue={newClothing.name}
+                value={newClothing.name}
                 onChangeText={updateClothingName}
             />
 

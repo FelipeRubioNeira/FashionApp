@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-native'
 import React from 'react'
-import { screenWidth } from '../../constants/ScreenDimensions'
+import { screenWidth } from '../../constants/screenDimensions'
 import { Clothing } from '@/domain/Types';
 import useScrollableImageListViewModel from './ScrollableImageListViewModel';
 import IconDefault from '../icons/IconDefault';

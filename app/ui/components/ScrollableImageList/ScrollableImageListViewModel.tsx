@@ -1,7 +1,7 @@
 import { Clothing } from "@/domain/Types";
 import { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
-import { screenWidth } from "../../constants/ScreenDimensions";
+import { screenWidth } from "../../constants/screenDimensions";
 
 
 const useScrollableImageListViewModel = (clothingList: Clothing[], initialValue?: number) => {

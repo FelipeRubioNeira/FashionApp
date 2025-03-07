@@ -1,6 +1,6 @@
-import "@/di/Container"
 import { container } from "tsyringe";
-import { View, StyleSheet } from "react-native";
+import "@/di/Container"
+import { View, StyleSheet, Modal } from "react-native";
 import ScreenCmp from "@/ui/components/ScreenCmp";
 import ScrollableImageList from "@/ui/components/ScrollableImageList/ScrollableImageList";
 import SpacerCmp from "@/ui/components/SpacerCmp";
@@ -8,8 +8,9 @@ import ButtonCmp from "@/ui/components/ButtonCmp";
 import StarIcn from "@/ui/components/icons/StarIcn";
 import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
 import useMyClosetViewModel from "./myClosetViewModel";
-import DeleteClothingUseCase from "@/domain/useCases/DeleteClothingUseCase";
 import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
+import ModalCmp from "@/ui/components/modal/ModalCmp";
+import TextInputCmp from "@/ui/components/TextInputCmp";
 
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
@@ -22,11 +23,17 @@ const myCloset = () => {
     const {
         // atributes
         topClothing, bottomClothing, shoes,
+        outfitName,
+        modalTitle,
+        modalVisible,
+        ModalButtonList,
 
         // methods
         navigateToAddClothing,
         updateCurrentOutfit,
-        onPressSaveOutfit
+        onPressSaveOutfit,
+        updateName,
+        hideModal
     } = useMyClosetViewModel(
         getClothingUseCase,
         creatOutfitUseCase,
@@ -101,6 +108,19 @@ const myCloset = () => {
 
 
             </View>
+
+            <ModalCmp
+                visible={modalVisible}
+                title={modalTitle}
+                buttonList={ModalButtonList}
+                hide={hideModal}
+            >
+                <TextInputCmp
+                    value={outfitName}
+                    onChangeText={updateName}
+                    placeholder="Ingrese nombre de la combinación"
+                />
+            </ModalCmp>
         </ScreenCmp>
     )
 
