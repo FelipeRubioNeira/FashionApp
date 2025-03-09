@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 import "@/di/Container"
-import { View, StyleSheet, Modal } from "react-native";
+import { View, StyleSheet } from "react-native";
 import ScreenCmp from "@/ui/components/ScreenCmp";
 import ScrollableImageList from "@/ui/components/ScrollableImageList/ScrollableImageList";
 import SpacerCmp from "@/ui/components/SpacerCmp";
@@ -31,7 +31,7 @@ const myCloset = () => {
         // methods
         navigateToAddClothing,
         updateCurrentOutfit,
-        onPressSaveOutfit,
+        showModal,
         updateName,
         hideModal
     } = useMyClosetViewModel(
@@ -56,7 +56,7 @@ const myCloset = () => {
 
                     <View style={{ flex: 1 }}></View>
 
-                    <StarIcn size={34} onPress={onPressSaveOutfit} />
+                    <StarIcn size={34} onPress={showModal} />
                 </View>
 
 

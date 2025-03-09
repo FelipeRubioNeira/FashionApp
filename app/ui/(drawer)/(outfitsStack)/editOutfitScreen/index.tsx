@@ -7,6 +7,7 @@ import ScreenCmp from '@/ui/components/ScreenCmp'
 import ButtonCmp from '@/ui/components/ButtonCmp'
 import { container } from 'tsyringe'
 import EditOutfitUseCase from '@/domain/useCases/EditOutfitUseCase'
+import TextInputCmp from '@/ui/components/TextInputCmp'
 
 
 // ----------- inyeccion de depdendencias ----------- //
@@ -23,7 +24,8 @@ const index = () => {
         shoes,
 
         updateCurrentOutfit,
-        onPressUpdateOutfit
+        onPressUpdateOutfit,
+        updateOutfitName,
     } = useEditOutfitViewModel(editOutfitUseCase)
 
     const { topId, bottomId, shoesId } = initialOutfit
@@ -31,6 +33,13 @@ const index = () => {
 
     return (
         <ScreenCmp>
+
+
+            <TextInputCmp
+                label='Nombre del outfit'
+                value={currentOutfit.name}
+                onChangeText={updateOutfitName}
+            />
 
             <ScrollableImageList
                 style={{ flex: 3 }}

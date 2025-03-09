@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
 import { screenHeight, screenWidth } from '@/ui/constants/screenDimensions'
 import { FontSize } from '@/ui/constants/fonts'
@@ -50,9 +50,14 @@ const ModalCmp = ({
   // --------------- render del componente principal --------------- //
   return (
 
-    // backgound del modal
-    <TouchableWithoutFeedback onPress={hide}>
-      <View style={localStyles.background}>
+    <KeyboardAvoidingView
+      style={localStyles.background}
+      behavior={Platform.OS === 'ios' ? 'padding' : "height"}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}
+    >
+      < View style={localStyles.background} >
+
+
 
         {/* contenedor del modal */}
         <View style={localStyles.container}>
@@ -73,8 +78,10 @@ const ModalCmp = ({
           </View>
 
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+
+      </View >
+    </KeyboardAvoidingView>
+
   )
 }
 

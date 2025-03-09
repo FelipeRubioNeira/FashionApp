@@ -105,6 +105,10 @@ const useEditOutfitViewModel = (
 
     }
 
+    const updateOutfitName = (name: string) => {
+        setCurrentOutfit({ ...currentOutfit, name })
+    }
+
     return {
         initialOutfit,
         currentOutfit,
@@ -113,6 +117,7 @@ const useEditOutfitViewModel = (
         shoes,
         updateCurrentOutfit,
         onPressUpdateOutfit,
+        updateOutfitName
     }
 }
 

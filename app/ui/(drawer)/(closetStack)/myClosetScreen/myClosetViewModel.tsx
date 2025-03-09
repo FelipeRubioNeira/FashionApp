@@ -37,16 +37,8 @@ const useMyClsetViewModel = (
         title: "Guardar combinacion",
         visible: false,
         buttonList: [
-            {
-                label: "Guardar",
-                onPress: () => hideModal()
-            },
-            {
-                label: "Cancelar",
-                onPress: () => {
-
-                }
-            }
+            { label: "Guardar", onPress: () => saveOutfit() },
+            { label: "Cancelar", onPress: () => hideModal() }
         ]
     })
 
@@ -127,24 +119,22 @@ const useMyClsetViewModel = (
         setCurrentOutfit({ ...currentOutfit, name })
     }
 
-    /**
-     *  onPressSaveOutfit
-     * Se guarda el outfit completo 
-     */
-    const onPressSaveOutfit = async () => {
 
-        showModal()
+    const saveOutfit = async () => {
 
-        // const result = await creatOutfitUseCase.execute({
-        //     id: 0, // or any appropriate id
-        //     topClothing: { id: currentOutfit.topId } as Clothing,
-        //     bottomClothing: { id: currentOutfit.bottomId } as Clothing,
-        //     shoes: { id: currentOutfit.shoesId } as Clothing,
-        //     name: "default name"
-        // })
+        console.log("se va a guardar el siguiente outfit", currentOutfit);
 
-        // console.log("result creatOutfitUseCase", result);
+        const result = await creatOutfitUseCase.execute({
+            id: 0, // or any appropriate id
+            topClothing: { id: currentOutfit.topId } as Clothing,
+            bottomClothing: { id: currentOutfit.bottomId } as Clothing,
+            shoes: { id: currentOutfit.shoesId } as Clothing,
+            name: currentOutfit.name,
+        })
 
+        console.log("result creatOutfitUseCase", result);
+
+        hideModal()
     }
 
 
@@ -157,12 +147,12 @@ const useMyClsetViewModel = (
         topClothing, bottomClothing, shoes,
         navigateToAddClothing,
         updateCurrentOutfit,
-        onPressSaveOutfit,
         modalTitle: title,
         modalVisible: visible,
         ModalButtonList: buttonList,
         updateName,
         outfitName: currentOutfit.name,
+        showModal,
         hideModal
     }
 
