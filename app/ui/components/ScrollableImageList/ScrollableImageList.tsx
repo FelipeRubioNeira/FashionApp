@@ -18,10 +18,6 @@ interface ScrollableImageListProps {
     onChangeClothing: (clothingId: number) => void,
 }
 
-interface DeleteIconProps {
-    onPress: () => void
-}
-
 
 
 // --------------- component --------------- //

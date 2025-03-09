@@ -1,0 +1,1 @@
+export {default as dice5} from '@/ui/iconImages/dice5.svg'

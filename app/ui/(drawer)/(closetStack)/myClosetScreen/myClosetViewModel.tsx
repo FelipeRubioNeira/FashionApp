@@ -38,10 +38,9 @@ const useMyClsetViewModel = (
         visible: false,
         buttonList: [
             { label: "Guardar", onPress: () => saveOutfit() },
-            { label: "Cancelar", onPress: () => hideModal() }
+            { label: "Cancelar", onPress: () => cancelSaveOutfit() }
         ]
     })
-
 
 
     const [currentOutfit, setCurrentOutfit] = useState({
@@ -50,8 +49,6 @@ const useMyClsetViewModel = (
         shoesId: 0,
         name: "",
     })
-
-
 
 
 
@@ -122,8 +119,6 @@ const useMyClsetViewModel = (
 
     const saveOutfit = async () => {
 
-        console.log("se va a guardar el siguiente outfit", currentOutfit);
-
         const result = await creatOutfitUseCase.execute({
             id: 0, // or any appropriate id
             topClothing: { id: currentOutfit.topId } as Clothing,
@@ -132,9 +127,45 @@ const useMyClsetViewModel = (
             name: currentOutfit.name,
         })
 
-        console.log("result creatOutfitUseCase", result);
-
         hideModal()
+        resetCurrentOutfit()
+    }
+
+    const resetCurrentOutfit = () => {
+        setCurrentOutfit({
+            ...currentOutfit,
+            name: "",
+        })
+    }
+
+    const onPressRandomOutfit = () => {
+
+        // si no hay prendas de ropa entonces no se hace nada
+        if (!topClothing.length || !bottomClothing.length || !shoes.length) {
+            return;
+        }
+
+        const randomTop = getRandomItem(topClothing).id;
+        const randomBottom = getRandomItem(bottomClothing).id;
+        const randomShoes = getRandomItem(shoes).id;
+
+        setCurrentOutfit({
+            ...currentOutfit,
+            topId: randomTop,
+            bottomId: randomBottom,
+            shoesId: randomShoes,
+        })
+
+    }
+
+    const getRandomItem = (clothingList: Clothing[]) => {
+        const randomIndex = Math.floor(Math.random() * clothingList.length);
+        return clothingList[randomIndex];
+    }
+
+    const cancelSaveOutfit = () => {
+        hideModal()
+        resetCurrentOutfit()
     }
 
 
@@ -153,7 +184,9 @@ const useMyClsetViewModel = (
         updateName,
         outfitName: currentOutfit.name,
         showModal,
-        hideModal
+        hideModal,
+        onPressRandomOutfit,
+        currentOutfit
     }
 
 }

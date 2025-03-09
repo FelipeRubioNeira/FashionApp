@@ -11,6 +11,10 @@ import useMyClosetViewModel from "./myClosetViewModel";
 import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 import ModalCmp from "@/ui/components/modal/ModalCmp";
 import TextInputCmp from "@/ui/components/TextInputCmp";
+import RandomDice from "@/ui/components/icons/IconImage";
+import { dice5 } from "@/ui/iconImages"
+import Colors from "@/ui/constants/colors";
+import addClothing from "../addClothingScreen";
 
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
@@ -27,13 +31,15 @@ const myCloset = () => {
         modalTitle,
         modalVisible,
         ModalButtonList,
+        currentOutfit,
 
         // methods
         navigateToAddClothing,
         updateCurrentOutfit,
         showModal,
         updateName,
-        hideModal
+        hideModal,
+        onPressRandomOutfit
     } = useMyClosetViewModel(
         getClothingUseCase,
         creatOutfitUseCase,
@@ -49,14 +55,24 @@ const myCloset = () => {
                 {/* agregar prenda y guardar combinacion preferida */}
                 <View style={localStyles.headerAgregarStarContainer}>
                     <ButtonCmp
-                        style={{ height: "100%", flex: 4, }}
+                        style={localStyles.addClothing}
                         text="Agregar prenda"
                         onPress={() => navigateToAddClothing(undefined)}
                     />
 
                     <View style={{ flex: 1 }}></View>
 
+
+                    {/* Icono random que genera una combinacion aleatoria de prendas */}
+                    <RandomDice
+                        source={dice5}
+                        color={Colors.BLACK}
+                        size={34}
+                        onPress={onPressRandomOutfit}
+                    />
+
                     <StarIcn size={34} onPress={showModal} />
+
                 </View>
 
 
@@ -75,6 +91,7 @@ const myCloset = () => {
 
                 {/* TOP list */}
                 <ScrollableImageList
+                    initialValue={currentOutfit.topId}
                     style={{ flex: 3 }}
                     clothingList={topClothing}
                     onPressClothing={navigateToAddClothing}
@@ -88,6 +105,7 @@ const myCloset = () => {
                 {/* Bottom list  */}
                 <ScrollableImageList
                     style={{ flex: 3 }}
+                    initialValue={currentOutfit.bottomId}
                     clothingList={bottomClothing}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
@@ -100,6 +118,7 @@ const myCloset = () => {
                 {/* Shoes list  */}
                 <ScrollableImageList
                     style={{ flex: 1 }}
+                    initialValue={currentOutfit.shoesId}
                     clothingList={shoes}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
@@ -138,7 +157,12 @@ const localStyles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         justifyContent: "space-between",
-        height: 60
+        alignItems: "center",
+        height: 60,
+    },
+    addClothing: {
+        height: "100%",
+        flex: 4,
     }
 
 

@@ -1,4 +1,4 @@
-import { ImageStyle, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { TouchableOpacity, ViewStyle } from 'react-native'
 import React, { ComponentProps } from 'react'
 import Feather from '@expo/vector-icons/Feather';
 import Colors from '../../constants/colors';
