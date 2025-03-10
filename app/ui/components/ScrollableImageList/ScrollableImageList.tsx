@@ -1,9 +1,11 @@
-import { FlatList, StyleSheet, View, ViewStyle, Image, Pressable } from 'react-native'
+import { FlatList, StyleSheet, View, ViewStyle, Pressable, ImageBackground } from 'react-native'
 import React from 'react'
 import { screenWidth } from '../../constants/screenDimensions'
 import { Clothing } from '@/domain/Types';
 import useScrollableImageListViewModel from './ScrollableImageListViewModel';
-import IconDefault from '../icons/IconDefault';
+import IconImage from '../icons/IconImage';
+import { lock, lockOpen } from '@/ui/iconImages';
+import Colors from '@/ui/constants/colors';
 
 
 // --------------- types --------------- //
@@ -13,20 +15,29 @@ interface ScrollableImageListProps {
     style?: ViewStyle,
     clothingList: Clothing[],
     initialValue?: number,
+    lockedRow: boolean,
     onPressClothing: (clothing: Clothing) => void,
     onPressDeleteClothing?: (clothing: Clothing) => void,
     onChangeClothing: (clothingId: number) => void,
+    onPressLock: () => void,
 }
 
+
+interface LockProps {
+    isLocked: boolean,
+    onPress: () => void,
+}
 
 
 // --------------- component --------------- //
 const ScrollableImageList = ({
     style,
+    initialValue,
     clothingList,
     onPressClothing,
     onChangeClothing,
-    initialValue
+    lockedRow,
+    onPressLock
 }: ScrollableImageListProps) => {
 
 
@@ -38,7 +49,7 @@ const ScrollableImageList = ({
         flatListRef,
         calculateItemId
         // ...
-    } = useScrollableImageListViewModel(clothingList, initialValue)
+    } = useScrollableImageListViewModel({ clothingList, initialValue })
 
 
 
@@ -48,22 +59,60 @@ const ScrollableImageList = ({
         const { uri } = clothing
 
         return (
-            <View style={localStyles.item}>
+            <View
+                key={clothing.id.toString()}
+                style={localStyles.item}
+            >
 
                 {/* foto de la prenda */}
                 <Pressable
-                    style={({ pressed }) => ({ flex: 4, opacity: pressed ? 0.5 : 1 })}
+                    key={clothing.id.toString()}
+                    style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.5 : 1,})}
                     onStartShouldSetResponder={() => !isScrolling}
                     onPress={() => onPressClothing(clothing)}
                 >
-                    <Image
-                        source={{ uri }}
-                        resizeMode='center'
-                        style={{ flex: 1 }}
-                    />
+
+                    <View style={localStyles.itemContainer}>
+
+                        <View style={{ flex: 2 }}></View>
+
+                        <ImageBackground
+                            key={clothing.id.toString()}
+                            source={{ uri }}
+                            resizeMode='center'
+                            style={localStyles.clothingImage}
+                        >
+
+                            <Lock
+                                isLocked={lockedRow}
+                                onPress={onPressLock}
+                            />
+
+                        </ImageBackground>
+
+                        <View style={{ flex: 2 }}></View>
+
+                    </View>
+
                 </Pressable>
 
             </View >
+        )
+    }
+
+    const Lock = ({
+        isLocked = false,
+        onPress = () => { },
+    }: LockProps) => {
+
+
+        return (
+            <IconImage
+                onPress={onPress}
+                source={isLocked ? lock : lockOpen}
+                color={Colors.GRAY_TRANSPARENT}
+                size={24}
+            />
         )
     }
 
@@ -73,10 +122,11 @@ const ScrollableImageList = ({
     return (
         <View style={[localStyles.container, style]}>
             <FlatList
+                key={clothingList.map(c => c.id).join('-')} // fuerza re-montaje al cambiar el listado
                 ref={flatListRef}
                 data={clothingList}
                 renderItem={({ item }) => renderItem(item)}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={({ id }) => id.toString()}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 snapToInterval={screenWidth}
@@ -88,7 +138,6 @@ const ScrollableImageList = ({
                 getItemLayout={(data, index) => (
                     { length: screenWidth, offset: screenWidth * index, index }
                 )}
-
             />
         </View>
     )
@@ -126,6 +175,15 @@ const localStyles = StyleSheet.create({
     },
     rightSide: {
         flex: 1
+    },
+
+    itemContainer: {
+        flex: 1,
+        flexDirection: "row"
+    },
+
+    clothingImage: {
+        flex: 5,
     }
 
 })

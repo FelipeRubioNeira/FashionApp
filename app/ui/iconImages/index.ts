@@ -1,1 +1,5 @@
 export {default as dice5} from '@/ui/iconImages/dice5.svg'
+export {default as x} from '@/ui/iconImages/x.svg'
+export {default as circleMinus} from '@/ui/iconImages/circle-minus.svg'
+export {default as lock} from '@/ui/iconImages/lock.svg'
+export {default as lockOpen} from '@/ui/iconImages/lock-open.svg'

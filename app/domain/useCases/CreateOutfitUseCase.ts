@@ -20,8 +20,8 @@ class CreateOutfitUseCase {
 
             if (
                 newOutfit.topClothing.id === 0
-                || newOutfit.bottomClothing.id === 0
-                || newOutfit.shoes.id === 0
+                && newOutfit.bottomClothing.id === 0
+                && newOutfit.shoes.id === 0
 
             ) return failedUseCase
 

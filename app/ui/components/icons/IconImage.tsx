@@ -1,6 +1,7 @@
 import { TouchableOpacity } from 'react-native'
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
+import Colors from '@/ui/constants/colors';
 
 
 /**
@@ -14,6 +15,7 @@ import { SvgProps } from 'react-native-svg'
  */
 interface IconImageProps {
     source: React.FC<SvgProps>;
+    stroke?: string;
     size?: number;
     color?: string;
     onPress?: () => void;
@@ -23,15 +25,15 @@ interface IconImageProps {
 const IconImage = ({
     source: SvgIcon,
     size = 24,
-    color = "#000",
-    onPress
+    color = Colors.BLACK,
+    onPress,
 }: IconImageProps) => {
     return (
         <TouchableOpacity onPress={onPress}>
             <SvgIcon
                 width={size}
                 height={size}
-                fill={color}
+                color={color}
             />
         </TouchableOpacity>
     )

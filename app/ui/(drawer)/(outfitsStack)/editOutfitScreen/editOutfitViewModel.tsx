@@ -86,9 +86,6 @@ const useEditOutfitViewModel = (
      */
     const updateCurrentOutfit = (clothingType: ClothingType, clothingId: number) => {
 
-        console.log("Se ha hecho scroll en el outfit ", clothingType, clothingId);
-
-
         switch (clothingType) {
             case "Superior":
                 setCurrentOutfit({ ...currentOutfit, topId: clothingId })

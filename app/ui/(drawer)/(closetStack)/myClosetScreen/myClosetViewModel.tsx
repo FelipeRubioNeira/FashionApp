@@ -1,15 +1,19 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScreenMainMenuParams } from "@/ui/navigation/interfaces";
 import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
 import { CategorizedClothingCollection, Clothing, ClothingType } from "@/domain/Types";
-import DeleteClothingUseCase from "@/domain/useCases/DeleteClothingUseCase";
 import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
 
 // ---------- store ---------- //
-import { useSelector } from 'react-redux';
-import { closetState } from "@/store/ClosetSlice";
-import { ModalCmpProps } from "@/ui/UITypes";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    closetState,
+    onSearchClothing,
+    resetSearchClothing,
+    updateVisibleClothig,
+    lockClothingSearch
+} from "@/store/ClosetSlice";
 import useModalViewModel from "@/ui/components/modal/ModalViewModel";
 
 
@@ -21,12 +25,23 @@ const useMyClsetViewModel = (
 
 
     // -------------- hooks -------------- //
-    const { topClothing, bottomClothing, shoes } = useSelector(closetState)
+    const {
+        topClothing,
+        bottomClothing,
+        shoes,
+        topVisibleClothingId,
+        bottomVisibleClothingId,
+        shoesVisibleClothingId,
+        topClothingBlocked,
+        bottomClothingBlocked,
+        shoesBlocked,
+    } = useSelector(closetState)
     const router = useRouter();
     const { imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
+    const dispatcher = useDispatch()
 
 
-
+    // -------------- view model -------------- //
     const {
         title,
         buttonList,
@@ -42,13 +57,9 @@ const useMyClsetViewModel = (
         ]
     })
 
-
-    const [currentOutfit, setCurrentOutfit] = useState({
-        topId: 0,
-        bottomId: 0,
-        shoesId: 0,
-        name: "",
-    })
+    // -------------- state -------------- //
+    const [newOutfitName, setNewOutfitName] = useState("")
+    const [searchValue, setSearchValue] = useState("")
 
 
 
@@ -95,47 +106,28 @@ const useMyClsetViewModel = (
      * @param clothingId - Id de la ropa seleccionada
      */
     const updateCurrentOutfit = (clothingType: ClothingType, clothingId: number) => {
-
-        switch (clothingType) {
-            case "Superior":
-                setCurrentOutfit({ ...currentOutfit, topId: clothingId })
-                break;
-
-            case "Inferior":
-                setCurrentOutfit({ ...currentOutfit, bottomId: clothingId })
-                break;
-
-            case "Zapatos":
-                setCurrentOutfit({ ...currentOutfit, shoesId: clothingId })
-                break;
-        }
-
+        dispatcher(updateVisibleClothig({ clothingType, clothingId }))
     }
 
     const updateName = (name: string) => {
-        setCurrentOutfit({ ...currentOutfit, name })
+        setNewOutfitName(name)
     }
 
 
     const saveOutfit = async () => {
 
-        const result = await creatOutfitUseCase.execute({
+        const newOutfit = {
             id: 0, // or any appropriate id
-            topClothing: { id: currentOutfit.topId } as Clothing,
-            bottomClothing: { id: currentOutfit.bottomId } as Clothing,
-            shoes: { id: currentOutfit.shoesId } as Clothing,
-            name: currentOutfit.name,
-        })
+            topClothing: { id: topVisibleClothingId } as Clothing,
+            bottomClothing: { id: bottomVisibleClothingId } as Clothing,
+            shoes: { id: shoesVisibleClothingId } as Clothing,
+            name: newOutfitName,
+        }
+
+        const result = await creatOutfitUseCase.execute(newOutfit)
 
         hideModal()
-        resetCurrentOutfit()
-    }
-
-    const resetCurrentOutfit = () => {
-        setCurrentOutfit({
-            ...currentOutfit,
-            name: "",
-        })
+        updateName("")
     }
 
     const onPressRandomOutfit = () => {
@@ -149,12 +141,10 @@ const useMyClsetViewModel = (
         const randomBottom = getRandomItem(bottomClothing).id;
         const randomShoes = getRandomItem(shoes).id;
 
-        setCurrentOutfit({
-            ...currentOutfit,
-            topId: randomTop,
-            bottomId: randomBottom,
-            shoesId: randomShoes,
-        })
+        updateCurrentOutfit("Superior", randomTop)
+        updateCurrentOutfit("Inferior", randomBottom)
+        updateCurrentOutfit("Zapatos", randomShoes)
+
 
     }
 
@@ -165,16 +155,45 @@ const useMyClsetViewModel = (
 
     const cancelSaveOutfit = () => {
         hideModal()
-        resetCurrentOutfit()
+        updateName("")
     }
 
 
+    // -------------- search methods-------------- //
+    const onSearchTextChange = (value: string) => {
+
+        setSearchValue(value)
+
+        if (value.length >= 3) dispatcher(onSearchClothing(value))
+        else cleanSearchStore()
+    }
+
+    const onDeleteSearch = () => {
+        cleanSearchStore()
+        setSearchValue("")
+    }
+
+    const cleanSearchStore = () => {
+        dispatcher(resetSearchClothing())
+    }
+
+    // -------------- lock / unlock clothing tipe search  -------------- //
+    const lockSearch = (clothingType: ClothingType) => {
+        dispatcher(lockClothingSearch({ clothingType }))
+    }
 
 
 
 
     // -------------- return -------------- //
     return {
+        topVisibleClothingId,
+        bottomVisibleClothingId,
+        shoesVisibleClothingId,
+        topClothingBlocked,
+        bottomClothingBlocked,
+        shoesBlocked,
+        searchValue,
         topClothing, bottomClothing, shoes,
         navigateToAddClothing,
         updateCurrentOutfit,
@@ -182,11 +201,13 @@ const useMyClsetViewModel = (
         modalVisible: visible,
         ModalButtonList: buttonList,
         updateName,
-        outfitName: currentOutfit.name,
+        outfitName: newOutfitName,
         showModal,
         hideModal,
         onPressRandomOutfit,
-        currentOutfit
+        onSearchTextChange,
+        onDeleteSearch,
+        lockSearch,
     }
 
 }

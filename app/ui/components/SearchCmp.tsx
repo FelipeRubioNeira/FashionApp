@@ -1,17 +1,20 @@
 import { StyleSheet, TextInput, View } from 'react-native'
 import React from 'react'
-import SearchIcn from './icons/SearchIcn';
 import Colors from '../constants/colors';
+import IconImage from './icons/IconImage';
+import { circleMinus } from "@/ui/iconImages"
 
 
 interface SearchCmpProps {
-  onSearch: () => void;
+  value: string,
+  onDeleteSearch: () => void;
   onChangeText: (value: string) => void
 }
 
 const SearchCmp = ({
-  onSearch,
-  onChangeText
+  value,
+  onChangeText,
+  onDeleteSearch,
 }: SearchCmpProps) => {
 
   return (
@@ -23,13 +26,16 @@ const SearchCmp = ({
         style={localStyles.textInputStyle}
         placeholderTextColor={Colors.GRAY}
         placeholder='Pantalon o camisa...'
+        value={value}
         onChangeText={onChangeText}
       />
 
-      {/* icono de busqueda */}
-      <SearchIcn
+      {/* icono de eliminar busqueda */}
+      <IconImage
+        source={circleMinus}
         color={Colors.GRAY}
-        onPress={onSearch}
+        size={32}
+        onPress={onDeleteSearch}
       />
 
     </View>
@@ -46,7 +52,8 @@ const localStyles = StyleSheet.create({
     borderWidth: 1,
     height: 60,
     borderRadius: 8,
-    padding: 4
+    padding: 4,
+    alignItems: "center",
   },
 
   textInputStyle: {

@@ -14,7 +14,7 @@ import TextInputCmp from "@/ui/components/TextInputCmp";
 import RandomDice from "@/ui/components/icons/IconImage";
 import { dice5 } from "@/ui/iconImages"
 import Colors from "@/ui/constants/colors";
-import addClothing from "../addClothingScreen";
+import SearchCmp from "@/ui/components/SearchCmp";
 
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
@@ -31,7 +31,11 @@ const myCloset = () => {
         modalTitle,
         modalVisible,
         ModalButtonList,
-        currentOutfit,
+        searchValue,
+
+        topClothingBlocked,
+        bottomClothingBlocked,
+        shoesBlocked,
 
         // methods
         navigateToAddClothing,
@@ -39,7 +43,13 @@ const myCloset = () => {
         showModal,
         updateName,
         hideModal,
-        onPressRandomOutfit
+        onPressRandomOutfit,
+        onSearchTextChange,
+        onDeleteSearch,
+        topVisibleClothingId,
+        bottomVisibleClothingId,
+        shoesVisibleClothingId,
+        lockSearch,
     } = useMyClosetViewModel(
         getClothingUseCase,
         creatOutfitUseCase,
@@ -48,55 +58,62 @@ const myCloset = () => {
 
 
     return (
-        <ScreenCmp>
+        <ScreenCmp style={{ padding: 0 }}>
             <View style={localStyles.screen}>
 
 
-                {/* agregar prenda y guardar combinacion preferida */}
-                <View style={localStyles.headerAgregarStarContainer}>
-                    <ButtonCmp
-                        style={localStyles.addClothing}
-                        text="Agregar prenda"
-                        onPress={() => navigateToAddClothing(undefined)}
+                <View style={{ padding: 8 }}>
+
+
+                    {/* componente que permite buscar prendas en la base de datos */}
+                    <SearchCmp
+                        value={searchValue}
+                        onChangeText={onSearchTextChange}
+                        onDeleteSearch={onDeleteSearch}
                     />
 
-                    <View style={{ flex: 1 }}></View>
+
+                    <SpacerCmp marginVertical={4} />
 
 
-                    {/* Icono random que genera una combinacion aleatoria de prendas */}
-                    <RandomDice
-                        source={dice5}
-                        color={Colors.BLACK}
-                        size={34}
-                        onPress={onPressRandomOutfit}
-                    />
+                    {/* agregar prenda y guardar combinacion preferida */}
+                    <View style={localStyles.headerAgregarStarContainer}>
+                        <ButtonCmp
+                            style={localStyles.addClothing}
+                            text="Agregar prenda"
+                            onPress={() => navigateToAddClothing(undefined)}
+                        />
 
-                    <StarIcn size={34} onPress={showModal} />
+                        <View style={{ flex: 1 }}></View>
+
+
+                        {/* Icono random que genera una combinacion aleatoria de prendas */}
+                        <RandomDice
+                            source={dice5}
+                            color={Colors.BLACK}
+                            size={34}
+                            onPress={onPressRandomOutfit}
+                        />
+
+                        <StarIcn size={34} onPress={showModal} />
+
+                    </View>
+
 
                 </View>
 
-
                 <SpacerCmp marginVertical={4} />
-
-                {/**
-                 * De momento esto se comenta
-                 */}
-                {/* componente que permite buscar prendas en la base de datos */}
-                {/* <SearchCmp
-                    onSearch={() => console.log("Se ha llamado a buscar en index ")}
-                    onChangeText={value => console.log("se ha presionado sobre buscar ", value)}
-                />
-
-                <SpacerCmp marginVertical={4} /> */}
 
                 {/* TOP list */}
                 <ScrollableImageList
-                    initialValue={currentOutfit.topId}
                     style={{ flex: 3 }}
+                    initialValue={topVisibleClothingId}
                     clothingList={topClothing}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
+                    lockedRow={topClothingBlocked}
                     onChangeClothing={clothingId => updateCurrentOutfit("Superior", clothingId)}
+                    onPressLock={() => lockSearch("Superior")}
                 />
 
                 <SpacerCmp marginVertical={4} />
@@ -105,11 +122,13 @@ const myCloset = () => {
                 {/* Bottom list  */}
                 <ScrollableImageList
                     style={{ flex: 3 }}
-                    initialValue={currentOutfit.bottomId}
+                    initialValue={bottomVisibleClothingId}
                     clothingList={bottomClothing}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
                     onChangeClothing={clothingId => updateCurrentOutfit("Inferior", clothingId)}
+                    lockedRow={bottomClothingBlocked}
+                    onPressLock={() => lockSearch("Inferior")}
                 />
 
                 <SpacerCmp marginVertical={4} />
@@ -118,11 +137,13 @@ const myCloset = () => {
                 {/* Shoes list  */}
                 <ScrollableImageList
                     style={{ flex: 1 }}
-                    initialValue={currentOutfit.shoesId}
+                    initialValue={shoesVisibleClothingId}
                     clothingList={shoes}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
+                    lockedRow={shoesBlocked}
                     onChangeClothing={clothingId => updateCurrentOutfit("Zapatos", clothingId)}
+                    onPressLock={() => lockSearch("Zapatos")}
                 />
 
 

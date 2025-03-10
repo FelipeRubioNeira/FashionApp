@@ -4,7 +4,16 @@ import { FlatList } from "react-native";
 import { screenWidth } from "../../constants/screenDimensions";
 
 
-const useScrollableImageListViewModel = (clothingList: Clothing[], initialValue?: number) => {
+interface ScrollableImageListViewModelProps {
+    clothingList: Clothing[],
+    initialValue?: number,
+}
+
+
+const useScrollableImageListViewModel = ({
+    clothingList = [],
+    initialValue,
+}: ScrollableImageListViewModelProps) => {
 
     // ------ state ------ //
     const [isScrolling, setIsScrolling] = useState(false);
@@ -17,6 +26,7 @@ const useScrollableImageListViewModel = (clothingList: Clothing[], initialValue?
         updateFlatlistPosition(clothingList, initialValue)
     }, [initialValue])
 
+
     // ------ methods ------ //
     const handleScroll = () => {
         setIsScrolling(true);
@@ -28,26 +38,33 @@ const useScrollableImageListViewModel = (clothingList: Clothing[], initialValue?
 
     const calculateItemId = (xPosition: number) => {
         const index = Math.round(xPosition / screenWidth)
-        return clothingList[index].id
+        const clothingId =  clothingList[index].id        
+        return clothingId
     }
 
     const updateFlatlistPosition = (clothingList: Clothing[], initialValue?: number) => {
-        if (!initialValue && clothingList.length > 0) return;
 
-        const index = clothingList.findIndex(clothing => clothing.id == initialValue);
+        try {
 
-        console.log("index => ", index);
+            if (!initialValue || clothingList.length == 0) {
+                return
+            };
 
-        if (index !== -1) {
-            try {
-                flatListRef.current?.scrollToIndex({
-                    index,
-                    animated: true,
-                });
-            } catch (error) {
-                console.error("Error scrolling to index:", error);
-            }
+            const index = clothingList.findIndex(clothing => clothing.id == initialValue);
+
+            if (index == -1) return
+
+            // Scroll to the item at the calculated index
+            flatListRef.current?.scrollToIndex({
+                index,
+                animated: true,
+            });
+
+        } catch (error) {
+            console.error("Error updating FlatList position:", error);
+
         }
+
     }
 
 
