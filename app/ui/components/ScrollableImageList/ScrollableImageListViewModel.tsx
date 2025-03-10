@@ -37,9 +37,11 @@ const useScrollableImageListViewModel = ({
     };
 
     const calculateItemId = (xPosition: number) => {
-        const index = Math.round(xPosition / screenWidth)
-        const clothingId =  clothingList[index].id        
-        return clothingId
+        const index = Math.round(xPosition / screenWidth);
+
+        if (index < 0 || index >= clothingList.length) return undefined;
+        return clothingList[index].id;
+
     }
 
     const updateFlatlistPosition = (clothingList: Clothing[], initialValue?: number) => {

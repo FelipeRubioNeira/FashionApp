@@ -67,7 +67,7 @@ const ScrollableImageList = ({
                 {/* foto de la prenda */}
                 <Pressable
                     key={clothing.id.toString()}
-                    style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.5 : 1,})}
+                    style={({ pressed }) => ({ flex: 1, opacity: pressed ? 0.5 : 1, })}
                     onStartShouldSetResponder={() => !isScrolling}
                     onPress={() => onPressClothing(clothing)}
                 >
@@ -134,7 +134,10 @@ const ScrollableImageList = ({
                 decelerationRate="fast"
                 onScrollBeginDrag={handleScroll}
                 onScrollEndDrag={handleScrollEnd}
-                onMomentumScrollEnd={event => onChangeClothing(calculateItemId(event.nativeEvent.contentOffset.x))}
+                onMomentumScrollEnd={event => {
+                    const itemId = calculateItemId(event.nativeEvent.contentOffset.x)
+                    if (itemId) onChangeClothing(itemId)
+                }}
                 getItemLayout={(data, index) => (
                     { length: screenWidth, offset: screenWidth * index, index }
                 )}

@@ -122,13 +122,12 @@ const index = () => {
     <ScreenCmp style={{ padding: 0 }}>
 
       <FlatList
+        key={outfits.map(c => c.id).join('-')} // fuerza re-montaje al cambiar el listado
         data={outfits}
         renderItem={({ item }) => Card(item)}
         keyExtractor={({ id }) => id.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        //ItemSeparatorComponent={() => <SpacerCmp marginHorizontal={10} />}
-        //contentContainerStyle={localStyles.contentContainer}
         snapToInterval={screenWidth}
         snapToAlignment="center"
         decelerationRate="fast"
@@ -157,7 +156,7 @@ const localStyles = StyleSheet.create({
   },
   card: {
     height: "100%",
-    width:"100%",
+    width: "100%",
     //marginHorizontal: 10, // Margen entre tarjetas
     backgroundColor: '#f0f0f0', // Color de fondo de la tarjeta
     borderRadius: 16, // Borde redondeado
