@@ -7,19 +7,21 @@ import { container } from 'tsyringe'
 import GetOutfitsUseCase from '@/domain/useCases/GetOutfitsUseCase'
 import { Outfit } from '@/domain/Types'
 import { screenWidth } from '@/ui/constants/screenDimensions'
-import SpacerCmp from '@/ui/components/SpacerCmp'
 import LabelCmp from '@/ui/components/LabelCmp'
 import measures from '@/ui/constants/measures'
 import Colors from '@/ui/constants/colors'
 import IconDefault from '@/ui/components/icons/IconDefault'
 import DeleteOutfitUseCase from '@/domain/useCases/DeleteOutfitUseCase'
 import { ActionButton } from '@/ui/UITypes'
+import { copyPlus, circleMinus, edit } from '@/ui/iconImages'
+import IconImage from '@/ui/components/icons/IconImage'
+import DuplicateOutfitUseCase from '@/domain/useCases/DuplicateOutfitUseCase'
 
 
 
 const getOutfitsUseCase = container.resolve(GetOutfitsUseCase)
 const deleteOutfitUseCase = container.resolve(DeleteOutfitUseCase)
-
+const duplicateOutfitUseCase = container.resolve(DuplicateOutfitUseCase)
 
 
 const index = () => {
@@ -28,12 +30,15 @@ const index = () => {
   const {
     outfits,
     onPressDeleteOutfit,
-    onPressEditOutfit
-  } = useMyOutfitsViewModel(getOutfitsUseCase, deleteOutfitUseCase)
+    onPressEditOutfit,
+    onPressDuplicateOutfit,
+  } = useMyOutfitsViewModel(getOutfitsUseCase, deleteOutfitUseCase, duplicateOutfitUseCase)
 
 
   const Card = (outfit: Outfit) => {
 
+
+    // outfit data
     const { id, name, topClothing, bottomClothing, shoes } = outfit
     const { uri: uriTop } = topClothing
     const { uri: uriBottom } = bottomClothing
@@ -69,9 +74,34 @@ const index = () => {
           />
 
 
-          <EditButton onPress={() => onPressEditOutfit(outfit)} />
+          {/* editar */}
+          <IconImage
+            containerStyle={{ ...localStyles.iconContainer, bottom: 10, right: 10 }}
+            source={edit}
+            size={24}
+            color={Colors.WHITE}
+            onPress={() => onPressEditOutfit(outfit)}
+          />
 
-          <DeleteButton onPress={() => onPressDeleteOutfit(id)} />
+
+          {/* eliminar */}
+          <IconImage
+            containerStyle={{ ...localStyles.iconContainer, bottom: 10, left: 10 }}
+            source={circleMinus}
+            size={24}
+            color={Colors.WHITE}
+            onPress={() => onPressDeleteOutfit(id)}
+          />
+
+
+          {/* duplicar  */}
+          <IconImage
+            containerStyle={{ ...localStyles.iconContainer, top: 10, left: 10 }}
+            source={copyPlus}
+            size={24}
+            color={Colors.WHITE}
+            onPress={() => onPressDuplicateOutfit(id)}
+          />
 
         </View>
 
@@ -189,6 +219,12 @@ const localStyles = StyleSheet.create({
     backgroundColor: Colors.GRAY,
     borderRadius: measures.BUTTON_HEIGTH / 2
   },
+  iconContainer: {
+    position: "absolute",
+    backgroundColor: Colors.GRAY_TRANSPARENT,
+    borderRadius: 100,
+    padding: 10
+  }
 
 
 })

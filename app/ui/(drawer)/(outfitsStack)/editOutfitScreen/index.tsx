@@ -48,6 +48,8 @@ const index = () => {
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
                 onChangeClothing={clothingId => updateCurrentOutfit("Superior", clothingId)}
+                lockedRow={true}
+                onPressLock={() => { }}
             />
 
             <SpacerCmp marginVertical={4} />
@@ -61,6 +63,8 @@ const index = () => {
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
                 onChangeClothing={clothingId => updateCurrentOutfit("Inferior", clothingId)}
+                lockedRow={true}
+                onPressLock={() => { }}
             />
 
             <SpacerCmp marginVertical={4} />
@@ -74,6 +78,8 @@ const index = () => {
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
                 onChangeClothing={clothingId => updateCurrentOutfit("Zapatos", clothingId)}
+                lockedRow={true}
+                onPressLock={() => { }}
             />
 
             <SpacerCmp marginVertical={4} />

@@ -1,10 +1,11 @@
 import { injectable } from "tsyringe";
-import {ClothingStyle, ClothingType, EditOutfitInformation, Outfit } from "../domain/Types";
+import { ClothingStyle, ClothingType, EditOutfitInformation, Outfit } from "../domain/Types";
 import IOutfitRepository from "./interfaces/IOutfitRepository";
 import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
 import DbConnection from "./db/DbConnection";
 import { ClothingTable, ClothingTableType, OutfitTable, OutfitTableType } from "./db/Schema";
 import { aliasedTable, eq } from "drizzle-orm";
+import { DBResult } from "drizzle-orm/sqlite-core";
 
 
 @injectable()
@@ -112,7 +113,7 @@ class OutfitSqliteRepository implements IOutfitRepository {
 
     }
 
-    async save({ name, topClothing, bottomClothing, shoes }: Outfit): Promise<boolean> {
+    async save({ name, topClothing, bottomClothing, shoes }: Outfit): Promise<Outfit | null> {
 
         try {
 
@@ -124,11 +125,15 @@ class OutfitSqliteRepository implements IOutfitRepository {
                     out_sho_id: shoes.id
                 })
 
-            return !!response.lastInsertRowId
+            if (!response.lastInsertRowId) return null;
+
+            // Usar el lastInsertRowId para obtener el outfit insertado
+            const savedOutfit = await this.getById(response.lastInsertRowId);
+            return savedOutfit;
 
         } catch (error) {
             this.logError("save()", error)
-            return false
+            return null
         }
 
     }

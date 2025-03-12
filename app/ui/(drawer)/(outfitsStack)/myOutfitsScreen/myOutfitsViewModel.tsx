@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import { OutfitState } from "@/store/OutfitsSlice";
 import { Outfit } from "@/domain/Types";
 import { ScreenEditOutfitParams } from "@/ui/navigation/interfaces";
-import { setCurrentOutfit } from '@/store/OutfitsSlice'
+import DuplicateOutfitUseCase from "@/domain/useCases/DuplicateOutfitUseCase";
 
 
 
 const useMyOutfitsViewModel = (
     getOutfitsUseCase: GetOutfitsUseCase,
-    deleteOutfitUseCase: DeleteOutfitUseCase
+    deleteOutfitUseCase: DeleteOutfitUseCase,
+    duplicateOutfitUseCase: DuplicateOutfitUseCase
 ) => {
 
 
@@ -59,11 +60,19 @@ const useMyOutfitsViewModel = (
         router.navigate({ pathname: "/ui/editOutfitScreen", params })
     }
 
+    const onPressDuplicateOutfit = async (outfitId: number) => {
+
+        const useCaseResponse = await duplicateOutfitUseCase.execute(outfitId)
+        console.log("Duplicated outfit response: ", useCaseResponse);
+        
+    }
+
 
     return {
         outfits,
         onPressDeleteOutfit,
-        onPressEditOutfit
+        onPressEditOutfit,
+        onPressDuplicateOutfit
     }
 
 

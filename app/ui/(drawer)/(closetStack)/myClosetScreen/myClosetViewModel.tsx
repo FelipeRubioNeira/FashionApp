@@ -137,14 +137,20 @@ const useMyClsetViewModel = (
             return;
         }
 
-        const randomTop = getRandomItem(topClothing).id;
-        const randomBottom = getRandomItem(bottomClothing).id;
-        const randomShoes = getRandomItem(shoes).id;
+        if(!topClothingBlocked){
+            const randomTop = getRandomItem(topClothing).id;
+            updateCurrentOutfit("Superior", randomTop)
+        }
 
-        updateCurrentOutfit("Superior", randomTop)
-        updateCurrentOutfit("Inferior", randomBottom)
-        updateCurrentOutfit("Zapatos", randomShoes)
-
+        if(!bottomClothingBlocked){
+            const randomBottom = getRandomItem(bottomClothing).id;
+            updateCurrentOutfit("Inferior", randomBottom)
+        }
+        if(!shoesBlocked){
+            const randomShoes = getRandomItem(shoes).id;
+            updateCurrentOutfit("Zapatos", randomShoes)
+        }
+    
 
     }
 

@@ -39,13 +39,14 @@ const OutfitsSlice = createSlice({
             }
         },
 
-
-        
         // ----------- actions for currentOutfit ----------- //
         setCurrentOutfit: (state, action: PayloadAction<EditOutfitInformation>) => {
             state.currentOutfit = action.payload;
-        }
+        },
 
+        addOutfit: (state, action: PayloadAction<Outfit>) => {
+            state.outfits.push(action.payload);
+        }
 
     },
 });
@@ -65,6 +66,7 @@ export const {
     initializeOutfits,
     updateOutfit,
     setCurrentOutfit,
+    addOutfit,
     
 } = OutfitsSlice.actions;
 
