@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import ScrollableImageList from '@/ui/components/ScrollableImageList/ScrollableImageList'
 import SpacerCmp from '@/ui/components/SpacerCmp'
@@ -7,6 +7,11 @@ import ScreenCmp from '@/ui/components/ScreenCmp'
 import ButtonCmp from '@/ui/components/ButtonCmp'
 import { container } from 'tsyringe'
 import EditOutfitUseCase from '@/domain/useCases/EditOutfitUseCase'
+import SearchCmp from '@/ui/components/SearchCmp'
+import RandomDice from "@/ui/components/icons/IconImage";
+import { dice5 } from "@/ui/iconImages"
+import Colors from '@/ui/constants/colors'
+import ModalCmp from '@/ui/components/modal/ModalCmp'
 import TextInputCmp from '@/ui/components/TextInputCmp'
 
 
@@ -17,8 +22,10 @@ const editOutfitUseCase = container.resolve(EditOutfitUseCase)
 const index = () => {
 
     const {
-        initialOutfit,
-        currentOutfit,
+        searchValue,
+        topVisibleClothingId,
+        bottomVisibleClothingId,
+        shoesVisibleClothingId,
         topClothing,
         bottomClothing,
         shoes,
@@ -26,30 +33,65 @@ const index = () => {
         updateCurrentOutfit,
         onPressUpdateOutfit,
         updateOutfitName,
+        onSearchTextChange,
+        onDeleteSearch,
+        topClothingBlocked,
+        bottomClothingBlocked,
+        shoesBlocked,
+        lockSearch,
+        onPressRandomOutfit,
+        onPressCancel,
+        showModal,
+        modalVisible,
+        modalTitle,
+        ModalButtonList,
+        outfitName,
+        hideModal,
+        updateName,
     } = useEditOutfitViewModel(editOutfitUseCase)
 
-    const { topId, bottomId, shoesId } = initialOutfit
 
 
     return (
-        <ScreenCmp>
+        <ScreenCmp style={{ padding: 0 }}>
 
 
-            <TextInputCmp
+            {/* <TextInputCmp
                 label='Nombre del outfit'
                 value={currentOutfit.name}
                 onChangeText={updateOutfitName}
-            />
+            /> */}
+
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 8 }}>
+                <SearchCmp
+                    value={searchValue}
+                    onChangeText={onSearchTextChange}
+                    onDeleteSearch={onDeleteSearch}
+                />
+
+                <SpacerCmp marginHorizontal={4} />
+
+                <RandomDice
+                    source={dice5}
+                    color={Colors.BLACK}
+                    size={34}
+                    onPress={onPressRandomOutfit}
+                />
+            </View>
+
+            <SpacerCmp marginVertical={4} />
+
 
             <ScrollableImageList
                 style={{ flex: 3 }}
-                initialValue={topId}
+                initialValue={topVisibleClothingId}
                 clothingList={topClothing}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
                 onChangeClothing={clothingId => updateCurrentOutfit("Superior", clothingId)}
-                lockedRow={true}
-                onPressLock={() => { }}
+                lockedRow={topClothingBlocked}
+                onPressLock={() => lockSearch("Superior")}
+
             />
 
             <SpacerCmp marginVertical={4} />
@@ -58,13 +100,13 @@ const index = () => {
             {/* Bottom list  */}
             <ScrollableImageList
                 style={{ flex: 3 }}
-                initialValue={bottomId}
+                initialValue={bottomVisibleClothingId}
                 clothingList={bottomClothing}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
                 onChangeClothing={clothingId => updateCurrentOutfit("Inferior", clothingId)}
-                lockedRow={true}
-                onPressLock={() => { }}
+                lockedRow={bottomClothingBlocked}
+                onPressLock={() => lockSearch("Inferior")}
             />
 
             <SpacerCmp marginVertical={4} />
@@ -73,18 +115,49 @@ const index = () => {
             {/* Shoes list  */}
             <ScrollableImageList
                 style={{ flex: 1 }}
-                initialValue={shoesId}
+                initialValue={shoesVisibleClothingId}
                 clothingList={shoes}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
                 onChangeClothing={clothingId => updateCurrentOutfit("Zapatos", clothingId)}
-                lockedRow={true}
-                onPressLock={() => { }}
+                lockedRow={shoesBlocked}
+                onPressLock={() => lockSearch("Zapatos")}
             />
 
             <SpacerCmp marginVertical={4} />
 
-            <ButtonCmp text='Guardar' onPress={() => onPressUpdateOutfit(currentOutfit)} />
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 8 }}>
+
+                <ButtonCmp
+                    text='Guardar'
+                    onPress={showModal}
+                    style={{ flex: 1, }}
+                />
+
+                <SpacerCmp marginHorizontal={4} />
+
+                <ButtonCmp
+                    text='Cancelar'
+                    onPress={onPressCancel}
+                    style={{ flex: 1 }}
+                />
+
+
+            </View>
+
+
+            <ModalCmp
+                visible={modalVisible}
+                title={modalTitle}
+                buttonList={ModalButtonList}
+                hide={hideModal}
+            >
+                <TextInputCmp
+                    value={outfitName}
+                    onChangeText={updateName}
+                    placeholder="Ingrese nombre de la combinación"
+                />
+            </ModalCmp>
 
         </ScreenCmp>
     )

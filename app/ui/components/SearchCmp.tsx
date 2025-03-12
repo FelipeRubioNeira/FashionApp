@@ -48,7 +48,8 @@ const localStyles = StyleSheet.create({
 
   container: {
     flexDirection: "row",
-    width: "100%",
+    flex:1,
+    maxHeight: 50,
     borderWidth: 1,
     height: 60,
     borderRadius: 8,

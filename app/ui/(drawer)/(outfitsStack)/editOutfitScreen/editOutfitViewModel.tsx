@@ -1,10 +1,17 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { ClothingType, EditOutfitInformation } from '@/domain/Types';
+import { Clothing, ClothingType, EditOutfitInformation } from '@/domain/Types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenEditOutfitParams } from '@/ui/navigation/interfaces';
 import EditOutfitUseCase from '@/domain/useCases/EditOutfitUseCase';
-import { closetState } from "@/store/ClosetSlice";
+import {
+    closetState,
+    onSearchClothing,
+    resetSearchClothing,
+    lockClothingSearch,
+    updateVisibleClothig
+} from "@/store/ClosetSlice";
+import useModalViewModel from "@/ui/components/modal/ModalViewModel";
 
 
 
@@ -13,7 +20,17 @@ const useEditOutfitViewModel = (
 ) => {
 
     // ----------- global state ----------- //
-    const { topClothing, bottomClothing, shoes } = useSelector(closetState)
+    const {
+        topClothing,
+        bottomClothing,
+        shoes,
+        topClothingBlocked,
+        bottomClothingBlocked,
+        shoesBlocked,
+        topVisibleClothingId,
+        bottomVisibleClothingId,
+        shoesVisibleClothingId,
+    } = useSelector(closetState)
 
     // ----------- hooks ----------- //
     const params = useLocalSearchParams<ScreenEditOutfitParams>()
@@ -25,26 +42,31 @@ const useEditOutfitViewModel = (
         shoesId
     } = params
 
+    const dispatcher = useDispatch()
     const router = useRouter()
 
+
+    // ----------- view model ----------- //
+    const {
+        title,
+        buttonList,
+        visible,
+        hideModal,
+        showModal,
+    } = useModalViewModel({
+        title: "Guardar combinacion",
+        visible: false,
+        buttonList: [
+            { label: "Guardar", onPress: () => saveOutfit() },
+            { label: "Cancelar", onPress: () => cancelSaveOutfit() }
+        ]
+    })
 
 
 
     // ----------- state ----------- //
-    const [currentOutfit, setCurrentOutfit] = useState<EditOutfitInformation>({
-        outfitId: 0,
-        name: "",
-        topId: 0,
-        bottomId: 0,
-        shoesId: 0
-    })
-
-    const [initialOutfit] = useState({
-        topId: topClothingId,
-        bottomId: bottomClothingId,
-        shoesId: shoesId
-    })
-
+    const [searchValue, setSearchValue] = useState<string>("")
+    const [newOutfitName, setNewOutfitName] = useState("")
 
 
 
@@ -62,19 +84,23 @@ const useEditOutfitViewModel = (
     }, [outfitId])
 
 
-    const loadOutfit = (outfitInformation: EditOutfitInformation) => {
-        console.log("se ha cargado este outfit", outfitInformation);
-        setCurrentOutfit({ ...outfitInformation })
+    const loadOutfit = ({ topId, bottomId, shoesId }: EditOutfitInformation) => {
+        updateCurrentOutfit("Superior", topId)
+        updateCurrentOutfit("Inferior", bottomId)
+        updateCurrentOutfit("Zapatos", shoesId)
+        setNewOutfitName(outfitName)
     }
 
 
     const onPressUpdateOutfit = async (currentOutfit: EditOutfitInformation) => {
-
         console.log("Se ha presionado onPressUpdateOutfit", currentOutfit);
         const { success, message } = await editOutfitUseCase.execute(currentOutfit)
+    }
 
-        if (success) router.back()
 
+    const onPressCancel = () => {
+        console.log("se ha presionado el boton de cancelar");
+        router.back()
     }
 
 
@@ -85,36 +111,117 @@ const useEditOutfitViewModel = (
      * @param clothingId - Id de la ropa seleccionada
      */
     const updateCurrentOutfit = (clothingType: ClothingType, clothingId: number) => {
+        dispatcher(updateVisibleClothig({ clothingType, clothingId }))
+    }
 
-        switch (clothingType) {
-            case "Superior":
-                setCurrentOutfit({ ...currentOutfit, topId: clothingId })
-                break;
+    const updateOutfitName = (name: string) => {
+        setNewOutfitName(name)
+    }
 
-            case "Inferior":
-                setCurrentOutfit({ ...currentOutfit, bottomId: clothingId })
-                break;
+    const onSearchTextChange = (value: string) => {
+        setSearchValue(value)
 
-            case "Zapatos":
-                setCurrentOutfit({ ...currentOutfit, shoesId: clothingId })
-                break;
+        if (value.length >= 3) dispatcher(onSearchClothing(value))
+        else cleanSearchStore()
+
+    }
+
+    const onDeleteSearch = () => {
+        cleanSearchStore()
+        setSearchValue("")
+    }
+
+    const cleanSearchStore = () => {
+        dispatcher(resetSearchClothing())
+    }
+
+    const lockSearch = (clothingType: ClothingType) => {
+        dispatcher(lockClothingSearch({ clothingType }))
+    }
+
+    const onPressRandomOutfit = () => {
+        console.log("se ha presionado el dado");
+
+
+        // si no hay prendas de ropa entonces no se hace nada
+        if (!topClothing.length || !bottomClothing.length || !shoes.length) {
+            return;
+        }
+
+        if (!topClothingBlocked) {
+            const randomTop = getRandomItem(topClothing).id;
+            updateCurrentOutfit("Superior", randomTop)
+        }
+
+        if (!bottomClothingBlocked) {
+            const randomBottom = getRandomItem(bottomClothing).id;
+            updateCurrentOutfit("Inferior", randomBottom)
+        }
+        if (!shoesBlocked) {
+            const randomShoes = getRandomItem(shoes).id;
+            updateCurrentOutfit("Zapatos", randomShoes)
         }
 
     }
 
-    const updateOutfitName = (name: string) => {
-        setCurrentOutfit({ ...currentOutfit, name })
+    const getRandomItem = (clothingList: Clothing[]) => {
+        const randomIndex = Math.floor(Math.random() * clothingList.length);
+        return clothingList[randomIndex];
     }
 
+    const saveOutfit = async () => {
+
+        const outfit: EditOutfitInformation = {
+            topId: topVisibleClothingId,
+            bottomId: bottomVisibleClothingId,
+            shoesId: shoesVisibleClothingId,
+            name: newOutfitName,
+            outfitId,
+        }
+
+
+        console.log("Se ha presionado onPressUpdateOutfit", outfit);
+        const { success, message } = await editOutfitUseCase.execute(outfit)
+
+        hideModal()
+        updateOutfitName("")
+        router.back()
+    }
+
+    const cancelSaveOutfit = () => {
+        hideModal()
+        // TODO:
+        //updateOutfitName("")
+    }
+
+
+    // --------- returns ----------- //
     return {
-        initialOutfit,
-        currentOutfit,
+        searchValue,
+        topVisibleClothingId,
+        bottomVisibleClothingId,
+        shoesVisibleClothingId,
         topClothing,
         bottomClothing,
         shoes,
         updateCurrentOutfit,
         onPressUpdateOutfit,
-        updateOutfitName
+        updateOutfitName,
+        onSearchTextChange,
+        onDeleteSearch,
+        topClothingBlocked,
+        bottomClothingBlocked,
+        shoesBlocked,
+        lockSearch,
+        onPressRandomOutfit,
+        onPressCancel,
+        showModal,
+        modalVisible: visible,
+        modalTitle: title,
+        ModalButtonList: buttonList,
+        outfitName: newOutfitName,
+        hideModal,
+        updateName: updateOutfitName,
     }
 }
 

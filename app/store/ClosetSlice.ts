@@ -176,7 +176,8 @@ const closetSlice = createSlice({
                     break;
             }
 
-        }
+        },
+
 
 
     },
