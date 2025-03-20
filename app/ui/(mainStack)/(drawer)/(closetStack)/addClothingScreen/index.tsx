@@ -1,20 +1,18 @@
 import { container } from 'tsyringe'
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import ButtonCmp from '@/ui/components/ButtonCmp'
-import CamaraViewCmp from '@/ui/components/CamaraViewCmp'
-import ScreenCmp from '@/ui/components/ScreenCmp'
-import TextInputCmp from '@/ui/components/TextInputCmp'
-import LabelCmp from '@/ui/components/LabelCmp'
+import { Image, StyleSheet, View } from 'react-native'
+import ButtonCmp from 'app/ui/components/ButtonCmp'
+import CamaraViewCmp from 'app/ui/components/CamaraViewCmp'
+import ScreenCmp from 'app/ui/components/ScreenCmp'
+import TextInputCmp from 'app/ui/components/TextInputCmp'
+import LabelCmp from 'app/ui/components/LabelCmp'
 import useAddClouthingViewModel from './addClothingViewModel'
-import ClothingCategoryCmp from '@/ui/components/ClothingCategoryCmp'
-import SpacerCmp from '@/ui/components/SpacerCmp'
-import AddClothingUseCase from '@/domain/useCases/AddClothingUseCase'
-import EditClothingUseCase from '@/domain/useCases/EditClothingUseCase'
-import StyleSelector from '@/ui/components/StyleSelector'
-import Colors from '@/ui/constants/colors'
-import DeleteClothingUseCase from '@/domain/useCases/DeleteClothingUseCase'
+import ClothingCategoryCmp from 'app/ui/components/ClothingCategoryCmp'
+import SpacerCmp from 'app/ui/components/SpacerCmp'
 import { Clothing } from '@/domain/Types'
+import { AddClothingUseCase, EditClothingUseCase, DeleteClothingUseCase } from "@/domain/useCases"
+import StyleSelector from 'app/ui/components/StyleSelector'
+import Colors from 'app/ui/constants/colors'
 
 
 const addClothingUseCase = container.resolve(AddClothingUseCase)
@@ -23,7 +21,7 @@ const deleteClothingUseCase = container.resolve(DeleteClothingUseCase)
 
 
 // --------------- component --------------- //
-const addClothing = () => {
+const AddClothingScreen = () => {
 
 
     // --------------- hooks --------------- //
@@ -45,9 +43,9 @@ const addClothing = () => {
         deleteImage,
     } = useAddClouthingViewModel(
         addClothingUseCase,
-         editClothingUseCase,
-         deleteClothingUseCase
-        );
+        editClothingUseCase,
+        deleteClothingUseCase
+    );
 
 
 
@@ -96,7 +94,7 @@ const addClothing = () => {
 
             {/* ----------------- nombre de la prenda ----------------- */}
             <TextInputCmp
-                label={<LabelCmp labelValue='Nombre de prenda' />}
+                label={'Nombre de prenda'}
                 placeholder='Ingrese nombre'
                 value={newClothing.name}
                 onChangeText={updateClothingName}
@@ -172,11 +170,11 @@ const localStyles = StyleSheet.create({
     },
     saveButton: {
         marginVertical: 10,
-        flex:1
+        flex: 1
     },
     deleteButton: {
         marginVertical: 10,
-        flex:1,
+        flex: 1,
         backgroundColor: Colors.DANGER
     }
 
@@ -184,4 +182,4 @@ const localStyles = StyleSheet.create({
 
 
 
-export default addClothing
+export default AddClothingScreen

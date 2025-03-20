@@ -1,4 +1,4 @@
-import { Clothing } from "@/domain/Types";
+import { Clothing } from "FashonApp/src/domain/Types";
 import { useEffect, useRef, useState } from "react";
 import { FlatList } from "react-native";
 import { screenWidth } from "../../constants/screenDimensions";

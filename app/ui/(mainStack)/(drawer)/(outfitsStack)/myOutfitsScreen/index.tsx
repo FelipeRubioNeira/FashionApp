@@ -1,27 +1,31 @@
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import useMyOutfitsViewModel from './myOutfitsViewModel'
-import ScreenCmp from '@/ui/components/ScreenCmp'
+import ScreenCmp from 'app/ui/components/ScreenCmp'
 import { FlatList } from 'react-native-gesture-handler'
 import { container } from 'tsyringe'
-import GetOutfitsUseCase from '@/domain/useCases/GetOutfitsUseCase'
-import { Outfit } from '@/domain/Types'
-import { screenWidth } from '@/ui/constants/screenDimensions'
-import LabelCmp from '@/ui/components/LabelCmp'
-import measures from '@/ui/constants/measures'
-import Colors from '@/ui/constants/colors'
-import IconDefault from '@/ui/components/icons/IconDefault'
-import DeleteOutfitUseCase from '@/domain/useCases/DeleteOutfitUseCase'
-import { ActionButton } from '@/ui/UITypes'
-import { copyPlus, circleMinus, edit } from '@/ui/iconImages'
-import IconImage from '@/ui/components/icons/IconImage'
-import DuplicateOutfitUseCase from '@/domain/useCases/DuplicateOutfitUseCase'
+
+import { screenWidth } from 'app/ui/constants/screenDimensions'
+import LabelCmp from 'app/ui/components/LabelCmp'
+import measures from 'app/ui/constants/measures'
+import Colors from 'app/ui/constants/colors'
+import IconDefault from 'app/ui/components/icons/IconDefault'
+import { ActionButton } from 'app/ui/UITypes'
+import { copyPlus, circleMinus, edit } from 'app/ui/iconImages'
+import IconImage from 'app/ui/components/icons/IconImage'
+
+import {
+  types,
+  useCases
+} from "@/domain"
 
 
 
-const getOutfitsUseCase = container.resolve(GetOutfitsUseCase)
-const deleteOutfitUseCase = container.resolve(DeleteOutfitUseCase)
-const duplicateOutfitUseCase = container.resolve(DuplicateOutfitUseCase)
+const getOutfitsUseCase = container.resolve(useCases.GetOutfitsUseCase)
+const deleteOutfitUseCase = container.resolve(useCases.DeleteOutfitUseCase)
+const duplicateOutfitUseCase = container.resolve(useCases.DuplicateOutfitUseCase)
+
+
 
 
 const index = () => {
@@ -35,7 +39,9 @@ const index = () => {
   } = useMyOutfitsViewModel(getOutfitsUseCase, deleteOutfitUseCase, duplicateOutfitUseCase)
 
 
-  const Card = (outfit: Outfit) => {
+
+
+  const Card = (outfit: types.Outfit) => {
 
 
     // outfit data

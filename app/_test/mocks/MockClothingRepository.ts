@@ -1,6 +1,6 @@
-import { Clothing, ClothingType, } from '@/domain/Types'
-import { ClothingTableType } from '@/data/db/Schema';
-import IClothingRepository from '@/data/interfaces/IClothingRepository';
+import { Clothing, ClothingType, } from 'FashonApp/src/domain/Types'
+import { ClothingTableType } from 'app/data/db/Schema';
+import IClothingRepository from 'app/data/interfaces/IClothingRepository';
 
 // Mock del repositorio
 class MockClothingRepository implements IClothingRepository {

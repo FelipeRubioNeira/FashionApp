@@ -1,11 +1,11 @@
 import { FlatList, StyleSheet, View, ViewStyle, Pressable, ImageBackground } from 'react-native'
 import React from 'react'
 import { screenWidth } from '../../constants/screenDimensions'
-import { Clothing } from '@/domain/Types';
+import { Clothing } from 'FashonApp/src/domain/Types';
 import useScrollableImageListViewModel from './ScrollableImageListViewModel';
 import IconImage from '../icons/IconImage';
-import { lock, lockOpen } from '@/ui/iconImages';
-import Colors from '@/ui/constants/colors';
+import { lock, lockOpen } from 'app/ui/iconImages';
+import Colors from 'app/ui/constants/colors';
 
 
 // --------------- types --------------- //

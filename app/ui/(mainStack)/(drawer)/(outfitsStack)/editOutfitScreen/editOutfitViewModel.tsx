@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Clothing, ClothingType, EditOutfitInformation } from '@/domain/Types';
+import { Clothing, ClothingType, EditOutfitInformation } from 'FashonApp/src/domain/Types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { ScreenEditOutfitParams } from '@/ui/navigation/interfaces';
-import EditOutfitUseCase from '@/domain/useCases/EditOutfitUseCase';
+import { ScreenEditOutfitParams } from 'app/ui/navigation/interfaces';
+import EditOutfitUseCase from 'FashonApp/src/domain/useCases/EditOutfitUseCase';
 import {
     closetState,
     onSearchClothing,
     resetSearchClothing,
     lockClothingSearch,
     updateVisibleClothig
-} from "@/store/ClosetSlice";
-import useModalViewModel from "@/ui/components/modal/ModalViewModel";
+} from "app/store/ClosetSlice";
+import useModalViewModel from "app/ui/components/modal/ModalViewModel";
 
 
 

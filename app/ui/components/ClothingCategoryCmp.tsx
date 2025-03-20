@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import LabelCmp from './LabelCmp'
-import { ClothingType } from '@/domain/Types'
+import { ClothingType } from 'FashonApp/src/domain/Types'
 
 interface IClothingCategoryCmp {
     categoryList: ClothingType[],

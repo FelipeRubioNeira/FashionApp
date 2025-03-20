@@ -1,5 +1,5 @@
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { InferSelectModel, InferInsertModel } from 'drizzle-orm';
+import { InferSelectModel } from 'drizzle-orm';
 
 
 // ----------- schemas ----------- //

@@ -19,7 +19,9 @@
       "package": "com.anonymous.RnExpo",
       "permissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE"
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA"
       ]
     },
     "web": {
@@ -67,13 +69,27 @@
             ]
           }
         }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": ["./app/assets"]
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
     },
     "sdkVersion": "52.0.0",
-    "entryPoint": ".vscode/exponentIndex.js"
+    "entryPoint": ".vscode/exponentIndex.js",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "120d48ad-a9a8-4173-9fd9-71966459ddd0"
+      }
+    }
   },
   "name": "rnexpo"
 }

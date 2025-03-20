@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
-import GetOutfitsUseCase from '@/domain/useCases/GetOutfitsUseCase';
-import DeleteOutfitUseCase from '@/domain/useCases/DeleteOutfitUseCase';
+import GetOutfitsUseCase from 'FashonApp/src/domain/useCases/GetOutfitsUseCase';
+import DeleteOutfitUseCase from 'FashonApp/src/domain/useCases/DeleteOutfitUseCase';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSelector } from "react-redux";
-import { OutfitState } from "@/store/OutfitsSlice";
-import { Outfit } from "@/domain/Types";
-import { ScreenEditOutfitParams } from "@/ui/navigation/interfaces";
-import DuplicateOutfitUseCase from "@/domain/useCases/DuplicateOutfitUseCase";
+import { OutfitState } from "app/store/OutfitsSlice";
+import { Outfit } from "FashonApp/src/domain/Types";
+import { ScreenEditOutfitParams } from "app/ui/navigation/interfaces";
+import DuplicateOutfitUseCase from "FashonApp/src/domain/useCases/DuplicateOutfitUseCase";
 
 
 

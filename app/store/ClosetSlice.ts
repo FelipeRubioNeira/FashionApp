@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CategorizedClothingCollection, Clothing, ClothingType } from '../domain/Types';
-import { RootState } from "@/store/Store";
+import { RootState } from "app/store/Store";
 
 
 // ---------- store ---------- //

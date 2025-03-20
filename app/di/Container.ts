@@ -2,8 +2,9 @@ import ClothingRepository from "../data/ClothingRepository";
 import ImageRepository from "../data/ImageRepository";
 import { container } from "tsyringe";
 import OutfitSqliteRepository from "../data/OutfitSqliteRepository";
-import ReduxDispatcher from "@/store/ReduxDispatcher";
-import { store } from "@/store/Store";
+import ReduxDispatcher from "app/store/ReduxDispatcher";
+import { store } from "app/store/Store";
+import { Translation } from "@/ui/localization/Translation";
 
 // Tokens del DI
 const DI_TOKENS = {
@@ -34,6 +35,8 @@ container.register(
     DI_TOKENS.IOutfitSqliteRepositoryToken,
     { useClass: OutfitSqliteRepository }
 )
+
+container.registerSingleton(Translation)
 
 
 

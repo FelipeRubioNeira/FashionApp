@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ModalCmpProps } from "@/ui/UITypes";
+import { ModalCmpProps } from "app/ui/UITypes";
 
 const useModal = (initialState: Partial<ModalCmpProps> = {}) => {
     

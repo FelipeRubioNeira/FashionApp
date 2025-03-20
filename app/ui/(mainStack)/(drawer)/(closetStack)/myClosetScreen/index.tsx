@@ -1,29 +1,35 @@
 import { container } from "tsyringe";
-import "@/di/Container"
 import { View, StyleSheet } from "react-native";
-import ScreenCmp from "@/ui/components/ScreenCmp";
-import ScrollableImageList from "@/ui/components/ScrollableImageList/ScrollableImageList";
-import SpacerCmp from "@/ui/components/SpacerCmp";
-import ButtonCmp from "@/ui/components/ButtonCmp";
-import StarIcn from "@/ui/components/icons/StarIcn";
-import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
+import ScreenCmp from "app/ui/components/ScreenCmp";
+import ScrollableImageList from "app/ui/components/ScrollableImageList/ScrollableImageList";
+import SpacerCmp from "app/ui/components/SpacerCmp";
+import ButtonCmp from "app/ui/components/ButtonCmp";
+import StarIcn from "app/ui/components/icons/StarIcn";
 import useMyClosetViewModel from "./myClosetViewModel";
-import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
-import ModalCmp from "@/ui/components/modal/ModalCmp";
-import TextInputCmp from "@/ui/components/TextInputCmp";
-import RandomDice from "@/ui/components/icons/IconImage";
-import { dice5 } from "@/ui/iconImages"
-import Colors from "@/ui/constants/colors";
-import SearchCmp from "@/ui/components/SearchCmp";
+import ModalCmp from "app/ui/components/modal/ModalCmp";
+import TextInputCmp from "app/ui/components/TextInputCmp";
+import RandomDice from "app/ui/components/icons/IconImage";
+import { dice5 } from "app/ui/iconImages"
+import Colors from "app/ui/constants/colors";
+import SearchCmp from "app/ui/components/SearchCmp";
+import { GetClothingUseCase, CreateOutfitUseCase } from "@/domain/useCases"
+import { Translation } from "@/ui/localization/Translation";
+import {TranslationKeys}  from "@/ui/localization/keys";
+
 
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
 const creatOutfitUseCase = container.resolve(CreateOutfitUseCase)
+const translation = container.resolve(Translation);
+
+
 
 
 
 const myCloset = () => {
 
+
+    // -------------- hooks -------------- //
     const {
         // atributes
         topClothing, bottomClothing, shoes,
@@ -57,6 +63,7 @@ const myCloset = () => {
 
 
 
+
     return (
         <ScreenCmp style={{ padding: 0 }}>
             <View style={localStyles.screen}>
@@ -80,7 +87,7 @@ const myCloset = () => {
                     <View style={localStyles.headerAgregarStarContainer}>
                         <ButtonCmp
                             style={localStyles.addClothing}
-                            text="Agregar prenda"
+                            text={translation.translate(TranslationKeys.addClothing)}
                             onPress={() => navigateToAddClothing(undefined)}
                         />
 

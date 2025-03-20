@@ -1,9 +1,9 @@
 import { Clothing, ClothingType, ResponseUseCase } from "../Types";
 import { inject, injectable } from "tsyringe";
-import IClothingRepository from "@/data/interfaces/IClothingRepository";
+import IClothingRepository from "app/data/interfaces/IClothingRepository";
 import { DI_TOKENS } from "@/di/Container";
-import ReduxDispatcher from "@/store/ReduxDispatcher";
-import { deteleClothing } from '@/store/ClosetSlice'
+import ReduxDispatcher from "app/store/ReduxDispatcher";
+import { deteleClothing } from 'app/store/ClosetSlice'
 
 @injectable()
 class DeleteClothingUseCase {

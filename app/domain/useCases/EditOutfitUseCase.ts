@@ -1,9 +1,9 @@
-import IOutfitRepository from "@/data/interfaces/IOutfitRepository";
+import IOutfitRepository from "app/data/interfaces/IOutfitRepository";
 import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
 import { EditOutfitInformation, ResponseUseCase } from "../Types";
-import ReduxDispatcher from "@/store/ReduxDispatcher";
-import {updateOutfit} from '@/store/OutfitsSlice'
+import ReduxDispatcher from "app/store/ReduxDispatcher";
+import {updateOutfit} from 'app/store/OutfitsSlice'
 
 /**
  * Use case for editing an outfit.

@@ -79,6 +79,12 @@ type CategorizedClothingCollection = {
     shoes: Clothing[],
 }
 
+
+enum LanguageSelection {
+    ENGLISH = "en",
+    SPANISH = "es",
+}
+
 export {
     Clothing,
     ClothingType,
@@ -88,5 +94,6 @@ export {
     ClothingStyle,
     ClothingStylesList,
     Outfit,
-    EditOutfitInformation
+    EditOutfitInformation,
+    LanguageSelection,
 }

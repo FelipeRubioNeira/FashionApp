@@ -5,3 +5,6 @@ export {default as lock} from '@/ui/iconImages/lock.svg'
 export {default as lockOpen} from '@/ui/iconImages/lock-open.svg'
 export {default as copyPlus} from '@/ui/iconImages/copy-plus.svg'
 export {default as edit} from '@/ui/iconImages/edit.svg'
+export {default as spainFlag} from '@/ui/iconImages/spainFlag.png'
+export {default as usaFlag} from '@/ui/iconImages/usaFlag.png'
+

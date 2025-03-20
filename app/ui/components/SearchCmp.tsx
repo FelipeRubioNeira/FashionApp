@@ -2,7 +2,7 @@ import { StyleSheet, TextInput, View } from 'react-native'
 import React from 'react'
 import Colors from '../constants/colors';
 import IconImage from './icons/IconImage';
-import { circleMinus } from "@/ui/iconImages"
+import { circleMinus } from "app/ui/iconImages"
 
 
 interface SearchCmpProps {

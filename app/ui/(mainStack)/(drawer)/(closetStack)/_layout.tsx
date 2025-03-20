@@ -1,20 +1,23 @@
-import { Stack } from "expo-router";
+import { Stack } from "expo-router"
 
 const ClosetStack = () => {
-    
+
     return (
         <Stack screenOptions={{ headerShown: false }}>
 
             <Stack.Screen
-                name="myClosetScreen"
-                options={{ title: "Mi Closet" }}
+                name="/myClosetScreen"
+                options={{ title: "Mis outfits" }}
             />
+
             <Stack.Screen
-                name="addClothing"
-                options={{ title: "Agregar prenda" }}
+                name="/addClothingScreen"
+                options={{ title: "Editar outfit" }}
             />
+
         </Stack>
     )
+
 }
 
 export default ClosetStack

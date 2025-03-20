@@ -1,4 +1,4 @@
-import { Clothing, ClothingType } from "@/domain/Types";
+import { Clothing, ClothingType } from "FashonApp/src/domain/Types";
 
 
 interface ScreenMainMenuParams {

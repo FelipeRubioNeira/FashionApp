@@ -41,6 +41,7 @@
     "expo-symbols": "^0.2.2",
     "expo-system-ui": "~4.0.8",
     "expo-web-browser": "~14.0.2",
+    "i18n-js": "^4.5.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "^0.76.7",
@@ -53,7 +54,8 @@
     "react-native-webview": "^13.12.5",
     "redux-devtools-expo-dev-plugin": "^1.0.0",
     "reflect-metadata": "^0.2.2",
-    "tsyringe": "^4.8.0"
+    "tsyringe": "^4.8.0",
+    "expo-asset": "~11.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

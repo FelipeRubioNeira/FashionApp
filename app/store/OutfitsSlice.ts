@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from "@/store/Store";
-import { EditOutfitInformation, Outfit } from '@/domain/Types';
+import { RootState } from "app/store/Store";
+import { EditOutfitInformation, Outfit } from 'FashonApp/src/domain/Types';
 
 // ------------- types ------------ //
 interface OutfitsState {
@@ -21,7 +21,6 @@ const OutfitsSlice = createSlice({
     name: 'outfits',
     initialState,
     reducers: {
-
 
         // ----------- actions for outfisList ----------- //
 

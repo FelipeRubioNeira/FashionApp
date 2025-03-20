@@ -1,4 +1,4 @@
-import { EditOutfitInformation, Outfit } from "@/domain/Types"
+import { EditOutfitInformation, Outfit } from "FashonApp/src/domain/Types"
 
 interface IOutfitRepository {
 

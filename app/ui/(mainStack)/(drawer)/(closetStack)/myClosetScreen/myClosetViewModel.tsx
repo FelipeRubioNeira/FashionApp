@@ -1,9 +1,9 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScreenMainMenuParams } from "@/ui/navigation/interfaces";
-import GetClothingUseCase from "@/domain/useCases/GetClothingUseCase";
-import { CategorizedClothingCollection, Clothing, ClothingType } from "@/domain/Types";
-import CreateOutfitUseCase from "@/domain/useCases/CreateOutfitUseCase";
+import { ScreenMainMenuParams } from "app/ui/navigation/interfaces";
+import GetClothingUseCase from "app/domain/useCases/GetClothingUseCase";
+import { CategorizedClothingCollection, Clothing, ClothingType } from "app/domain/Types";
+import CreateOutfitUseCase from "app/domain/useCases/CreateOutfitUseCase";
 
 // ---------- store ---------- //
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,8 +13,8 @@ import {
     resetSearchClothing,
     updateVisibleClothig,
     lockClothingSearch
-} from "@/store/ClosetSlice";
-import useModalViewModel from "@/ui/components/modal/ModalViewModel";
+} from "app/store/ClosetSlice";
+import useModalViewModel from "app/ui/components/modal/ModalViewModel";
 
 
 
@@ -73,7 +73,7 @@ const useMyClsetViewModel = (
     // -------------- funtions -------------- //
     const navigateToAddClothing = (clothing?: Clothing) => {
 
-        const path = "/ui/(drawer)/(closetStack)/addClothingScreen"
+        const path = "../addClothingScreen"
 
         // si nos llegan valores entonces navegamos con ellos
         if (clothing) {

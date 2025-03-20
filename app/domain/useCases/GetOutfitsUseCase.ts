@@ -1,9 +1,9 @@
 import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
 import { Outfit } from "../Types";
-import IOutfitRepository from "@/data/interfaces/IOutfitRepository";
-import ReduxDispatcher from "@/store/ReduxDispatcher";
-import { initializeOutfits } from "@/store/OutfitsSlice";
+import IOutfitRepository from "app/data/interfaces/IOutfitRepository";
+import ReduxDispatcher from "app/store/ReduxDispatcher";
+import { initializeOutfits } from "app/store/OutfitsSlice";
 
 
 @injectable()

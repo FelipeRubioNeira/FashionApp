@@ -2,7 +2,7 @@ import { TouchableOpacity, ViewStyle } from 'react-native'
 import React, { ComponentProps } from 'react'
 import Feather from '@expo/vector-icons/Feather';
 import Colors from '../../constants/colors';
-import measures from '../../../ui/constants/measures'
+import measures from '../../constants/measures'
 
 interface IconDefaultProps {
     color?: string,
