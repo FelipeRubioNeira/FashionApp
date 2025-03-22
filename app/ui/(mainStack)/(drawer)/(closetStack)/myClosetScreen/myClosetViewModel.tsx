@@ -143,21 +143,18 @@ const useMyClsetViewModel = (
         updateName("")
     }
 
+    /**
+     * todas las validaciones de indices se hacen internamente
+     */
     const onPressRandomOutfit = () => {
-
-        // si no hay prendas de ropa entonces no se hace nada
-        if (!topClothing.length || !bottomClothing.length || !shoes.length) {
-            return;
-        }
 
         const randomTop = getRandomItem(topClothing).id;
         const randomBottom = getRandomItem(bottomClothing).id;
         const randomShoes = getRandomItem(shoes).id;
-
+        
         updateCurrentOutfit("top", randomTop)
         updateCurrentOutfit("bottom", randomBottom)
         updateCurrentOutfit("shoes", randomShoes)
-
 
     }
 

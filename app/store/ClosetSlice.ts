@@ -6,20 +6,22 @@ import { RootState } from "app/store/Store";
 // ---------- store ---------- //
 interface ClosetState {
 
+    // visible list for user
     topClothing: Array<Clothing>,
     bottomClothing: Array<Clothing>,
     shoes: Array<Clothing>,
 
-    // backup 
+    // backup to restore the original list
     originalTopClothing: Array<Clothing>,
     originalBottomClothing: Array<Clothing>,
     originalShoes: Array<Clothing>,
 
-    // when the user scrolls the list, this value is updated
+    // index that allows to show the selected clothing
     topVisibleClothingId: number,
     bottomVisibleClothingId: number,
     shoesVisibleClothingId: number,
 
+    // block the movement of the clothing list
     topClothingBlocked: boolean,
     bottomClothingBlocked: boolean,
     shoesBlocked: boolean,
@@ -94,13 +96,13 @@ const closetSlice = createSlice({
 
 
             switch (clothingType) {
-                case "Superior":
+                case "top":
                     state.topClothing = state.topClothing.filter(clothing => clothing.id != clothingId);
                     break;
-                case "Inferior":
+                case "bottom":
                     state.bottomClothing = state.bottomClothing.filter(clothing => clothing.id != clothingId);
                     break;
-                case "Zapatos":
+                case "shoes":
                     state.shoes = state.shoes.filter(clothing => clothing.id != clothingId);
                     break;
             }
@@ -111,16 +113,33 @@ const closetSlice = createSlice({
             const clothingType = action.payload.clothingType;
             const clothingId = action.payload.clothingId;
 
+            const {
+                topClothingBlocked,
+                bottomClothingBlocked,
+                shoesBlocked,
+
+                topClothing,
+                bottomClothing,
+                shoes,
+            } = state
+
             switch (clothingType) {
-                case "Superior":
+
+                case "top":
+                    if(topClothingBlocked || state.topClothing.length == 0) return;
                     state.topVisibleClothingId = clothingId;
                     break;
-                case "Inferior":
+
+                case "bottom":
+                    if(bottomClothingBlocked || bottomClothing.length == 0) return;
                     state.bottomVisibleClothingId = clothingId;
                     break;
-                case "Zapatos":
+
+                case "shoes":
+                    if(shoesBlocked || shoes.length == 0) return;
                     state.shoesVisibleClothingId = clothingId;
                     break;
+
             }
 
         },
@@ -165,13 +184,13 @@ const closetSlice = createSlice({
             const clothingType = action.payload.clothingType;
 
             switch (clothingType) {
-                case "Superior":
+                case "top":
                     state.topClothingBlocked = !state.topClothingBlocked;
                     break;
-                case "Inferior":
+                case "bottom":
                     state.bottomClothingBlocked = !state.bottomClothingBlocked;
                     break;
-                case "Zapatos":
+                case "shoes":
                     state.shoesBlocked = !state.shoesBlocked;
                     break;
             }

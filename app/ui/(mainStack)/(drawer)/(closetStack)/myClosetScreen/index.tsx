@@ -116,8 +116,8 @@ const myCloset = () => {
                     clothingList={topClothing}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
-                    lockedRow={topClothingBlocked}
                     onChangeClothing={clothingId => updateCurrentOutfit("top", clothingId)}
+                    lockedRow={topClothingBlocked}
                     onPressLock={() => lockSearch("top")}
                 />
 
@@ -146,8 +146,8 @@ const myCloset = () => {
                     clothingList={shoes}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
-                    lockedRow={shoesBlocked}
                     onChangeClothing={clothingId => updateCurrentOutfit("shoes", clothingId)}
+                    lockedRow={shoesBlocked}
                     onPressLock={() => lockSearch("shoes")}
                 />
 

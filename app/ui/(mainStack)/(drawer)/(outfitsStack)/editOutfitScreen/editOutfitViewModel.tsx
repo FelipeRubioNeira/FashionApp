@@ -104,13 +104,11 @@ const useEditOutfitViewModel = (
 
 
     const onPressUpdateOutfit = async (currentOutfit: EditOutfitInformation) => {
-        console.log("Se ha presionado onPressUpdateOutfit", currentOutfit);
         const { success, message } = await editOutfitUseCase.execute(currentOutfit)
     }
 
 
     const onPressCancel = () => {
-        console.log("se ha presionado el boton de cancelar");
         router.back()
     }
 
@@ -152,24 +150,13 @@ const useEditOutfitViewModel = (
 
     const onPressRandomOutfit = () => {
 
-        // si no hay prendas de ropa entonces no se hace nada
-        if (!topClothing.length || !bottomClothing.length || !shoes.length) {
-            return;
-        }
-
-        if (!topClothingBlocked) {
-            const randomTop = getRandomItem(topClothing).id;
-            updateCurrentOutfit("top", randomTop)
-        }
-
-        if (!bottomClothingBlocked) {
-            const randomBottom = getRandomItem(bottomClothing).id;
-            updateCurrentOutfit("bottom", randomBottom)
-        }
-        if (!shoesBlocked) {
-            const randomShoes = getRandomItem(shoes).id;
-            updateCurrentOutfit("shoes", randomShoes)
-        }
+        const randomTop = getRandomItem(topClothing).id;
+        const randomBottom = getRandomItem(bottomClothing).id;
+        const randomShoes = getRandomItem(shoes).id;
+        
+        updateCurrentOutfit("top", randomTop)
+        updateCurrentOutfit("bottom", randomBottom)
+        updateCurrentOutfit("shoes", randomShoes)
 
     }
 
@@ -188,8 +175,6 @@ const useEditOutfitViewModel = (
             outfitId,
         }
 
-
-        console.log("Se ha presionado onPressUpdateOutfit", outfit);
         const { success, message } = await editOutfitUseCase.execute(outfit)
 
         hideModal()

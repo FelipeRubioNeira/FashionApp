@@ -40,8 +40,6 @@ const index = () => {
         shoes,
 
         updateCurrentOutfit,
-        onPressUpdateOutfit,
-        updateOutfitName,
         onSearchTextChange,
         onDeleteSearch,
         topClothingBlocked,
