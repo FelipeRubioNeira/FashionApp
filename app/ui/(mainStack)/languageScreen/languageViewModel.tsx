@@ -17,18 +17,17 @@ const useLanguageScreenViewModel = (
     const setLanguage = async (language: LanguageSelection) => {
 
         setupLanguageUseCase.execute(language)
-        naviagateToMyCloset()
+        navigateToMyCloset()
 
     }
 
 
-    const naviagateToMyCloset = () => {
+    const navigateToMyCloset = () => {
         router.push("/ui/(mainStack)/(drawer)")
 
     }
 
     return {
-        naviagateToMyCloset,
         setLanguage,
 
     }

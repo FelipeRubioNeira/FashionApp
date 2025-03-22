@@ -3,7 +3,10 @@ import React from 'react'
 import Colors from '../constants/colors';
 import IconImage from './icons/IconImage';
 import { circleMinus } from "app/ui/iconImages"
+import { container } from 'tsyringe';
+import { Translation, TranslationKeys } from '../i18n';
 
+const translation = container.resolve(Translation);
 
 interface SearchCmpProps {
   value: string,
@@ -25,7 +28,7 @@ const SearchCmp = ({
       <TextInput
         style={localStyles.textInputStyle}
         placeholderTextColor={Colors.GRAY}
-        placeholder='Pantalon o camisa...'
+        placeholder={translation.translate(TranslationKeys.searchChothingPlaceholder)}//'Pantalon o camisa...'
         value={value}
         onChangeText={onChangeText}
       />
@@ -41,8 +44,6 @@ const SearchCmp = ({
     </View>
   )
 }
-
-export default SearchCmp
 
 const localStyles = StyleSheet.create({
 
@@ -65,3 +66,6 @@ const localStyles = StyleSheet.create({
   }
 
 })
+
+
+export default SearchCmp

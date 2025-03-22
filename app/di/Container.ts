@@ -4,7 +4,7 @@ import { container } from "tsyringe";
 import OutfitSqliteRepository from "../data/OutfitSqliteRepository";
 import ReduxDispatcher from "app/store/ReduxDispatcher";
 import { store } from "app/store/Store";
-import { Translation } from "@/ui/localization/Translation";
+import { Translation } from "@/ui/i18n/Translation";
 
 // Tokens del DI
 const DI_TOKENS = {

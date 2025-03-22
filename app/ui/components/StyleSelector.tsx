@@ -1,7 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React from 'react'
-import { ClothingStyle, ClothingStylesList } from 'FashonApp/src/domain/Types'
+import { ClothingStyle, ClothingStylesList } from '@/domain/Types'
 import Colors from '../constants/colors'
+import { container } from 'tsyringe';
+import { Translation } from '../i18n';
+
+const translation = container.resolve(Translation);
 
 
 // ---------- interfaces ---------- //
@@ -57,7 +61,7 @@ const ChipItem = ({ value, onPress, styleSelected }: ItemChipProps) => {
             onPress={() => onPress(value)}
         >
             <Text style={textStyle}>
-                {value}
+                {translation.translate(value)}
             </Text>
         </TouchableOpacity>
     )

@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Clothing, ClothingType, EditOutfitInformation } from 'FashonApp/src/domain/Types';
+import { Clothing, ClothingType, EditOutfitInformation } from '@/domain/Types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenEditOutfitParams } from 'app/ui/navigation/interfaces';
-import EditOutfitUseCase from 'FashonApp/src/domain/useCases/EditOutfitUseCase';
+import { EditOutfitUseCase } from '@/domain/useCases';
 import {
     closetState,
     onSearchClothing,
@@ -12,6 +12,11 @@ import {
     updateVisibleClothig
 } from "app/store/ClosetSlice";
 import useModalViewModel from "app/ui/components/modal/ModalViewModel";
+import { container } from 'tsyringe'
+import { Translation, TranslationKeys } from '@/ui/i18n'
+
+
+const translation = container.resolve(Translation);
 
 
 
@@ -54,11 +59,17 @@ const useEditOutfitViewModel = (
         hideModal,
         showModal,
     } = useModalViewModel({
-        title: "Guardar combinacion",
+        title: translation.translate(TranslationKeys.saveOutfitTitle),
         visible: false,
         buttonList: [
-            { label: "Guardar", onPress: () => saveOutfit() },
-            { label: "Cancelar", onPress: () => cancelSaveOutfit() }
+            {
+                label: translation.translate(TranslationKeys.saveButton),
+                onPress: () => saveOutfit()
+            },
+            {
+                label: translation.translate(TranslationKeys.cancelButton),
+                onPress: () => cancelSaveOutfit()
+            }
         ]
     })
 
@@ -85,9 +96,9 @@ const useEditOutfitViewModel = (
 
 
     const loadOutfit = ({ topId, bottomId, shoesId }: EditOutfitInformation) => {
-        updateCurrentOutfit("Superior", topId)
-        updateCurrentOutfit("Inferior", bottomId)
-        updateCurrentOutfit("Zapatos", shoesId)
+        updateCurrentOutfit("top", topId)
+        updateCurrentOutfit("bottom", bottomId)
+        updateCurrentOutfit("shoes", shoesId)
         setNewOutfitName(outfitName)
     }
 
@@ -140,8 +151,6 @@ const useEditOutfitViewModel = (
     }
 
     const onPressRandomOutfit = () => {
-        console.log("se ha presionado el dado");
-
 
         // si no hay prendas de ropa entonces no se hace nada
         if (!topClothing.length || !bottomClothing.length || !shoes.length) {
@@ -150,16 +159,16 @@ const useEditOutfitViewModel = (
 
         if (!topClothingBlocked) {
             const randomTop = getRandomItem(topClothing).id;
-            updateCurrentOutfit("Superior", randomTop)
+            updateCurrentOutfit("top", randomTop)
         }
 
         if (!bottomClothingBlocked) {
             const randomBottom = getRandomItem(bottomClothing).id;
-            updateCurrentOutfit("Inferior", randomBottom)
+            updateCurrentOutfit("bottom", randomBottom)
         }
         if (!shoesBlocked) {
             const randomShoes = getRandomItem(shoes).id;
-            updateCurrentOutfit("Zapatos", randomShoes)
+            updateCurrentOutfit("shoes", randomShoes)
         }
 
     }
@@ -190,8 +199,6 @@ const useEditOutfitViewModel = (
 
     const cancelSaveOutfit = () => {
         hideModal()
-        // TODO:
-        //updateOutfitName("")
     }
 
 

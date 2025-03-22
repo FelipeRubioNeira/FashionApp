@@ -3,6 +3,11 @@ import { Drawer } from 'expo-router/drawer';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
+import { container } from 'tsyringe';
+import { Translation, TranslationKeys } from '@/ui/i18n';
+
+const translation = container.resolve(Translation);
+
 
 
 const DrawerLayout = () => {
@@ -29,7 +34,7 @@ const DrawerLayout = () => {
                 <Drawer.Screen
                     name="(closetStack)"
                     options={{
-                        title: "Mi closet",
+                        title: translation.translate(TranslationKeys.myClosetMenu),
                         drawerItemStyle: { display: 'flex' }
                     }}
                 />
@@ -37,7 +42,7 @@ const DrawerLayout = () => {
                 <Drawer.Screen
                     name="(outfitsStack)"
                     options={{
-                        title: "Mis outfits",
+                        title: translation.translate(TranslationKeys.myOutfitsMenu),
                         drawerItemStyle: { display: 'flex' }
                     }}
                 />

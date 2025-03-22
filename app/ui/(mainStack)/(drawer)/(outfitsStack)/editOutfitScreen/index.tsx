@@ -13,12 +13,21 @@ import { dice5 } from "app/ui/iconImages"
 import Colors from 'app/ui/constants/colors'
 import ModalCmp from 'app/ui/components/modal/ModalCmp'
 import TextInputCmp from 'app/ui/components/TextInputCmp'
+import { Translation, TranslationKeys } from '@/ui/i18n'
+
+
+
+
 
 
 // ----------- inyeccion de depdendencias ----------- //
 const editOutfitUseCase = container.resolve(EditOutfitUseCase)
+const translation = container.resolve(Translation);
 
 
+
+
+// // --------------- component --------------- //
 const index = () => {
 
     const {
@@ -81,9 +90,9 @@ const index = () => {
                 clothingList={topClothing}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
-                onChangeClothing={clothingId => updateCurrentOutfit("Superior", clothingId)}
+                onChangeClothing={clothingId => updateCurrentOutfit("top", clothingId)}
                 lockedRow={topClothingBlocked}
-                onPressLock={() => lockSearch("Superior")}
+                onPressLock={() => lockSearch("top")}
 
             />
 
@@ -97,9 +106,9 @@ const index = () => {
                 clothingList={bottomClothing}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
-                onChangeClothing={clothingId => updateCurrentOutfit("Inferior", clothingId)}
+                onChangeClothing={clothingId => updateCurrentOutfit("bottom", clothingId)}
                 lockedRow={bottomClothingBlocked}
-                onPressLock={() => lockSearch("Inferior")}
+                onPressLock={() => lockSearch("bottom")}
             />
 
             <SpacerCmp marginVertical={4} />
@@ -112,9 +121,9 @@ const index = () => {
                 clothingList={shoes}
                 onPressClothing={() => { }}
                 onPressDeleteClothing={() => { }}
-                onChangeClothing={clothingId => updateCurrentOutfit("Zapatos", clothingId)}
+                onChangeClothing={clothingId => updateCurrentOutfit("shoes", clothingId)}
                 lockedRow={shoesBlocked}
-                onPressLock={() => lockSearch("Zapatos")}
+                onPressLock={() => lockSearch("shoes")}
             />
 
             <SpacerCmp marginVertical={4} />
@@ -122,7 +131,7 @@ const index = () => {
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 8 }}>
 
                 <ButtonCmp
-                    text='Guardar'
+                    text={translation.translate(TranslationKeys.saveButton)}
                     onPress={showModal}
                     style={{ flex: 1, }}
                 />
@@ -130,7 +139,7 @@ const index = () => {
                 <SpacerCmp marginHorizontal={4} />
 
                 <ButtonCmp
-                    text='Cancelar'
+                    text={translation.translate(TranslationKeys.cancelButton)}
                     onPress={onPressCancel}
                     style={{ flex: 1 }}
                 />
@@ -148,7 +157,7 @@ const index = () => {
                 <TextInputCmp
                     value={outfitName}
                     onChangeText={updateName}
-                    placeholder="Ingrese nombre de la combinación"
+                    placeholder={`${translation.translate(TranslationKeys.saveOutfitPlaceholder)} ...`}
                 />
             </ModalCmp>
 

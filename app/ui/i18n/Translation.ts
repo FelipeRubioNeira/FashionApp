@@ -1,8 +1,9 @@
 import { I18n } from "i18n-js";
 import { injectable, singleton } from "tsyringe";
-import {setLanguage } from "@/store/LanguageSlice";
+import { setLanguage } from "@/store/LanguageSlice";
 import ReduxDispatcher from "@/store/ReduxDispatcher";
-import { translations } from ".";
+import { translations } from "@/ui/i18n";
+
 
 @injectable()
 @singleton()
@@ -20,7 +21,7 @@ export class Translation {
         this.i18n = new I18n(translations);
 
         // Establecer un idioma por defecto
-        this.i18n.locale = "es";
+        this.i18n.locale = "en";
 
     }
 

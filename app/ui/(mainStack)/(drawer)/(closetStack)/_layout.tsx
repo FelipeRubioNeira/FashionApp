@@ -1,4 +1,10 @@
 import { Stack } from "expo-router"
+import { container } from "tsyringe";
+import { Translation, TranslationKeys } from "@/ui/i18n";
+
+
+const translation = container.resolve(Translation);
+
 
 const ClosetStack = () => {
 
@@ -7,7 +13,7 @@ const ClosetStack = () => {
 
             <Stack.Screen
                 name="/myClosetScreen"
-                options={{ title: "Mis outfits" }}
+                options={{ title: translation.translate(TranslationKeys.myClosetMenu) }}
             />
 
             <Stack.Screen

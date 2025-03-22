@@ -13,16 +13,14 @@ import { dice5 } from "app/ui/iconImages"
 import Colors from "app/ui/constants/colors";
 import SearchCmp from "app/ui/components/SearchCmp";
 import { GetClothingUseCase, CreateOutfitUseCase } from "@/domain/useCases"
-import { Translation } from "@/ui/localization/Translation";
-import {TranslationKeys}  from "@/ui/localization/keys";
+import {Translation, TranslationKeys}  from "@/ui/i18n";
+
 
 
 // se obtiene la instancia del caso de uso
 const getClothingUseCase = container.resolve(GetClothingUseCase);
 const creatOutfitUseCase = container.resolve(CreateOutfitUseCase)
 const translation = container.resolve(Translation);
-
-
 
 
 
@@ -119,8 +117,8 @@ const myCloset = () => {
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
                     lockedRow={topClothingBlocked}
-                    onChangeClothing={clothingId => updateCurrentOutfit("Superior", clothingId)}
-                    onPressLock={() => lockSearch("Superior")}
+                    onChangeClothing={clothingId => updateCurrentOutfit("top", clothingId)}
+                    onPressLock={() => lockSearch("top")}
                 />
 
                 <SpacerCmp marginVertical={4} />
@@ -133,9 +131,9 @@ const myCloset = () => {
                     clothingList={bottomClothing}
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
-                    onChangeClothing={clothingId => updateCurrentOutfit("Inferior", clothingId)}
+                    onChangeClothing={clothingId => updateCurrentOutfit("bottom", clothingId)}
                     lockedRow={bottomClothingBlocked}
-                    onPressLock={() => lockSearch("Inferior")}
+                    onPressLock={() => lockSearch("bottom")}
                 />
 
                 <SpacerCmp marginVertical={4} />
@@ -149,8 +147,8 @@ const myCloset = () => {
                     onPressClothing={navigateToAddClothing}
                     onPressDeleteClothing={() => { }}
                     lockedRow={shoesBlocked}
-                    onChangeClothing={clothingId => updateCurrentOutfit("Zapatos", clothingId)}
-                    onPressLock={() => lockSearch("Zapatos")}
+                    onChangeClothing={clothingId => updateCurrentOutfit("shoes", clothingId)}
+                    onPressLock={() => lockSearch("shoes")}
                 />
 
 
@@ -165,7 +163,7 @@ const myCloset = () => {
                 <TextInputCmp
                     value={outfitName}
                     onChangeText={updateName}
-                    placeholder="Ingrese nombre de la combinación"
+                    placeholder={`${translation.translate(TranslationKeys.saveOutfitPlaceholder)} ...`}
                 />
             </ModalCmp>
         </ScreenCmp>

@@ -1,24 +1,24 @@
+import { ClothingTypeKeys, ClothingStyleKeys } from '@/ui/i18n/keys';
 
+
+/**
+ * ClothingType
+ */
 const ClothingTypeList = [
-    "Superior",
-    "Inferior",
-    "Zapatos",
+    ...Object.values(ClothingTypeKeys),
     ""
 ] as const
-
 type ClothingType = typeof ClothingTypeList[number]
 
 
+/**
+ * ClothingStyle
+ * 
+ */
 const ClothingStylesList = [
-    "Formal",
-    "Semi formal",
-    "Informal",
-    "Casual",
-    "Sport",
-    "Urbano",
+    ...Object.values(ClothingStyleKeys),
     ""
 ] as const;
-
 type ClothingStyle = typeof ClothingStylesList[number];
 
 /**

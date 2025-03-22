@@ -1,7 +1,12 @@
-import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import LabelCmp from './LabelCmp'
-import { ClothingType } from 'FashonApp/src/domain/Types'
+import { ClothingType } from '@/domain/Types'
+import { container } from 'tsyringe';
+import { Translation } from '../i18n';
+
+const translation = container.resolve(Translation);
+
 
 interface IClothingCategoryCmp {
     categoryList: ClothingType[],
@@ -31,7 +36,7 @@ const ClothingCategoryCmp = ({
                     >
 
                         <LabelCmp
-                            labelValue={categoryItem}
+                            labelValue={translation.translate(categoryItem) }
                             style={selectedValue !== categoryItem ? localStyles.categoryItemTextDefault : localStyles.categoryItemTextSelected}
                         />
 

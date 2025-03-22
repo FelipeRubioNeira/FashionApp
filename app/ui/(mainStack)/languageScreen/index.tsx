@@ -8,6 +8,8 @@ import useLanguageViewModel from './languageViewModel'
 import { LanguageSelection } from '@/domain/Types'
 import { container } from 'tsyringe'
 import SetupLanguageUseCase from '@/domain/useCases/SetupLanguageUseCase'
+import { Translation, TranslationKeys } from '@/ui/i18n'
+
 
 type FlatIconProps = {
   source: ImageSourcePropType,
@@ -16,6 +18,7 @@ type FlatIconProps = {
 }
 
 const setupLanguageUseCase = container.resolve(SetupLanguageUseCase)
+const translation = container.resolve(Translation);
 
 
 const SelectionLanguageScreen = () => {
@@ -26,7 +29,6 @@ const SelectionLanguageScreen = () => {
 
     // methods
     setLanguage,
-    naviagateToMyCloset
   } = useLanguageViewModel(setupLanguageUseCase)
 
 
@@ -65,7 +67,7 @@ const SelectionLanguageScreen = () => {
   return (
     <ScreenCmp>
 
-      <LabelCmp labelValue='Select language:' />
+      <LabelCmp labelValue={`${translation.translate( TranslationKeys.selectLanguage)}:`} />
 
       <SpacerCmp marginVertical={"8%"} />
 

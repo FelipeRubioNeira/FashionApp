@@ -13,11 +13,13 @@ import { Clothing } from '@/domain/Types'
 import { AddClothingUseCase, EditClothingUseCase, DeleteClothingUseCase } from "@/domain/useCases"
 import StyleSelector from 'app/ui/components/StyleSelector'
 import Colors from 'app/ui/constants/colors'
+import { Translation, TranslationKeys } from '@/ui/i18n'
 
 
 const addClothingUseCase = container.resolve(AddClothingUseCase)
 const editClothingUseCase = container.resolve(EditClothingUseCase)
 const deleteClothingUseCase = container.resolve(DeleteClothingUseCase)
+const translation = container.resolve(Translation);
 
 
 // --------------- component --------------- //
@@ -57,20 +59,20 @@ const AddClothingScreen = () => {
 
 
             {/* ----------------- titulo ----------------- */}
-            <LabelCmp labelValue='Agregar nueva ropa'></LabelCmp>
+            <LabelCmp labelValue={translation.translate(TranslationKeys.addClothingTitle)} />
 
 
 
             {/* ----------------- botones para galeria y camara ----------------- */}
             <View style={localStyles.buttonContainer}>
                 <ButtonCmp
-                    text="Abrir Galeria"
+                    text={translation.translate(TranslationKeys.openGallery)}
                     onPress={openGallery}
                     style={{ marginRight: 5, flex: 1 }}
                 />
 
                 <ButtonCmp
-                    text="Abrir Camara"
+                    text={translation.translate(TranslationKeys.openCamera)}
                     onPress={openCamera}
                     style={{ marginLeft: 5, flex: 1 }}
                 />
@@ -93,19 +95,23 @@ const AddClothingScreen = () => {
 
 
             {/* ----------------- nombre de la prenda ----------------- */}
+
+            <SpacerCmp marginVertical={"2%"} />
+
+
+            <LabelCmp labelValue={translation.translate(TranslationKeys.ClothingName)} />
             <TextInputCmp
-                label={'Nombre de prenda'}
-                placeholder='Ingrese nombre'
+                placeholder={translation.translate(TranslationKeys.clothingNamePlaceholder)}
                 value={newClothing.name}
                 onChangeText={updateClothingName}
             />
 
 
-            <SpacerCmp marginVertical={8} />
+            <SpacerCmp marginVertical={"2%"} />
 
 
 
-            <LabelCmp labelValue='Tipo de prenda' />
+            <LabelCmp labelValue={translation.translate(TranslationKeys.ClothingType)} />
             <SpacerCmp marginVertical={"2%"} />
             <ClothingCategoryCmp
                 categoryList={categoryList}
@@ -114,12 +120,16 @@ const AddClothingScreen = () => {
             />
 
             <SpacerCmp marginVertical={"2%"} />
-            <LabelCmp labelValue='Estilo' />
+            <LabelCmp labelValue={translation.translate(TranslationKeys.ClothingStyle)} />
             <StyleSelector
                 styleList={ClothingStylesList}
                 styleSelected={newClothing.style}
                 onPress={updateClothingStyle}
             />
+
+
+            <SpacerCmp marginVertical={"2%"} />
+
 
 
             {/* ----------------- boton para guardar ----------------- */}
@@ -128,7 +138,7 @@ const AddClothingScreen = () => {
 
                 <ButtonCmp
                     style={localStyles.deleteButton}
-                    text="Eliminar"
+                    text={translation.translate(TranslationKeys.deleteButton)}
                     onPress={() => deleteImage(newClothing as Clothing)}
                 />
 
@@ -136,12 +146,13 @@ const AddClothingScreen = () => {
 
                 <ButtonCmp
                     style={localStyles.saveButton}
-                    text="Guardar"
+                    text={translation.translate(TranslationKeys.saveButton)}
                     onPress={() => saveImage(newClothing)}
                 />
 
             </View>
 
+            <SpacerCmp marginVertical={"2%"} />
 
         </ScreenCmp>
     )

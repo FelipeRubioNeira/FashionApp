@@ -4,8 +4,6 @@ import { ScreenMainMenuParams } from "app/ui/navigation/interfaces";
 import GetClothingUseCase from "app/domain/useCases/GetClothingUseCase";
 import { CategorizedClothingCollection, Clothing, ClothingType } from "app/domain/Types";
 import CreateOutfitUseCase from "app/domain/useCases/CreateOutfitUseCase";
-
-// ---------- store ---------- //
 import { useSelector, useDispatch } from 'react-redux';
 import {
     closetState,
@@ -15,9 +13,18 @@ import {
     lockClothingSearch
 } from "app/store/ClosetSlice";
 import useModalViewModel from "app/ui/components/modal/ModalViewModel";
+import { container } from "tsyringe";
+import { Translation, TranslationKeys } from "@/ui/i18n";
 
 
 
+// -------------- DI -------------- //
+const translation = container.resolve(Translation);
+
+
+
+
+// -------------- view model -------------- //
 const useMyClsetViewModel = (
     getClothingUseCase: GetClothingUseCase,
     creatOutfitUseCase: CreateOutfitUseCase
@@ -49,11 +56,17 @@ const useMyClsetViewModel = (
         hideModal,
         showModal,
     } = useModalViewModel({
-        title: "Guardar combinacion",
+        title: translation.translate(TranslationKeys.saveOutfitTitle),
         visible: false,
         buttonList: [
-            { label: "Guardar", onPress: () => saveOutfit() },
-            { label: "Cancelar", onPress: () => cancelSaveOutfit() }
+            {
+                label: translation.translate(TranslationKeys.saveButton),
+                onPress: () => saveOutfit()
+            },
+            {
+                label: translation.translate(TranslationKeys.cancelButton),
+                onPress: () => cancelSaveOutfit()
+            }
         ]
     })
 
@@ -95,9 +108,9 @@ const useMyClsetViewModel = (
      * @param topClothing, bottomClothing, shoes = Valores categorizados para esteblecer el primer outfit por defecto
      */
     const setupDefaultOutfit = ({ topClothing, bottomClothing, shoes }: CategorizedClothingCollection) => {
-        updateCurrentOutfit("Superior", topClothing[0].id || 0)
-        updateCurrentOutfit("Inferior", bottomClothing[0].id || 0)
-        updateCurrentOutfit("Zapatos", shoes[0].id || 0)
+        updateCurrentOutfit("top", topClothing[0].id || 0)
+        updateCurrentOutfit("bottom", bottomClothing[0].id || 0)
+        updateCurrentOutfit("shoes", shoes[0].id || 0)
     }
 
     /**
@@ -141,9 +154,9 @@ const useMyClsetViewModel = (
         const randomBottom = getRandomItem(bottomClothing).id;
         const randomShoes = getRandomItem(shoes).id;
 
-        updateCurrentOutfit("Superior", randomTop)
-        updateCurrentOutfit("Inferior", randomBottom)
-        updateCurrentOutfit("Zapatos", randomShoes)
+        updateCurrentOutfit("top", randomTop)
+        updateCurrentOutfit("bottom", randomBottom)
+        updateCurrentOutfit("shoes", randomShoes)
 
 
     }
