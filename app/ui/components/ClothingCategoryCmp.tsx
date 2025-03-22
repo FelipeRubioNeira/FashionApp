@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import LabelCmp from './LabelCmp'
-import { ClothingType } from '@/domain/Types'
+import { ClothingType } from '@/domain/types/Types'
 import { container } from 'tsyringe';
 import { Translation } from '../i18n';
 

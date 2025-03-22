@@ -2,7 +2,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScreenMainMenuParams } from "app/ui/navigation/interfaces";
 import GetClothingUseCase from "app/domain/useCases/GetClothingUseCase";
-import { CategorizedClothingCollection, Clothing, ClothingType } from "app/domain/Types";
+import { CategorizedClothingCollection, Clothing, ClothingType } from "@/domain/types/Types";
 import CreateOutfitUseCase from "app/domain/useCases/CreateOutfitUseCase";
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -43,6 +43,7 @@ const useMyClsetViewModel = (
         bottomClothingBlocked,
         shoesBlocked,
     } = useSelector(closetState)
+    
     const router = useRouter();
     const { imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
     const dispatcher = useDispatch()

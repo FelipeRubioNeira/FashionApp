@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Clothing, ClothingType, EditOutfitInformation } from '@/domain/Types';
+import { Clothing, ClothingType, EditOutfitInformation } from '@/domain/types/Types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenEditOutfitParams } from 'app/ui/navigation/interfaces';
 import { EditOutfitUseCase } from '@/domain/useCases';

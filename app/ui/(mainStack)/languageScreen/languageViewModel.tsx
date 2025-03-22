@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router"
-import { LanguageSelection } from "@/domain/Types"
+import { LanguageSelection } from "@/domain/types/Types"
 import SetupLanguageUseCase from "@/domain/useCases/SetupLanguageUseCase"
 
 

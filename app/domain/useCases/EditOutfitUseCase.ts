@@ -1,7 +1,7 @@
 import IOutfitRepository from "app/data/interfaces/IOutfitRepository";
 import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
-import { EditOutfitInformation, ResponseUseCase } from "../Types";
+import { EditOutfitInformation, ResponseUseCase } from "../types/Types";
 import ReduxDispatcher from "app/store/ReduxDispatcher";
 import {updateOutfit} from 'app/store/OutfitsSlice'
 

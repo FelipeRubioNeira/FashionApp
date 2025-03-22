@@ -23,6 +23,15 @@ export const ClothingTypeKeys = {
     urban: "urban"
  } as const;
 
+ export const ValidationsKeys = {
+    addImageBeforeSave: "addImageBeforeSave",
+    addNameBeforeSave: "addNameBeforeSave",
+    selectTypeBeforeSave: "selectTypeBeforeSave",
+    selectStyleBeforeSave: "selectStyleBeforeSave",
+    okMessage: "okMessage",
+ } as const
+
+
 
 export const TranslationKeys = {
 
@@ -50,6 +59,7 @@ export const TranslationKeys = {
     ...ClothingTypeKeys,
     ...ClothingStyleKeys,
     ...MenuKeys,
+    ...ValidationsKeys,
 
     saveOutfitTitle: "saveOutfitTitle",
     saveOutfitPlaceholder: "saveOutfitPlaceholder",
@@ -62,3 +72,6 @@ export const TranslationKeys = {
  * Tipo que representa todas las claves de traducción posibles
  */
 export type TranslationKey = keyof typeof TranslationKeys;
+export type ValidationsKey = keyof typeof ValidationsKeys;
+
+

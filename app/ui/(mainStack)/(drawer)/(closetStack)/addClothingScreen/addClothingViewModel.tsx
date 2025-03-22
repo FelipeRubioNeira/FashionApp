@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import useGalleryViewCmp from 'app/ui/components/GalleryViewCmp';
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { useNavigation } from '@react-navigation/native';
 import { ScreenAddClothingParams } from 'app/ui/navigation/interfaces';
 
 import {
@@ -10,8 +9,15 @@ import {
     AddClothingUseCase
 } from '@/domain/useCases';
 
-import { ClothingTypeList, ClothingStylesList, Clothing, ClothingStyle, ClothingType, ResponseUseCase } from '@/domain/Types';
+import { ClothingTypeList, ClothingStylesList, Clothing, ClothingStyle, ClothingType, ResponseUseCase } from '@/domain/types/Types';
+import { FormValidation } from '@/domain/types';
+import { container } from 'tsyringe';
+import { Translation, TranslationKeys } from '@/ui/i18n';
+import useModalViewModel from "app/ui/components/modal/ModalViewModel";
 
+
+// ----------- DI ----------- //
+const translation = container.resolve(Translation);
 
 
 
@@ -40,7 +46,15 @@ const useAddClouthingViewModel = (
     const [viewMode, setViewMode] = useState<'camera' | 'preview'>('preview')
     const { showGallery } = useGalleryViewCmp()
     const [categoryList] = useState<ClothingType[]>([...ClothingTypeList])
-    const navigation = useNavigation();
+
+    const {
+        title,
+        message,
+        buttonList,
+        visible,
+        hideModal,
+        showModal,
+    } = useModalViewModel()
 
 
 
@@ -76,7 +90,20 @@ const useAddClouthingViewModel = (
      * Guardar prenda (crear / editar)
      * @param newClothing - prenda a que no necesariamente esta completa en todos sus campos
      */
-    const saveImage = async (newClothing: Partial<Clothing>) => {
+    const saveClothing = async (newClothing: Partial<Clothing>) => {
+
+
+        // 1- validate fields
+        const { isValid, message } = validateFields(newClothing)
+        
+
+        if (!isValid) {
+            showModal({
+                title: translation.translate(TranslationKeys.saveOutfitTitle),
+                message: message,
+            })
+            return
+        }
 
         try {
 
@@ -99,11 +126,7 @@ const useAddClouthingViewModel = (
                 resposeUseCase.success = success
                 resposeUseCase.data = data
                 resposeUseCase.message = message
-
             }
-
-            console.log("resposeUseCase ", resposeUseCase);
-
 
             // Solo en caso de que la operacion sea exitosa y se retornen valores 
             if (!resposeUseCase.success || !resposeUseCase.data) return;
@@ -122,6 +145,40 @@ const useAddClouthingViewModel = (
         }
 
 
+    }
+
+    const validateFields = ({ uri, name, style, type }: Partial<Clothing>): FormValidation => {
+
+
+        if (!uri) {
+            return {
+                isValid: false,
+                message: translation.translate(TranslationKeys.addImageBeforeSave)
+            }
+        }
+        else if (!name) {
+            return {
+                isValid: false,
+                message: translation.translate(TranslationKeys.addNameBeforeSave)
+            }
+        }
+        else if (!type) {
+            return {
+                isValid: false,
+                message: translation.translate(TranslationKeys.selectTypeBeforeSave)
+            }
+        }
+        else if (!style) {
+            return {
+                isValid: false,
+                message: translation.translate(TranslationKeys.selectStyleBeforeSave)
+            }
+        }
+
+        return {
+            isValid: true,
+            message: ""
+        }
     }
 
     const deleteImage = async (clothing: Clothing) => {
@@ -194,12 +251,19 @@ const useAddClouthingViewModel = (
         openGallery,
         openCamera,
         takePicture,
-        saveImage,
+        saveClothing,
         updateClothingName,
         onChangeCategory,
 
         updateClothingStyle,
-        deleteImage
+        deleteImage,
+
+        modalTitle: title,
+        modalVisible: visible,
+        modalButtonList: buttonList,
+        hideModal,
+        modalMessage: message,
+
     }
 
 

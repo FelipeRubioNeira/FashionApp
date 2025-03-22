@@ -1,5 +1,5 @@
 import { injectable } from "tsyringe";
-import { ClothingStyle, ClothingType, EditOutfitInformation, Outfit } from "../domain/Types";
+import { ClothingStyle, ClothingType, EditOutfitInformation, Outfit } from "../domain/types/Types";
 import IOutfitRepository from "./interfaces/IOutfitRepository";
 import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
 import DbConnection from "./db/DbConnection";

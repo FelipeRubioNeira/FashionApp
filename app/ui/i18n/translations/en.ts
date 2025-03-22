@@ -1,4 +1,4 @@
-import { TranslationKey } from '../keys';
+import { TranslationKey, ValidationsKey } from '../keys';
 
 
 /**
@@ -25,6 +25,16 @@ const ClothingStyleKeysEn = {
   urban: "Urban"
 }
 
+const ValidationsKeysEn: { [k in ValidationsKey]: string } = {
+  addImageBeforeSave: "Please add an image before saving",
+  addNameBeforeSave: "Please add a name before saving",
+  selectTypeBeforeSave: "Please select a type before saving",
+  selectStyleBeforeSave: "Please select a style before saving",
+  okMessage: "Ok",
+}
+
+
+
 const en: Record<TranslationKey, string> = {
   selectLanguage: "Select language",
   searchChothingPlaceholder: "blue jeans or red t-shirt...",
@@ -46,7 +56,8 @@ const en: Record<TranslationKey, string> = {
 
   ...MenuKeysEn,
   ...ClothingTypeKeysEn,
-  ...ClothingStyleKeysEn
+  ...ClothingStyleKeysEn,
+  ...ValidationsKeysEn
 };
 
 export default en;

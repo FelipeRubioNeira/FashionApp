@@ -3,7 +3,7 @@ import { injectable } from "tsyringe";
 import { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite';
 import { ClothingTable, ClothingTableType } from "./db/Schema";
 import { eq } from 'drizzle-orm';
-import { ClothingType, Clothing, ClothingStyle } from "../domain/Types";
+import { ClothingType, Clothing, ClothingStyle } from "../domain/types/Types";
 import DbConnection from "./db/DbConnection";
 
 

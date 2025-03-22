@@ -2,7 +2,7 @@ import ReduxDispatcher from "@/store/ReduxDispatcher";
 import { Translation } from "@/ui/i18n/Translation";
 import { injectable } from "tsyringe";
 import { setLanguage } from "@/store/LanguageSlice";
-import { LanguageSelection } from "../Types";
+import { LanguageSelection } from "../types/Types";
 
 @injectable()
 class SetupLanguageUseCase {

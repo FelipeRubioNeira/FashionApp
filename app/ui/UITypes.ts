@@ -15,6 +15,7 @@ interface ActionButton {
 
 interface ModalCmpProps {
     title?: string,
+    message?: string,
     children?: React.ReactNode,
     buttonList?: Array<ButtonCmpProps>,
     visible: boolean,

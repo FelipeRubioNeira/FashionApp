@@ -1,4 +1,4 @@
-import { TranslationKey } from '../keys';
+import { TranslationKey, ValidationsKey } from '../keys';
 
 /**
  * Traducciones en español
@@ -24,6 +24,15 @@ const ClothingStyleKeysEs = {
   urban: "Urbano"
 }
 
+const ValidationsKeysEn: { [k in ValidationsKey]: string } = {
+  addImageBeforeSave: "Por favor, agrega una imagen antes de guardar",
+  addNameBeforeSave: "Por favor, agrega un nombre antes de guardar",
+  selectTypeBeforeSave: "Por favor, selecciona un tipo antes de guardar",
+  selectStyleBeforeSave: "Por favor, selecciona un estilo antes de guardar",
+  okMessage: "Aceptar",
+}
+
+
 
 const es: Record<TranslationKey, string> = {
   selectLanguage: "Seleccionar idioma",
@@ -46,7 +55,8 @@ const es: Record<TranslationKey, string> = {
 
   ...MenuKeysEs,
   ...ClothingTypeKeysEs,
-  ...ClothingStyleKeysEs
+  ...ClothingStyleKeysEs,
+  ...ValidationsKeysEn
 };
 
 export default es;

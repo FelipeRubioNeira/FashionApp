@@ -1,4 +1,4 @@
-import { CategorizedClothingCollection, Clothing, ClothingType } from "../Types";
+import { CategorizedClothingCollection, Clothing, ClothingType } from "../types/Types";
 import { inject, injectable } from 'tsyringe';
 import IClothingRepository from "app/data/interfaces/IClothingRepository";
 import { DI_TOKENS } from "@/di/Container";
@@ -48,13 +48,13 @@ class GetClothingUseCase {
         data.forEach((item) => {
 
             switch (item.type) {
-                case "Superior":
+                case "top":
                     categorizedData.topClothing.push(item)
                     break;
-                case "Inferior":
+                case "bottom":
                     categorizedData.bottomClothing.push(item)
                     break;
-                case "Zapatos":
+                case "shoes":
                     categorizedData.shoes.push(item)
                     break;
             }

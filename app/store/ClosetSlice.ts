@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CategorizedClothingCollection, Clothing, ClothingType } from '../domain/Types';
+import { CategorizedClothingCollection, Clothing, ClothingType } from '../domain/types/Types';
 import { RootState } from "app/store/Store";
 
 
@@ -126,17 +126,17 @@ const closetSlice = createSlice({
             switch (clothingType) {
 
                 case "top":
-                    if(topClothingBlocked || state.topClothing.length == 0) return;
+                    if (topClothingBlocked || state.topClothing.length == 0) return;
                     state.topVisibleClothingId = clothingId;
                     break;
 
                 case "bottom":
-                    if(bottomClothingBlocked || bottomClothing.length == 0) return;
+                    if (bottomClothingBlocked || bottomClothing.length == 0) return;
                     state.bottomVisibleClothingId = clothingId;
                     break;
 
                 case "shoes":
-                    if(shoesBlocked || shoes.length == 0) return;
+                    if (shoesBlocked || shoes.length == 0) return;
                     state.shoesVisibleClothingId = clothingId;
                     break;
 
@@ -196,8 +196,6 @@ const closetSlice = createSlice({
             }
 
         },
-
-
 
     },
 });

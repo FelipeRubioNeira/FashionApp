@@ -6,12 +6,6 @@ import LabelCmp from '../LabelCmp'
 import { ButtonCmpProps, ModalCmpProps } from 'app/ui/UITypes'
 
 
-
-
-
-
-
-
 interface ButtonListCmpProps {
   buttonList: Array<ButtonCmpProps>
 }
@@ -19,9 +13,9 @@ interface ButtonListCmpProps {
 const ModalCmp = ({
   visible = false,
   title = "Title default",
+  message = "Message default",
   children,
   buttonList = [{ label: "Aceptar", onPress: () => { } }],
-  hide = () => { },
 }: ModalCmpProps) => {
 
 
@@ -52,6 +46,12 @@ const ModalCmp = ({
     )
   }
 
+  const Message = ({ value }: { value: string }) => {
+    return (
+      <LabelCmp labelValue={value} />
+    )
+  }
+
   if (!visible) return null
   // --------------- render del componente principal --------------- //
   return (
@@ -75,7 +75,7 @@ const ModalCmp = ({
 
           {/* body */}
           <View style={localStyles.body}>
-            {children}
+            {children ? children : <Message value={message} />}
           </View>
 
           {/* footer botones */}

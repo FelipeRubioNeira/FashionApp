@@ -1,6 +1,6 @@
 import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
-import { Outfit } from "../Types";
+import { Outfit } from "../types/Types";
 import IOutfitRepository from "app/data/interfaces/IOutfitRepository";
 import ReduxDispatcher from "app/store/ReduxDispatcher";
 import { initializeOutfits } from "app/store/OutfitsSlice";

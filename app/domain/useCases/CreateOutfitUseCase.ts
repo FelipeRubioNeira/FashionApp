@@ -1,7 +1,7 @@
 import IOutfitRepository from "app/data/interfaces/IOutfitRepository";
 import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
-import { Outfit, ResponseUseCase } from "../Types";
+import { Outfit, ResponseUseCase } from "../types/Types";
 
 @injectable()
 class CreateOutfitUseCase {

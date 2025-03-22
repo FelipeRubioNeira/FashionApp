@@ -1,7 +1,7 @@
 import IClothingRepository from "app/data/interfaces/IClothingRepository";
 import { DI_TOKENS } from "@/di/Container";
 import { inject, injectable } from "tsyringe";
-import { Clothing } from "../Types";
+import { Clothing } from "../types/Types";
 
 @injectable()
 class GetSingleClothingUseCase {
