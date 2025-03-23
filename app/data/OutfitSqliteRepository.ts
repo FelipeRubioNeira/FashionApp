@@ -5,7 +5,7 @@ import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
 import DbConnection from "./db/DbConnection";
 import { ClothingTable, ClothingTableType, OutfitTable, OutfitTableType } from "./db/Schema";
 import { aliasedTable, eq } from "drizzle-orm";
-import { DBResult } from "drizzle-orm/sqlite-core";
+
 
 
 @injectable()

@@ -13,7 +13,7 @@ import { dice5 } from "app/ui/iconImages"
 import Colors from "app/ui/constants/colors";
 import SearchCmp from "app/ui/components/SearchCmp";
 import { GetClothingUseCase, CreateOutfitUseCase } from "@/domain/useCases"
-import {Translation, TranslationKeys}  from "@/ui/i18n";
+import { Translation, TranslationKeys } from "@/ui/i18n";
 
 
 
@@ -32,21 +32,18 @@ const myCloset = () => {
         // atributes
         topClothing, bottomClothing, shoes,
         outfitName,
-        modalTitle,
-        modalVisible,
-        ModalButtonList,
         searchValue,
 
         topClothingBlocked,
         bottomClothingBlocked,
         shoesBlocked,
+        modalProps,
 
         // methods
         navigateToAddClothing,
         updateCurrentOutfit,
-        showModal,
+        showModalSaveOutfit,
         updateName,
-        hideModal,
         onPressRandomOutfit,
         onSearchTextChange,
         onDeleteSearch,
@@ -100,7 +97,7 @@ const myCloset = () => {
                             onPress={onPressRandomOutfit}
                         />
 
-                        <StarIcn size={34} onPress={showModal} />
+                        <StarIcn size={34} onPress={showModalSaveOutfit} />
 
                     </View>
 
@@ -154,16 +151,11 @@ const myCloset = () => {
 
             </View>
 
-            <ModalCmp
-                visible={modalVisible}
-                title={modalTitle}
-                buttonList={ModalButtonList}
-                hide={hideModal}
-            >
+            <ModalCmp {...modalProps}   >
                 <TextInputCmp
                     value={outfitName}
-                    onChangeText={updateName}
                     placeholder={`${translation.translate(TranslationKeys.saveOutfitPlaceholder)} ...`}
+                    onChangeText={updateName}
                 />
             </ModalCmp>
         </ScreenCmp>

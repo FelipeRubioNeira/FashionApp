@@ -13,20 +13,32 @@ interface ActionButton {
     onPress: () => void
 }
 
-interface ModalCmpProps {
+type ButtonListCmpProps = {
+    buttonList: ButtonCmpProps[]
+}
+
+type ModalCmpProps = {
+    isVisible: boolean,
     title?: string,
     message?: string,
     children?: React.ReactNode,
-    buttonList?: Array<ButtonCmpProps>,
-    visible: boolean,
-    hide: () => void,
+    buttonList?: ButtonCmpProps[],
 }
 
-interface ButtonCmpProps {
+
+
+type ButtonCmpProps = {
     label: string,
     style?: TextStyle,
     onPress: () => void,
 }
+
+type ModalMessageProps = {
+    title?: string,
+    message?: string,
+    buttonList?: ButtonCmpProps[],
+}
+
 
 
 
@@ -34,5 +46,7 @@ interface ButtonCmpProps {
 export type {
     ActionButton,
     ButtonCmpProps,
-    ModalCmpProps
+    ModalCmpProps,
+    ModalMessageProps,
+    ButtonListCmpProps
 }

@@ -1,12 +1,12 @@
-import { useCallback, useState } from "react";
-import GetOutfitsUseCase from 'FashonApp/src/domain/useCases/GetOutfitsUseCase';
-import DeleteOutfitUseCase from 'FashonApp/src/domain/useCases/DeleteOutfitUseCase';
+import { useCallback } from "react";
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSelector } from "react-redux";
 import { OutfitState } from "app/store/OutfitsSlice";
-import { Outfit } from "FashonApp/src/domain/Types";
+import { Outfit } from "@/domain/types/Types";
 import { ScreenEditOutfitParams } from "app/ui/navigation/interfaces";
-import DuplicateOutfitUseCase from "FashonApp/src/domain/useCases/DuplicateOutfitUseCase";
+
+
+import {GetOutfitsUseCase, DeleteOutfitUseCase, DuplicateOutfitUseCase} from "@/domain/useCases"
 
 
 
@@ -16,8 +16,7 @@ const useMyOutfitsViewModel = (
     duplicateOutfitUseCase: DuplicateOutfitUseCase
 ) => {
 
-
-
+    
     // ----------- hooks ----------- //
     const { outfits } = useSelector(OutfitState)
     const router = useRouter()

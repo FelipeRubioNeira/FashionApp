@@ -20,8 +20,8 @@ class GetOutfitsUseCase {
             const response = await this.outfitRepository.getAll()
             this.dispatcher.dispatch(initializeOutfits(response))
 
-            console.log("Se ha ejecutado el use case de GetOutfits correctamente: Se han traido", response.length, "items");
-            
+            console.log("Se ha ejecutado el use case de GetOutfits correctamente", response.length);
+
             return response
 
         } catch (error) {

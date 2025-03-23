@@ -2,7 +2,7 @@ import { injectable } from "tsyringe";
 import { Clothing, ClothingType } from "../domain/types/Types";
 import IClothingRepository from "./interfaces/IClothingRepository";
 import * as FileSystem from 'expo-file-system';
-import { ClothingTableType } from "./db/Schema";
+
 
 
 @injectable()

@@ -44,12 +44,8 @@ const AddClothingScreen = () => {
         onChangeCategory,
         updateClothingStyle,
         deleteImage,
+        modal,
 
-        modalTitle,
-        modalVisible,
-        hideModal,
-        modalButtonList,
-        modalMessage
 
 
     } = useAddClouthingViewModel(
@@ -172,13 +168,7 @@ const AddClothingScreen = () => {
 
             </ScreenCmp>
 
-            <ModalCmp
-                visible={modalVisible}
-                title={modalTitle}
-                buttonList={modalButtonList}
-                hide={hideModal}
-                message={modalMessage}
-            >
+            <ModalCmp {...modal.config}>
             </ModalCmp>
         </>
 

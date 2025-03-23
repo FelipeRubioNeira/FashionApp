@@ -41,11 +41,18 @@ const index = () => {
 
 
 
-  const Card = (outfit: types.Outfit) => {
+  const Card = (outfit: types.Types.Outfit) => {
 
 
     // outfit data
-    const { id, name, topClothing, bottomClothing, shoes } = outfit
+    const {
+      id,
+      name,
+      topClothing,
+      bottomClothing,
+      shoes
+    } = outfit
+
     const { uri: uriTop } = topClothing
     const { uri: uriBottom } = bottomClothing
     const { uri: uriShoes } = shoes
@@ -113,45 +120,6 @@ const index = () => {
 
       </View>
     )
-  }
-
-  const EditButton = ({
-    onPress
-  }: ActionButton) => {
-
-    return (
-
-      <TouchableOpacity
-        style={localStyles.buttonContainer}
-        onPress={onPress}>
-        <IconDefault
-          name='edit-2'
-          color='white'
-          disabled={true}
-        />
-      </TouchableOpacity>
-    )
-
-  }
-
-  const DeleteButton = ({
-    onPress
-  }: ActionButton) => {
-
-    return (
-
-      <TouchableOpacity
-        style={[localStyles.buttonContainer, { left: 10, right: undefined }]}
-        onPress={onPress}
-      >
-        <IconDefault
-          name='delete'
-          color='white'
-          disabled={true}
-        />
-      </TouchableOpacity>
-    )
-
   }
 
   return (

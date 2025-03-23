@@ -1,17 +1,15 @@
-import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
+import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { screenHeight, screenWidth } from 'app/ui/constants/screenDimensions'
 import { FontSize } from 'app/ui/constants/fonts'
 import LabelCmp from '../LabelCmp'
-import { ButtonCmpProps, ModalCmpProps } from 'app/ui/UITypes'
+import { ButtonCmpProps, ButtonListCmpProps, ModalCmpProps } from 'app/ui/UITypes'
 
 
-interface ButtonListCmpProps {
-  buttonList: Array<ButtonCmpProps>
-}
+
 
 const ModalCmp = ({
-  visible = false,
+  isVisible = false,
   title = "Title default",
   message = "Message default",
   children,
@@ -52,19 +50,15 @@ const ModalCmp = ({
     )
   }
 
-  if (!visible) return null
+  if (!isVisible) return null
   // --------------- render del componente principal --------------- //
   return (
 
     <KeyboardAvoidingView
       style={localStyles.background}
       behavior={Platform.OS === 'ios' ? 'padding' : "height"}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}
     >
       < View style={localStyles.background} >
-
-
-
         {/* contenedor del modal */}
         <View style={localStyles.container}>
 

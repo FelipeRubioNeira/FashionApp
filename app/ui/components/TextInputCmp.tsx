@@ -3,25 +3,25 @@ import React from 'react'
 import LabelCmp from './LabelCmp'
 
 
-interface ITextInputCpm {
-    onChangeText: (text: string) => void,
+type TextInputCpm = {
     placeholder?: string,
     value?: string
     style?: TextStyle,
     label?: string,
     maxLength?: number,
     multiline?: boolean,
+    onChangeText: (text: string) => void,
 }
 
 const TextInputCmp = ({
     value = "",
     placeholder = "Ingrese valor",
-    onChangeText,
     style,
     label,
     maxLength = 50,
     multiline = false,
-}: ITextInputCpm) => {
+    onChangeText,
+}: TextInputCpm) => {
     return (
 
         <View style={localStyles.container}>
@@ -30,12 +30,12 @@ const TextInputCmp = ({
 
             <TextInput
                 style={[localStyles.textInputFrame, style]}
-                value={value}
-                onChangeText={onChangeText}
-                placeholder={placeholder}
                 placeholderTextColor={"gray"}
                 maxLength={maxLength}
                 multiline={multiline}
+                placeholder={placeholder}
+                value={value}
+                onChangeText={onChangeText}
             />
 
         </View>

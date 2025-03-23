@@ -6,7 +6,7 @@ import useEditOutfitViewModel from './editOutfitViewModel'
 import ScreenCmp from 'app/ui/components/ScreenCmp'
 import ButtonCmp from 'app/ui/components/ButtonCmp'
 import { container } from 'tsyringe'
-import {EditOutfitUseCase} from '@/domain/useCases'
+import { EditOutfitUseCase } from '@/domain/useCases'
 import SearchCmp from 'app/ui/components/SearchCmp'
 import RandomDice from "app/ui/components/icons/IconImage";
 import { dice5 } from "app/ui/iconImages"
@@ -48,13 +48,10 @@ const index = () => {
         lockSearch,
         onPressRandomOutfit,
         onPressCancel,
-        showModal,
-        modalVisible,
-        modalTitle,
-        ModalButtonList,
         outfitName,
-        hideModal,
         updateName,
+        openModal,
+        modal
     } = useEditOutfitViewModel(editOutfitUseCase)
 
 
@@ -130,7 +127,7 @@ const index = () => {
 
                 <ButtonCmp
                     text={translation.translate(TranslationKeys.saveButton)}
-                    onPress={showModal}
+                    onPress={openModal}
                     style={{ flex: 1, }}
                 />
 
@@ -146,12 +143,7 @@ const index = () => {
             </View>
 
 
-            <ModalCmp
-                visible={modalVisible}
-                title={modalTitle}
-                buttonList={ModalButtonList}
-                hide={hideModal}
-            >
+            <ModalCmp {...modal.config}>
                 <TextInputCmp
                     value={outfitName}
                     onChangeText={updateName}

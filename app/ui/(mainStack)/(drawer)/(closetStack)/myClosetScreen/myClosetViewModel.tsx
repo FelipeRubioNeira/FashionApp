@@ -1,5 +1,5 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScreenMainMenuParams } from "app/ui/navigation/interfaces";
 import GetClothingUseCase from "app/domain/useCases/GetClothingUseCase";
 import { CategorizedClothingCollection, Clothing, ClothingType } from "@/domain/types/Types";
@@ -9,7 +9,7 @@ import {
     closetState,
     onSearchClothing,
     resetSearchClothing,
-    updateVisibleClothig,
+    updateVisibleClothing,
     lockClothingSearch
 } from "app/store/ClosetSlice";
 import useModalViewModel from "app/ui/components/modal/ModalViewModel";
@@ -43,36 +43,18 @@ const useMyClsetViewModel = (
         bottomClothingBlocked,
         shoesBlocked,
     } = useSelector(closetState)
-    
+
     const router = useRouter();
     const { imageUri } = useLocalSearchParams<ScreenMainMenuParams>();
     const dispatcher = useDispatch()
 
 
     // -------------- view model -------------- //
-    const {
-        title,
-        buttonList,
-        visible,
-        hideModal,
-        showModal,
-    } = useModalViewModel({
-        title: translation.translate(TranslationKeys.saveOutfitTitle),
-        visible: false,
-        buttonList: [
-            {
-                label: translation.translate(TranslationKeys.saveButton),
-                onPress: () => saveOutfit()
-            },
-            {
-                label: translation.translate(TranslationKeys.cancelButton),
-                onPress: () => cancelSaveOutfit()
-            }
-        ]
-    })
+    const modal = useModalViewModel()
 
     // -------------- state -------------- //
     const [newOutfitName, setNewOutfitName] = useState("")
+    const newOutfitNameRef = useRef("")
     const [searchValue, setSearchValue] = useState("")
 
 
@@ -81,6 +63,8 @@ const useMyClsetViewModel = (
     useEffect(() => {
         getAllClothing()
     }, [imageUri])
+
+
 
 
 
@@ -120,11 +104,12 @@ const useMyClsetViewModel = (
      * @param clothingId - Id de la ropa seleccionada
      */
     const updateCurrentOutfit = (clothingType: ClothingType, clothingId: number) => {
-        dispatcher(updateVisibleClothig({ clothingType, clothingId }))
+        dispatcher(updateVisibleClothing({ clothingType, clothingId }))
     }
 
     const updateName = (name: string) => {
         setNewOutfitName(name)
+        newOutfitNameRef.current = name
     }
 
 
@@ -135,24 +120,26 @@ const useMyClsetViewModel = (
             topClothing: { id: topVisibleClothingId } as Clothing,
             bottomClothing: { id: bottomVisibleClothingId } as Clothing,
             shoes: { id: shoesVisibleClothingId } as Clothing,
-            name: newOutfitName,
+            name: newOutfitNameRef.current,
         }
 
         const result = await creatOutfitUseCase.execute(newOutfit)
 
-        hideModal()
+        modal.closeModal()
         updateName("")
     }
+
+
 
     /**
      * todas las validaciones de indices se hacen internamente
      */
     const onPressRandomOutfit = () => {
 
-        const randomTop = getRandomItem(topClothing).id;
-        const randomBottom = getRandomItem(bottomClothing).id;
-        const randomShoes = getRandomItem(shoes).id;
-        
+        const randomTop = getRandomItem(topClothing)?.id || 0;
+        const randomBottom = getRandomItem(bottomClothing)?.id || 0;
+        const randomShoes = getRandomItem(shoes)?.id || 0;
+
         updateCurrentOutfit("top", randomTop)
         updateCurrentOutfit("bottom", randomBottom)
         updateCurrentOutfit("shoes", randomShoes)
@@ -165,7 +152,7 @@ const useMyClsetViewModel = (
     }
 
     const cancelSaveOutfit = () => {
-        hideModal()
+        modal.closeModal()
         updateName("")
     }
 
@@ -194,6 +181,26 @@ const useMyClsetViewModel = (
     }
 
 
+    const showModalSaveOutfit = () => {
+
+        modal.openModal({
+            title: translation.translate(TranslationKeys.saveOutfitTitle),
+            buttonList: [
+                {
+                    label: translation.translate(TranslationKeys.saveButton),
+                    onPress: () => saveOutfit()
+                },
+                {
+                    label: translation.translate(TranslationKeys.cancelButton),
+                    onPress: () => cancelSaveOutfit()
+                }
+            ],
+
+        })
+
+    }
+
+
 
 
     // -------------- return -------------- //
@@ -208,17 +215,14 @@ const useMyClsetViewModel = (
         topClothing, bottomClothing, shoes,
         navigateToAddClothing,
         updateCurrentOutfit,
-        modalTitle: title,
-        modalVisible: visible,
-        ModalButtonList: buttonList,
         updateName,
         outfitName: newOutfitName,
-        showModal,
-        hideModal,
+        showModalSaveOutfit,
         onPressRandomOutfit,
         onSearchTextChange,
         onDeleteSearch,
         lockSearch,
+        modalProps: modal.config,
     }
 
 }

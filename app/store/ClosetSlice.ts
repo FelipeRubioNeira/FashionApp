@@ -81,14 +81,22 @@ const closetSlice = createSlice({
 
         initialiceItems: (state, action: PayloadAction<CategorizedClothingCollection>) => {
 
-            state.topClothing = action.payload.topClothing
-            state.bottomClothing = action.payload.bottomClothing
-            state.shoes = action.payload.shoes
+            const {
+                topClothing,
+                bottomClothing,
+                shoes,
+            } = action.payload
+
+            // original array
+            state.topClothing = topClothing
+            state.bottomClothing = bottomClothing
+            state.shoes = shoes
 
             // backup 
-            state.originalTopClothing = action.payload.topClothing
-            state.originalBottomClothing = action.payload.bottomClothing
-            state.originalShoes = action.payload.shoes
+            state.originalTopClothing = topClothing
+            state.originalBottomClothing = bottomClothing
+            state.originalShoes = shoes
+
         },
 
         deteleClothing: (state, action: PayloadAction<{ clothingId: number, clothingType: ClothingType }>) => {
@@ -108,35 +116,28 @@ const closetSlice = createSlice({
             }
         },
 
-        updateVisibleClothig: (state, action: PayloadAction<{ clothingType: ClothingType, clothingId: number }>) => {
-
-            const clothingType = action.payload.clothingType;
-            const clothingId = action.payload.clothingId;
+        updateVisibleClothing: (state, action: PayloadAction<{ clothingType: ClothingType, clothingId: number }>) => {
 
             const {
-                topClothingBlocked,
-                bottomClothingBlocked,
-                shoesBlocked,
+                clothingType,
+                clothingId
+            } = action.payload
 
-                topClothing,
-                bottomClothing,
-                shoes,
-            } = state
-
+            // Si la ropa está bloqueada no se puede actualizar el id visible
             switch (clothingType) {
 
                 case "top":
-                    if (topClothingBlocked || state.topClothing.length == 0) return;
+                    if (state.topClothingBlocked || state.topClothing.length == 0) return;
                     state.topVisibleClothingId = clothingId;
                     break;
 
                 case "bottom":
-                    if (bottomClothingBlocked || bottomClothing.length == 0) return;
+                    if (state.bottomClothingBlocked || state.bottomClothing.length == 0) return;
                     state.bottomVisibleClothingId = clothingId;
                     break;
 
                 case "shoes":
-                    if (shoesBlocked || shoes.length == 0) return;
+                    if (state.shoesBlocked || state.shoes.length == 0) return;
                     state.shoesVisibleClothingId = clothingId;
                     break;
 
@@ -215,7 +216,7 @@ export const {
     deteleClothing,
     onSearchClothing,
     resetSearchClothing,
-    updateVisibleClothig,
+    updateVisibleClothing,
     lockClothingSearch
 } = closetSlice.actions;
 

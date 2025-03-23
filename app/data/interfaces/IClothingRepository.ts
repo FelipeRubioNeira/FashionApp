@@ -1,4 +1,4 @@
-import { Clothing, ClothingType } from "FashonApp/src/domain/Types"
+import { Clothing, ClothingType } from '@/domain/types/Types'
 
 
 // TODO: Cambiar el retorno de la promesa dado que el actual esta asociado a una implementacion concreta

@@ -1,10 +1,8 @@
 import type {FormValidation} from "./FormValidation";
-import * as Types from "./Types";
+import type * as Types from "./Types";
 
-export {
-    Types
-};
 
 export type {
+    Types,
     FormValidation,
 }

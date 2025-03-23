@@ -1,4 +1,4 @@
-import { Clothing, ClothingType, ResponseUseCase } from "../types/Types";
+import { Clothing, ResponseUseCase } from "../types/Types";
 import { inject, injectable } from "tsyringe";
 import IClothingRepository from "app/data/interfaces/IClothingRepository";
 import { DI_TOKENS } from "@/di/Container";

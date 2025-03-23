@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Clothing, ClothingType, EditOutfitInformation } from '@/domain/types/Types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScreenEditOutfitParams } from 'app/ui/navigation/interfaces';
@@ -9,7 +9,7 @@ import {
     onSearchClothing,
     resetSearchClothing,
     lockClothingSearch,
-    updateVisibleClothig
+    updateVisibleClothing
 } from "app/store/ClosetSlice";
 import useModalViewModel from "app/ui/components/modal/ModalViewModel";
 import { container } from 'tsyringe'
@@ -52,32 +52,14 @@ const useEditOutfitViewModel = (
 
 
     // ----------- view model ----------- //
-    const {
-        title,
-        buttonList,
-        visible,
-        hideModal,
-        showModal,
-    } = useModalViewModel({
-        title: translation.translate(TranslationKeys.saveOutfitTitle),
-        visible: false,
-        buttonList: [
-            {
-                label: translation.translate(TranslationKeys.saveButton),
-                onPress: () => saveOutfit()
-            },
-            {
-                label: translation.translate(TranslationKeys.cancelButton),
-                onPress: () => cancelSaveOutfit()
-            }
-        ]
-    })
+    const modal = useModalViewModel()
 
 
 
     // ----------- state ----------- //
     const [searchValue, setSearchValue] = useState<string>("")
     const [newOutfitName, setNewOutfitName] = useState("")
+    const newOutfitNameRef = useRef<string>("")
 
 
 
@@ -120,11 +102,12 @@ const useEditOutfitViewModel = (
      * @param clothingId - Id de la ropa seleccionada
      */
     const updateCurrentOutfit = (clothingType: ClothingType, clothingId: number) => {
-        dispatcher(updateVisibleClothig({ clothingType, clothingId }))
+        dispatcher(updateVisibleClothing({ clothingType, clothingId }))
     }
 
     const updateOutfitName = (name: string) => {
         setNewOutfitName(name)
+        newOutfitNameRef.current = name
     }
 
     const onSearchTextChange = (value: string) => {
@@ -171,19 +154,36 @@ const useEditOutfitViewModel = (
             topId: topVisibleClothingId,
             bottomId: bottomVisibleClothingId,
             shoesId: shoesVisibleClothingId,
-            name: newOutfitName,
+            name: newOutfitNameRef.current,
             outfitId,
         }
 
         const { success, message } = await editOutfitUseCase.execute(outfit)
 
-        hideModal()
+        modal.closeModal()
         updateOutfitName("")
         router.back()
     }
 
     const cancelSaveOutfit = () => {
-        hideModal()
+        modal.closeModal()
+    }
+
+    const openModal =()=>{
+        modal.openModal({
+            title:translation.translate(TranslationKeys.saveOutfitTitle),
+            buttonList: [
+                {
+                    label: translation.translate(TranslationKeys.saveButton),
+                    onPress: () => saveOutfit()
+                },
+                {
+                    label: translation.translate(TranslationKeys.cancelButton),
+                    onPress: () => cancelSaveOutfit()
+                }
+            ]
+            
+        })
     }
 
 
@@ -207,13 +207,10 @@ const useEditOutfitViewModel = (
         lockSearch,
         onPressRandomOutfit,
         onPressCancel,
-        showModal,
-        modalVisible: visible,
-        modalTitle: title,
-        ModalButtonList: buttonList,
         outfitName: newOutfitName,
-        hideModal,
         updateName: updateOutfitName,
+        modal,
+        openModal
     }
 }
 

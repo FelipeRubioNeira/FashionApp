@@ -47,14 +47,7 @@ const useAddClouthingViewModel = (
     const { showGallery } = useGalleryViewCmp()
     const [categoryList] = useState<ClothingType[]>([...ClothingTypeList])
 
-    const {
-        title,
-        message,
-        buttonList,
-        visible,
-        hideModal,
-        showModal,
-    } = useModalViewModel()
+    const modal = useModalViewModel()
 
 
 
@@ -95,12 +88,18 @@ const useAddClouthingViewModel = (
 
         // 1- validate fields
         const { isValid, message } = validateFields(newClothing)
-        
+
 
         if (!isValid) {
-            showModal({
+            modal.openModal({
                 title: translation.translate(TranslationKeys.saveOutfitTitle),
                 message: message,
+                buttonList: [
+                    {
+                        label: translation.translate(TranslationKeys.okMessage),
+                        onPress: () => modal.closeModal()
+                    }
+                ]
             })
             return
         }
@@ -191,8 +190,6 @@ const useAddClouthingViewModel = (
 
         const { success, message } = await deleteClothingUseCase.execute(clothing)
 
-        console.log("deleteImage ", success, message);
-
 
         if (success) {
             router.back()
@@ -257,12 +254,7 @@ const useAddClouthingViewModel = (
 
         updateClothingStyle,
         deleteImage,
-
-        modalTitle: title,
-        modalVisible: visible,
-        modalButtonList: buttonList,
-        hideModal,
-        modalMessage: message,
+        modal
 
     }
 

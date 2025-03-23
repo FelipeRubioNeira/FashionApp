@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from "app/store/Store";
-import { EditOutfitInformation, Outfit } from 'FashonApp/src/domain/Types';
+import { EditOutfitInformation, Outfit } from "@/domain/types/Types";
 
 // ------------- types ------------ //
 interface OutfitsState {
