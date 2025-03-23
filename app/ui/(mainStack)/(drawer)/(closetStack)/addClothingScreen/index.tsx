@@ -43,7 +43,7 @@ const AddClothingScreen = () => {
         updateClothingName,
         onChangeCategory,
         updateClothingStyle,
-        deleteImage,
+        onPressDeleteClothing,
         modal,
 
 
@@ -149,7 +149,7 @@ const AddClothingScreen = () => {
                     <ButtonCmp
                         style={localStyles.deleteButton}
                         text={translation.translate(TranslationKeys.deleteButton)}
-                        onPress={() => deleteImage(newClothing as Clothing)}
+                        onPress={onPressDeleteClothing}
                     />
 
                     <SpacerCmp marginHorizontal={8} />

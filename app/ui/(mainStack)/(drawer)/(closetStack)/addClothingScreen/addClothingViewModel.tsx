@@ -180,7 +180,24 @@ const useAddClouthingViewModel = (
         }
     }
 
-    const deleteImage = async (clothing: Clothing) => {
+    const onPressDeleteClothing = () => {
+        modal.openModal({
+            title: translation.translate(TranslationKeys.onDeleteClothingTitle),
+            message: translation.translate(TranslationKeys.onDeleteClothingMessage),
+            buttonList: [
+                {
+                    label: translation.translate(TranslationKeys.deleteButton),
+                    onPress: () => deleteClothing(newClothing as Clothing)
+                },
+                {
+                    label: translation.translate(TranslationKeys.cancelButton),
+                    onPress: () => modal.closeModal()
+                }
+            ]
+        })
+    }
+
+    const deleteClothing = async (clothing: Clothing) => {
 
         // si no se recibe un id entonces no se puede eliminar y por tanto solo navegamos hacia atras
         if (!id) {
@@ -253,7 +270,7 @@ const useAddClouthingViewModel = (
         onChangeCategory,
 
         updateClothingStyle,
-        deleteImage,
+        onPressDeleteClothing,
         modal
 
     }

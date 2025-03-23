@@ -17,12 +17,15 @@ type ButtonListCmpProps = {
     buttonList: ButtonCmpProps[]
 }
 
+type ModalType = "message" | "form"
+
 type ModalCmpProps = {
     isVisible: boolean,
     title?: string,
     message?: string,
     children?: React.ReactNode,
     buttonList?: ButtonCmpProps[],
+    modalType?: ModalType,
 }
 
 

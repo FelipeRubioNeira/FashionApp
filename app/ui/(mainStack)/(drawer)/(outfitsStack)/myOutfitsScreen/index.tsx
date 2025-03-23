@@ -9,8 +9,6 @@ import { screenWidth } from 'app/ui/constants/screenDimensions'
 import LabelCmp from 'app/ui/components/LabelCmp'
 import measures from 'app/ui/constants/measures'
 import Colors from 'app/ui/constants/colors'
-import IconDefault from 'app/ui/components/icons/IconDefault'
-import { ActionButton } from 'app/ui/UITypes'
 import { copyPlus, circleMinus, edit } from 'app/ui/iconImages'
 import IconImage from 'app/ui/components/icons/IconImage'
 
@@ -18,6 +16,7 @@ import {
   types,
   useCases
 } from "@/domain"
+import ModalCmp from '@/ui/components/modal/ModalCmp'
 
 
 
@@ -36,6 +35,7 @@ const index = () => {
     onPressDeleteOutfit,
     onPressEditOutfit,
     onPressDuplicateOutfit,
+    modal
   } = useMyOutfitsViewModel(getOutfitsUseCase, deleteOutfitUseCase, duplicateOutfitUseCase)
 
 
@@ -59,66 +59,71 @@ const index = () => {
 
 
     return (
-      <View style={localStyles.containerCard}>
+      <>
+        <View style={localStyles.containerCard}>
 
-        <View style={localStyles.card}>
+          <View style={localStyles.card}>
 
-          <View style={localStyles.title}>
-            <LabelCmp labelValue={name} style={{ textAlign: "center" }} />
+            <View style={localStyles.title}>
+              <LabelCmp labelValue={name} style={{ textAlign: "center" }} />
+            </View>
+
+            <Image
+              source={{ uri: uriTop }}
+              resizeMode='center'
+              style={{ flex: 3 }}
+            />
+
+            <Image
+              source={{ uri: uriBottom }}
+              resizeMode='center'
+              style={{ flex: 3 }}
+            />
+
+
+            <Image
+              source={{ uri: uriShoes }}
+              resizeMode='center'
+              style={{ flex: 1 }}
+            />
+
+
+            {/* editar */}
+            <IconImage
+              containerStyle={{ ...localStyles.iconContainer, bottom: 10, right: 10 }}
+              source={edit}
+              size={24}
+              color={Colors.WHITE}
+              onPress={() => onPressEditOutfit(outfit)}
+            />
+
+
+            {/* eliminar */}
+            <IconImage
+              containerStyle={{ ...localStyles.iconContainer, bottom: 10, left: 10 }}
+              source={circleMinus}
+              size={24}
+              color={Colors.WHITE}
+              onPress={() => onPressDeleteOutfit(id)}
+            />
+
+
+            {/* duplicar  */}
+            <IconImage
+              containerStyle={{ ...localStyles.iconContainer, top: 10, left: 10 }}
+              source={copyPlus}
+              size={24}
+              color={Colors.WHITE}
+              onPress={() => onPressDuplicateOutfit(id)}
+            />
+
           </View>
-
-          <Image
-            source={{ uri: uriTop }}
-            resizeMode='center'
-            style={{ flex: 3 }}
-          />
-
-          <Image
-            source={{ uri: uriBottom }}
-            resizeMode='center'
-            style={{ flex: 3 }}
-          />
-
-
-          <Image
-            source={{ uri: uriShoes }}
-            resizeMode='center'
-            style={{ flex: 1 }}
-          />
-
-
-          {/* editar */}
-          <IconImage
-            containerStyle={{ ...localStyles.iconContainer, bottom: 10, right: 10 }}
-            source={edit}
-            size={24}
-            color={Colors.WHITE}
-            onPress={() => onPressEditOutfit(outfit)}
-          />
-
-
-          {/* eliminar */}
-          <IconImage
-            containerStyle={{ ...localStyles.iconContainer, bottom: 10, left: 10 }}
-            source={circleMinus}
-            size={24}
-            color={Colors.WHITE}
-            onPress={() => onPressDeleteOutfit(id)}
-          />
-
-
-          {/* duplicar  */}
-          <IconImage
-            containerStyle={{ ...localStyles.iconContainer, top: 10, left: 10 }}
-            source={copyPlus}
-            size={24}
-            color={Colors.WHITE}
-            onPress={() => onPressDuplicateOutfit(id)}
-          />
 
         </View>
 
-      </View>
+      <ModalCmp {...modal.config} />
+
+      </>
     )
   }
 

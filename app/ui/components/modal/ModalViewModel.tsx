@@ -10,7 +10,8 @@ const useModal = () => {
         title: "",
         message: "",
         buttonList: [],
-        children: null
+        modalType: "message",
+        children: null,
     });
 
     const openModal = (newConfig: Omit<ModalCmpProps, "isVisible">) => {

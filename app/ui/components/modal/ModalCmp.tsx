@@ -3,9 +3,7 @@ import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, Touchable
 import { screenHeight, screenWidth } from 'app/ui/constants/screenDimensions'
 import { FontSize } from 'app/ui/constants/fonts'
 import LabelCmp from '../LabelCmp'
-import { ButtonCmpProps, ButtonListCmpProps, ModalCmpProps } from 'app/ui/UITypes'
-
-
+import { ButtonListCmpProps, ModalCmpProps } from 'app/ui/UITypes'
 
 
 const ModalCmp = ({
@@ -13,6 +11,7 @@ const ModalCmp = ({
   title = "Title default",
   message = "Message default",
   children,
+  modalType = "message",
   buttonList = [{ label: "Aceptar", onPress: () => { } }],
 }: ModalCmpProps) => {
 
@@ -69,7 +68,12 @@ const ModalCmp = ({
 
           {/* body */}
           <View style={localStyles.body}>
-            {children ? children : <Message value={message} />}
+            {
+              modalType === "message" || message.length > 0 ?
+                <Message value={message} />
+                :
+                children
+            }
           </View>
 
           {/* footer botones */}

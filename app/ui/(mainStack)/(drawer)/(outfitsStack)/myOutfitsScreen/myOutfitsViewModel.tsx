@@ -6,7 +6,15 @@ import { Outfit } from "@/domain/types/Types";
 import { ScreenEditOutfitParams } from "app/ui/navigation/interfaces";
 
 
-import {GetOutfitsUseCase, DeleteOutfitUseCase, DuplicateOutfitUseCase} from "@/domain/useCases"
+import { GetOutfitsUseCase, DeleteOutfitUseCase, DuplicateOutfitUseCase } from "@/domain/useCases"
+import useModal from "@/ui/components/modal/ModalViewModel";
+import { container } from "tsyringe";
+import { Translation, TranslationKeys } from "@/ui/i18n";
+
+
+
+// ----------------- DI  ----------------- //
+const translation = container.resolve(Translation);
 
 
 
@@ -16,10 +24,11 @@ const useMyOutfitsViewModel = (
     duplicateOutfitUseCase: DuplicateOutfitUseCase
 ) => {
 
-    
+
     // ----------- hooks ----------- //
     const { outfits } = useSelector(OutfitState)
     const router = useRouter()
+    const modal = useModal()
 
 
 
@@ -40,12 +49,36 @@ const useMyOutfitsViewModel = (
     }
 
     const onPressDeleteOutfit = async (outfitId: number) => {
+
+        modal.openModal({
+            title: translation.translate(TranslationKeys.onDeleteOutfitTitle),
+            message: translation.translate(TranslationKeys.onDeleteOutfitMessage),
+            buttonList: [
+                {
+                    label: translation.translate(TranslationKeys.deleteButton),
+                    onPress: () => {
+                        deleteOutfit(outfitId)
+                        modal.closeModal()
+                    }
+                },
+                {
+                    label: translation.translate(TranslationKeys.cancelButton),
+                    onPress: () => {
+                        modal.closeModal()
+                    }
+                },
+            ]
+        })
+
+    }
+
+    const deleteOutfit = async (outfitId: number) => {
         const { success, message } = await deleteOutfitUseCase.execute(outfitId)
         getAllOutfits()
     }
 
     const onPressEditOutfit = (outfit: Outfit) => {
-        
+
         const { topClothing, bottomClothing, shoes } = outfit
 
         const params: ScreenEditOutfitParams = {
@@ -60,10 +93,9 @@ const useMyOutfitsViewModel = (
     }
 
     const onPressDuplicateOutfit = async (outfitId: number) => {
-
         const useCaseResponse = await duplicateOutfitUseCase.execute(outfitId)
         console.log("Duplicated outfit response: ", useCaseResponse);
-        
+
     }
 
 
@@ -71,7 +103,8 @@ const useMyOutfitsViewModel = (
         outfits,
         onPressDeleteOutfit,
         onPressEditOutfit,
-        onPressDuplicateOutfit
+        onPressDuplicateOutfit,
+        modal
     }
 
 

@@ -42,7 +42,6 @@ const myCloset = () => {
         // methods
         navigateToAddClothing,
         updateCurrentOutfit,
-        showModalSaveOutfit,
         updateName,
         onPressRandomOutfit,
         onSearchTextChange,
@@ -51,6 +50,7 @@ const myCloset = () => {
         bottomVisibleClothingId,
         shoesVisibleClothingId,
         lockSearch,
+        onPressSaveOutfit
     } = useMyClosetViewModel(
         getClothingUseCase,
         creatOutfitUseCase,
@@ -97,7 +97,7 @@ const myCloset = () => {
                             onPress={onPressRandomOutfit}
                         />
 
-                        <StarIcn size={34} onPress={showModalSaveOutfit} />
+                        <StarIcn size={34} onPress={onPressSaveOutfit} />
 
                     </View>
 

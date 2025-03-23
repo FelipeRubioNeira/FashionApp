@@ -117,6 +117,7 @@ const useEditOutfitViewModel = (
         else cleanSearchStore()
 
     }
+    
 
     const onDeleteSearch = () => {
         cleanSearchStore()
@@ -172,6 +173,7 @@ const useEditOutfitViewModel = (
     const openModal =()=>{
         modal.openModal({
             title:translation.translate(TranslationKeys.saveOutfitTitle),
+            modalType:"form",
             buttonList: [
                 {
                     label: translation.translate(TranslationKeys.saveButton),

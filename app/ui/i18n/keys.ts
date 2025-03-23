@@ -23,13 +23,26 @@ export const ClothingTypeKeys = {
     urban: "urban"
  } as const;
 
+
  export const ValidationsKeys = {
     addImageBeforeSave: "addImageBeforeSave",
     addNameBeforeSave: "addNameBeforeSave",
     selectTypeBeforeSave: "selectTypeBeforeSave",
     selectStyleBeforeSave: "selectStyleBeforeSave",
     okMessage: "okMessage",
+
+    onDeleteClothingTitle:"onDeleteClothingTitle",
+    onDeleteClothingMessage:"onDeleteClothingMessage",
+
+    onDeleteOutfitTitle:"onDeleteOutfitTitle",
+    onDeleteOutfitMessage:"onDeleteOutfitMessage",
+
+    saveOutfitTitle: "saveOutfitTitle",
+    saveOutfitMessageMinimum: "saveOutfitMessageMinimum",
+
  } as const
+
+
 
 
 
@@ -63,6 +76,8 @@ export const TranslationKeys = {
 
     saveOutfitTitle: "saveOutfitTitle",
     saveOutfitPlaceholder: "saveOutfitPlaceholder",
+
+    copy: "copy",
 
 
     // Add more keys as needed

@@ -31,6 +31,15 @@ const ValidationsKeysEn: { [k in ValidationsKey]: string } = {
   selectTypeBeforeSave: "Please select a type before saving",
   selectStyleBeforeSave: "Please select a style before saving",
   okMessage: "Ok",
+
+  onDeleteClothingTitle: "Delete clothing",
+  onDeleteClothingMessage: "Are you sure you want to delete this clothing?",
+
+  onDeleteOutfitTitle: "Delete outfit",
+  onDeleteOutfitMessage: "Are you sure you want to delete this outfit?",
+
+  saveOutfitTitle: "Save outfit",
+  saveOutfitMessageMinimum: "An outfit must have at least 3 basic clothing items: top, bottom, and shoes"
 }
 
 
@@ -51,13 +60,14 @@ const en: Record<TranslationKey, string> = {
   saveButton: "Save",
   cancelButton: "Cancel",
 
-  saveOutfitTitle: "Save outfit",
   saveOutfitPlaceholder: "Save outfit name",
 
   ...MenuKeysEn,
   ...ClothingTypeKeysEn,
   ...ClothingStyleKeysEn,
-  ...ValidationsKeysEn
+  ...ValidationsKeysEn,
+
+  copy: "Copy",
 };
 
 export default en;

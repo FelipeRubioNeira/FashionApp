@@ -180,11 +180,40 @@ const useMyClsetViewModel = (
         dispatcher(lockClothingSearch({ clothingType }))
     }
 
+    const onPressSaveOutfit = () => {
+
+        // si no hay prendas visibles suficientes entonces no se puede guardar el outfit
+        if (
+            topVisibleClothingId == -1
+            || bottomVisibleClothingId == -1
+            || shoesVisibleClothingId == -1
+        ) {
+            showModalHasMinimumClothing()
+        } else {
+            showModalSaveOutfit()
+        }
+
+    }
+
+    const showModalHasMinimumClothing = () => {
+
+        modal.openModal({
+            title: translation.translate(TranslationKeys.saveOutfitTitle),
+            message: translation.translate(TranslationKeys.saveOutfitMessageMinimum),
+            modalType:"message",
+            buttonList: [{
+                label: translation.translate(TranslationKeys.saveButton),
+                onPress: () => modal.closeModal()
+            }],
+        })
+
+    }
 
     const showModalSaveOutfit = () => {
 
         modal.openModal({
             title: translation.translate(TranslationKeys.saveOutfitTitle),
+            modalType:"form",
             buttonList: [
                 {
                     label: translation.translate(TranslationKeys.saveButton),
@@ -203,6 +232,9 @@ const useMyClsetViewModel = (
 
 
 
+
+
+
     // -------------- return -------------- //
     return {
         topVisibleClothingId,
@@ -217,7 +249,7 @@ const useMyClsetViewModel = (
         updateCurrentOutfit,
         updateName,
         outfitName: newOutfitName,
-        showModalSaveOutfit,
+        onPressSaveOutfit,
         onPressRandomOutfit,
         onSearchTextChange,
         onDeleteSearch,

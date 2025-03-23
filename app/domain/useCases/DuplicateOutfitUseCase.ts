@@ -1,9 +1,15 @@
 import IOutfitRepository from "app/data/interfaces/IOutfitRepository";
 import { DI_TOKENS } from "@/di/Container";
-import { inject, injectable } from "tsyringe";
+import { container, inject, injectable } from "tsyringe";
 import { Outfit, ResponseUseCase } from "../types/Types";
 import ReduxDispatcher from "app/store/ReduxDispatcher";
 import { addOutfit } from "app/store/OutfitsSlice";
+import { Translation, TranslationKeys } from "@/ui/i18n";
+
+
+// ----------------- DI  ----------------- //
+const translation = container.resolve(Translation);
+
 
 @injectable()
 class DuplicateOutfitUseCase {
@@ -37,7 +43,7 @@ class DuplicateOutfitUseCase {
             const { name, topClothing, bottomClothing, shoes } = outfitFromDB
             const newOutfit: Outfit = {
                 id: 0, // ID will be auto-incremented by the database
-                name: name + " (copia)",
+                name: `${name} (${translation.translate(TranslationKeys.copy)})`,
                 topClothing,
                 bottomClothing,
                 shoes,
@@ -51,7 +57,7 @@ class DuplicateOutfitUseCase {
             responseUseCase.success = true
             responseUseCase.message = "Outfit duplicado correctamente"
             responseUseCase.data = dbResponse
-            
+
 
             // 5- Se actualiza el store de Redux
             this.dispatcher.dispatch(addOutfit(dbResponse))
