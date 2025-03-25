@@ -1,6 +1,10 @@
 import { StyleSheet, TextInput, TextStyle, View } from 'react-native'
 import React from 'react'
 import LabelCmp from './LabelCmp'
+import Colors from '../constants/colors'
+import { FONT_FAMILY, FONT_SIZE } from '../constants/fonts'
+import measures from '../constants/measures'
+import globalStyles from '../constants/globalStyles/globalStyles'
 
 
 type TextInputCpm = {
@@ -30,7 +34,7 @@ const TextInputCmp = ({
 
             <TextInput
                 style={[localStyles.textInputFrame, style]}
-                placeholderTextColor={"gray"}
+                placeholderTextColor={Colors.GRAY_TRANSPARENT}
                 maxLength={maxLength}
                 multiline={multiline}
                 placeholder={placeholder}
@@ -50,12 +54,16 @@ const localStyles = StyleSheet.create({
     },
 
     textInputFrame: {
-        marginTop: 8,
         width: '100%',
-        borderWidth: 1,
+        borderWidth: .2,
+        borderColor: Colors.GRAY,
         borderRadius: 10,
-        height: 60,
+        height: measures.BUTTON_HEIGTH,
         paddingHorizontal: 8,
+        fontSize: FONT_SIZE.SMALL,
+        fontFamily: FONT_FAMILY.POPPINS_LIGHT,
+        backgroundColor: Colors.WHITE,
+        ...globalStyles.SHADOW
     }
 
 })

@@ -38,7 +38,7 @@ const ValidationsKeysEn: { [k in ValidationsKey]: string } = {
   onDeleteOutfitTitle: "Delete outfit",
   onDeleteOutfitMessage: "Are you sure you want to delete this outfit?",
 
-  saveOutfitTitle: "Save outfit",
+  saveOutfitTitle: "SAVE OUTFIT",
   saveOutfitMessageMinimum: "An outfit must have at least 3 basic clothing items: top, bottom, and shoes"
 }
 
@@ -51,6 +51,7 @@ const en: Record<TranslationKey, string> = {
   addClothing: "Add clothing",
   openCamera: "Open camera",
   openGallery: "Open gallery",
+  clothingImage: "Clothing image",
   ClothingName: "Clothing name",
   clothingNamePlaceholder: "add clothing name",
   ClothingType: "Clothing type",

@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, ViewStyle, SafeAreaView } from 'react-native'
 import React from 'react'
+import Colors from '../constants/colors'
 
 interface ScreenCmpProps {
     children?: React.ReactNode,
@@ -43,6 +44,7 @@ const localStyles = StyleSheet.create({
         width: "100%",
         height: "100%",
         flex: 1,
+        backgroundColor:Colors.SAND
     }
 
 })

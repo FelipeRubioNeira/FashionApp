@@ -1,4 +1,4 @@
-enum FontSize {
+enum FONT_SIZE {
     XSMALL = 8,
     SMALL = 12,
     MEDIUM = 16,
@@ -9,5 +9,5 @@ enum FontSize {
 }
 
 export {
-    FontSize
+    FONT_SIZE
 }

@@ -1,6 +1,8 @@
 import { Pressable, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native'
 import React from 'react'
 import measures from '../constants/measures'
+import globalStyles from '../constants/globalStyles/globalStyles'
+import Colors from '../constants/colors'
 
 
 // --------------- types --------------- //
@@ -31,16 +33,15 @@ const ButtonCmp = ({ onPress, text, style, textStyle }: ButtonCmpProps) => {
 const localStyles = StyleSheet.create({
 
     button: {
-        borderWidth: 1,
-        borderRadius: 10,
         height: measures.BUTTON_HEIGTH,
+        backgroundColor:Colors.OLD_GOLD,
+        borderRadius: 10,
         justifyContent: "center",
         alignItems: "center"
     },
     label: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: "#000"
+        ...globalStyles.BUTTON,
+        color: Colors.BLACK
     }
 
 })

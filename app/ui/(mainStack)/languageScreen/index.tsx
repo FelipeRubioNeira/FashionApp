@@ -1,4 +1,4 @@
-import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ImageSourcePropType, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import ScreenCmp from 'app/ui/components/ScreenCmp'
 import LabelCmp from 'app/ui/components/LabelCmp'
@@ -9,6 +9,7 @@ import { LanguageSelection } from '@/domain/types/Types'
 import { container } from 'tsyringe'
 import SetupLanguageUseCase from '@/domain/useCases/SetupLanguageUseCase'
 import { Translation, TranslationKeys } from '@/ui/i18n'
+import { FONT_FAMILY, FONT_SIZE } from '@/ui/constants/fonts'
 
 
 type FlatIconProps = {
@@ -67,14 +68,17 @@ const SelectionLanguageScreen = () => {
   return (
     <ScreenCmp>
 
-      <LabelCmp labelValue={`${translation.translate( TranslationKeys.selectLanguage)}:`} />
+      <LabelCmp
+        labelValue={`${translation.translate(TranslationKeys.selectLanguage)}:`}
+        style={localStyles.title}
+      />
 
       <SpacerCmp marginVertical={"8%"} />
 
       <FlagIcon
         source={spainFlag}
         label='Español'
-        onPress={()=>setLanguage(LanguageSelection.SPANISH)}
+        onPress={() => setLanguage(LanguageSelection.SPANISH)}
       />
 
       <SpacerCmp marginVertical={"8%"} />
@@ -82,7 +86,7 @@ const SelectionLanguageScreen = () => {
       <FlagIcon
         source={usaFlag}
         label='English'
-        onPress={()=>setLanguage(LanguageSelection.ENGLISH)}
+        onPress={() => setLanguage(LanguageSelection.ENGLISH)}
       />
 
       <SpacerCmp marginVertical={"8%"} />
@@ -95,6 +99,10 @@ const SelectionLanguageScreen = () => {
 // ------------------ styles ------------------ //
 const localStyles = StyleSheet.create({
 
+  title:{
+    fontFamily:FONT_FAMILY.PLAYFAIR_BOLD,
+    fontSize: FONT_SIZE.XLARGE
+  },
   flagContainer: {
     flex: 1,
     width: "100%",
@@ -102,8 +110,8 @@ const localStyles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: FONT_SIZE.LARGE,
+    fontFamily: FONT_FAMILY.PLAYFAIR_REGULAR,
     color: "#000",
     textAlign: "center",
   },

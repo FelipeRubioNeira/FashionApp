@@ -73,7 +73,18 @@
       [
         "expo-asset",
         {
-          "assets": ["./app/assets"]
+          "assets": [
+            "./app/assets"
+          ]
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Playfair-VariableFont_opsz,wdth,wght.ttf",
+            "./assets/fonts/PlayfairDisplaySC-Regular.ttf"
+          ]
         }
       ]
     ],

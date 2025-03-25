@@ -112,6 +112,7 @@ const ScrollableImageList = ({
                 source={isLocked ? lock : lockOpen}
                 color={Colors.GRAY_TRANSPARENT}
                 size={24}
+                style={{ position: "absolute", top: 4, right: 4 }}
             />
         )
     }

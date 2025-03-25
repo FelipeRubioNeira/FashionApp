@@ -59,6 +59,7 @@ export const TranslationKeys = {
     addClothingTitle: "addClothingTitle",
     openCamera: "openCamera",
     openGallery: "openGallery",
+    clothingImage: "clothingImage",
     ClothingName: "ClothingName",
     clothingNamePlaceholder: "clothingNamePlaceholder",
     ClothingType: "ClothingType",

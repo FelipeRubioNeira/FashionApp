@@ -1,9 +1,12 @@
 import React from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { screenHeight, screenWidth } from 'app/ui/constants/screenDimensions'
-import { FontSize } from 'app/ui/constants/fonts'
+import { FONT_SIZE } from '@/ui/constants/fonts/sizes'
 import LabelCmp from '../LabelCmp'
 import { ButtonListCmpProps, ModalCmpProps } from 'app/ui/UITypes'
+import globalStyles from '@/ui/constants/globalStyles/globalStyles'
+import { FONT_FAMILY } from '@/ui/constants/fonts'
+import Colors from '@/ui/constants/colors'
 
 
 const ModalCmp = ({
@@ -26,7 +29,7 @@ const ModalCmp = ({
             // boton indivual que se renderiza
             <TouchableOpacity
               key={index}
-              style={[localStyles.modalButton, index !== 0 && { borderLeftWidth: 1 }]}
+              style={[localStyles.modalButton, index !== 0 && { borderLeftWidth: .5 }]}
               onPress={onPress}
             >
 
@@ -45,7 +48,10 @@ const ModalCmp = ({
 
   const Message = ({ value }: { value: string }) => {
     return (
-      <LabelCmp labelValue={value} />
+      <LabelCmp
+        labelValue={value}
+        style={localStyles.message}
+      />
     )
   }
 
@@ -63,7 +69,11 @@ const ModalCmp = ({
 
           {/* header */}
           <View style={localStyles.header}>
-            <LabelCmp labelValue={title} />
+            <LabelCmp
+              labelValue={title}
+              style={{ ...globalStyles.TITLE, color: Colors.WHITE }}
+
+            />
           </View>
 
           {/* body */}
@@ -113,24 +123,24 @@ const localStyles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    borderWidth: 1,
+    //borderWidth: 1,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
     justifyContent: "center",
     alignItems: "center",
     height: 50,
+    backgroundColor: Colors.BLACK
   },
   body: {
     maxHeight: 400,
     justifyContent: "center",
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
     padding: 8,
   },
   message: {
     textAlign: "center",
     textAlignVertical: "center",
-    fontSize: FontSize.MEDIUM,
+    fontSize: FONT_SIZE.MEDIUM,
+    fontFamily: FONT_FAMILY.POPPINS_LIGHT,
     fontWeight: "normal",
   },
   footer: {
@@ -138,7 +148,8 @@ const localStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    borderWidth: 1,
+    borderTopWidth: .5,
+    borderColor: Colors.GRAY_TRANSPARENT,
     borderBottomRightRadius: 16,
     borderBottomLeftRadius: 16,
   },
@@ -146,10 +157,11 @@ const localStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#000000",
+    borderColor: Colors.GRAY_TRANSPARENT,
   },
   buttonLabel: {
-    fontSize: FontSize.MEDIUM,
+    fontSize: FONT_SIZE.MEDIUM,
+    fontFamily: FONT_FAMILY.POPPINS_REGULAR
   }
 
 

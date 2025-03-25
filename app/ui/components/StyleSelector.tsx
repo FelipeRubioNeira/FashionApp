@@ -1,9 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { ClothingStyle, ClothingStylesList } from '@/domain/types/Types'
 import Colors from '../constants/colors'
 import { container } from 'tsyringe';
 import { Translation } from '../i18n';
+import LabelCmp from './LabelCmp';
+import { FONT_FAMILY, FONT_SIZE } from '../constants/fonts';
+import measures from '../constants/measures';
 
 const translation = container.resolve(Translation);
 
@@ -60,9 +63,10 @@ const ChipItem = ({ value, onPress, styleSelected }: ItemChipProps) => {
             style={[localStyles.itemContainer, containerStyle]}
             onPress={() => onPress(value)}
         >
-            <Text style={textStyle}>
-                {translation.translate(value)}
-            </Text>
+            <LabelCmp
+                style={{...localStyles.defaultText, ...textStyle}}
+                labelValue={translation.translate(value)}
+            />
         </TouchableOpacity>
     )
 }
@@ -80,21 +84,30 @@ const localStyles = StyleSheet.create({
         margin: 4,
         padding: 8,
         borderWidth: 1,
-        borderRadius: 8
+        borderColor:Colors.GRAY_TRANSPARENT,
+        borderRadius: 8,
+        height: measures.BUTTON_HEIGTH * 0.7,
+        justifyContent: "center",
+        alignItems: "center",
     },
     itemSelected: {
         backgroundColor: Colors.BLACK,
-
+        borderWidth:0
     },
     itemUnselected: {
-        backgroundColor: Colors.WHITE,
+        backgroundColor: Colors.SAND,
+    },
+
+    defaultText: {
+        fontSize: FONT_SIZE.MEDIUM,
+        fontFamily: FONT_FAMILY.POPPINS_LIGHT
     },
     textSelected: {
         color: Colors.WHITE,
     },
     textUnselected: {
         color: Colors.BLACK
-    }
+    },
 
 
 })

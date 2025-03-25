@@ -3,17 +3,18 @@ import { View, StyleSheet } from "react-native";
 import ScreenCmp from "app/ui/components/ScreenCmp";
 import ScrollableImageList from "app/ui/components/ScrollableImageList/ScrollableImageList";
 import SpacerCmp from "app/ui/components/SpacerCmp";
-import ButtonCmp from "app/ui/components/ButtonCmp";
-import StarIcn from "app/ui/components/icons/StarIcn";
 import useMyClosetViewModel from "./myClosetViewModel";
 import ModalCmp from "app/ui/components/modal/ModalCmp";
 import TextInputCmp from "app/ui/components/TextInputCmp";
-import RandomDice from "app/ui/components/icons/IconImage";
-import { dice5 } from "app/ui/iconImages"
+import IconImage from "app/ui/components/icons/IconImage";
+import { dice4, hanger, diskette } from "app/ui/iconImages"
 import Colors from "app/ui/constants/colors";
 import SearchCmp from "app/ui/components/SearchCmp";
 import { GetClothingUseCase, CreateOutfitUseCase } from "@/domain/useCases"
 import { Translation, TranslationKeys } from "@/ui/i18n";
+import { screenWidth } from "@/ui/constants/screenDimensions";
+import SeparatorCmp from "@/ui/components/SeparatorCmp";
+
 
 
 
@@ -21,6 +22,8 @@ import { Translation, TranslationKeys } from "@/ui/i18n";
 const getClothingUseCase = container.resolve(GetClothingUseCase);
 const creatOutfitUseCase = container.resolve(CreateOutfitUseCase)
 const translation = container.resolve(Translation);
+
+const ICON_SIZE = 28
 
 
 
@@ -75,31 +78,51 @@ const myCloset = () => {
                     />
 
 
-                    <SpacerCmp marginVertical={4} />
 
+                    <SeparatorCmp style={{
+                        marginBottom: "3%",
+                        marginTop: "5%",
+                        width: screenWidth * 0.85,
+                    }} />
 
                     {/* agregar prenda y guardar combinacion preferida */}
                     <View style={localStyles.headerAgregarStarContainer}>
-                        <ButtonCmp
-                            style={localStyles.addClothing}
-                            text={translation.translate(TranslationKeys.addClothing)}
+
+
+                        <IconImage
+                            source={hanger}
+                            color={Colors.GRAY}
+                            size={ICON_SIZE}
+                            containerStyle={{ flex: 1, }}
                             onPress={() => navigateToAddClothing(undefined)}
                         />
 
-                        <View style={{ flex: 1 }}></View>
-
-
                         {/* Icono random que genera una combinacion aleatoria de prendas */}
-                        <RandomDice
-                            source={dice5}
-                            color={Colors.BLACK}
-                            size={34}
+                        <IconImage
+                            source={dice4}
+                            color={Colors.OLD_GOLD}
+                            size={ICON_SIZE}
+                            containerStyle={{ flex: 1, }}
                             onPress={onPressRandomOutfit}
                         />
 
-                        <StarIcn size={34} onPress={onPressSaveOutfit} />
+                        <IconImage
+                            source={diskette}
+                            color={Colors.GRAY}
+                            size={ICON_SIZE}
+                            containerStyle={{ flex: 1}}
+                            onPress={onPressSaveOutfit}
+                            
+                        />
+
 
                     </View>
+
+                    <SeparatorCmp style={{
+                        marginTop: "3%",
+                        marginBottom: "5%",
+                        width: screenWidth * 0.85,
+                    }} />
 
 
                 </View>
@@ -176,10 +199,8 @@ const localStyles = StyleSheet.create({
         width: "100%",
         justifyContent: "space-between",
         alignItems: "center",
-        height: 60,
     },
     addClothing: {
-        height: "100%",
         flex: 4,
     }
 

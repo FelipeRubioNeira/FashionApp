@@ -4,6 +4,10 @@ import LabelCmp from './LabelCmp'
 import { ClothingType } from '@/domain/types/Types'
 import { container } from 'tsyringe';
 import { Translation } from '../i18n';
+import { FONT_FAMILY, FONT_SIZE } from '../constants/fonts';
+import globalStyles from '../constants/globalStyles/globalStyles';
+import measures from '../constants/measures';
+import Colors from '../constants/colors';
 
 const translation = container.resolve(Translation);
 
@@ -31,13 +35,27 @@ const ClothingCategoryCmp = ({
                 return (
                     <TouchableOpacity
                         key={index}
-                        style={selectedValue !== categoryItem ? localStyles.categoryItemDefault : localStyles.categoryItemSelected}
+                        style={{
+                            ...localStyles.categoryBase,
+                            ...(
+                                selectedValue !== categoryItem ?
+                                    localStyles.categoryItemDefault
+                                    : localStyles.categoryItemSelected
+                            )
+                        }}
                         onPress={() => onChangeCategory(categoryItem)}
                     >
 
                         <LabelCmp
-                            labelValue={translation.translate(categoryItem) }
-                            style={selectedValue !== categoryItem ? localStyles.categoryItemTextDefault : localStyles.categoryItemTextSelected}
+                            labelValue={translation.translate(categoryItem)}
+                            style={{
+                                ...globalStyles.BUTTON,
+                                ...(
+                                    selectedValue !== categoryItem ?
+                                        localStyles.categoryItemTextDefault
+                                        : localStyles.categoryItemTextSelected
+                                )
+                            }}
                         />
 
                     </TouchableOpacity>
@@ -52,17 +70,19 @@ const localStyles = StyleSheet.create({
 
     container: {
         width: '100%',
-        height: 50,
+        height: measures.BUTTON_HEIGTH,
         borderRadius: 10,
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
     },
+    categoryBase:{
+        borderWidth:1,
+        borderColor:Colors.GRAY_TRANSPARENT,
+        height:measures.BUTTON_HEIGTH * 0.9,
+    },
     categoryItemDefault: {
-        backgroundColor: "white",
         flex: 1,
-        borderWidth: 1,
-        height: "100%",
         marginHorizontal: 2,
         borderRadius: 8,
         justifyContent: "center",
@@ -74,11 +94,10 @@ const localStyles = StyleSheet.create({
         color: "black"
     },
 
-    // se usa cuando se quiere cambiar el estilo del boton selccionado
     categoryItemSelected: {
         backgroundColor: "black",
         flex: 1,
-        borderWidth: 1,
+        borderWidth: 0,
         height: "100%",
         marginHorizontal: 2,
         borderRadius: 8,

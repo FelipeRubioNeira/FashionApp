@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import ScrollableImageList from 'app/ui/components/ScrollableImageList/ScrollableImageList'
 import SpacerCmp from 'app/ui/components/SpacerCmp'
@@ -9,11 +9,12 @@ import { container } from 'tsyringe'
 import { EditOutfitUseCase } from '@/domain/useCases'
 import SearchCmp from 'app/ui/components/SearchCmp'
 import RandomDice from "app/ui/components/icons/IconImage";
-import { dice5 } from "app/ui/iconImages"
+import { dice4 } from "app/ui/iconImages"
 import Colors from 'app/ui/constants/colors'
 import ModalCmp from 'app/ui/components/modal/ModalCmp'
 import TextInputCmp from 'app/ui/components/TextInputCmp'
 import { Translation, TranslationKeys } from '@/ui/i18n'
+import SeparatorCmp from '@/ui/components/SeparatorCmp'
 
 
 
@@ -59,25 +60,27 @@ const index = () => {
     return (
         <ScreenCmp style={{ padding: 0 }}>
 
-            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 8 }}>
+            <View style={localStyles.headerContainer}>
+
                 <SearchCmp
                     value={searchValue}
                     onChangeText={onSearchTextChange}
                     onDeleteSearch={onDeleteSearch}
+
                 />
 
-                <SpacerCmp marginHorizontal={4} />
+                <SpacerCmp marginHorizontal={"2%"} />
 
                 <RandomDice
-                    source={dice5}
-                    color={Colors.BLACK}
+                    source={dice4}
+                    color={Colors.OLD_GOLD}
                     size={34}
                     onPress={onPressRandomOutfit}
                 />
             </View>
 
-            <SpacerCmp marginVertical={4} />
 
+            <SeparatorCmp style={{ marginVertical: "4%" }} />
 
             <ScrollableImageList
                 style={{ flex: 3 }}
@@ -121,24 +124,27 @@ const index = () => {
                 onPressLock={() => lockSearch("shoes")}
             />
 
-            <SpacerCmp marginVertical={4} />
+
+            <SeparatorCmp style={{ marginVertical: "4%" }} />
+
 
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 8 }}>
 
                 <ButtonCmp
-                    text={translation.translate(TranslationKeys.saveButton)}
-                    onPress={openModal}
-                    style={{ flex: 1, }}
+                    text={translation.translate(TranslationKeys.cancelButton)}
+                    onPress={onPressCancel}
+                    textStyle={{ color: Colors.WHITE }}
+                    style={{ flex: 1, backgroundColor: Colors.DANGER }}
                 />
 
                 <SpacerCmp marginHorizontal={4} />
 
                 <ButtonCmp
-                    text={translation.translate(TranslationKeys.cancelButton)}
-                    onPress={onPressCancel}
-                    style={{ flex: 1 }}
+                    text={translation.translate(TranslationKeys.saveButton)}
+                    onPress={openModal}
+                    textStyle={{ color: Colors.WHITE }}
+                    style={{ flex: 1, backgroundColor: Colors.BLACK }}
                 />
-
 
             </View>
 
@@ -156,6 +162,15 @@ const index = () => {
 }
 
 
+const localStyles = StyleSheet.create({
 
+    headerContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 8
+    }
+
+})
 
 export default index

@@ -1,7 +1,10 @@
-import { StyleSheet, Text, TextStyle, View } from 'react-native'
+import { StyleSheet, Text, TextStyle } from 'react-native'
 import React from 'react'
+import { FONT_SIZE, FONT_FAMILY } from '../constants/fonts';
+import Colors from '../constants/colors';
 
-interface ILabelCmp {
+
+type ILabelCmp = {
     labelValue: string,
     style?: TextStyle
 }
@@ -11,11 +14,11 @@ const LabelCmp = ({
     style
 }: ILabelCmp) => {
 
+
     return (
         <Text style={[localStyles.label, style]}>
             {labelValue}
         </Text>
-
     )
 }
 
@@ -23,8 +26,9 @@ const LabelCmp = ({
 const localStyles = StyleSheet.create({
 
     label: {
-        fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: FONT_SIZE.LARGE,
+        fontFamily: FONT_FAMILY.PLAYFAIR_REGULAR,
+        color:Colors.BLACK
     }
 
 })

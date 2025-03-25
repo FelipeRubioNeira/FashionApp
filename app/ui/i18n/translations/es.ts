@@ -37,7 +37,7 @@ const ValidationsKeysEn: { [k in ValidationsKey]: string } = {
   onDeleteOutfitTitle: "Eliminar conjunto",
   onDeleteOutfitMessage: "¿Estás seguro de que deseas eliminar este conjunto?",
 
-  saveOutfitTitle: "Guardar conjunto",
+  saveOutfitTitle: "GUARDAR CONJUNTO",
   saveOutfitMessageMinimum: "Un conjunto debe tener al menos 3 prendas básicas: superior, inferior y calzado"
 }
 
@@ -50,6 +50,7 @@ const es: Record<TranslationKey, string> = {
   addClothing: "Agregar prenda",
   openCamera: "Abrir cámara",
   openGallery: "Abrir galería",
+  clothingImage: "Imagen de la prenda",
   ClothingName: "Nombre de la prenda",
   clothingNamePlaceholder: "agrega nombre de la prenda",
   ClothingType: "Tipo de prenda",

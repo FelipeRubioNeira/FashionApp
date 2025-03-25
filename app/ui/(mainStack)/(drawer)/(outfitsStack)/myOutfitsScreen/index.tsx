@@ -9,7 +9,7 @@ import { screenWidth } from 'app/ui/constants/screenDimensions'
 import LabelCmp from 'app/ui/components/LabelCmp'
 import measures from 'app/ui/constants/measures'
 import Colors from 'app/ui/constants/colors'
-import { copyPlus, circleMinus, edit } from 'app/ui/iconImages'
+import { clothesRack, copy, edit, x } from 'app/ui/iconImages'
 import IconImage from 'app/ui/components/icons/IconImage'
 
 import {
@@ -17,6 +17,8 @@ import {
   useCases
 } from "@/domain"
 import ModalCmp from '@/ui/components/modal/ModalCmp'
+import globalStyles from '@/ui/constants/globalStyles/globalStyles'
+import SeparatorCmp from '@/ui/components/SeparatorCmp'
 
 
 
@@ -64,6 +66,49 @@ const index = () => {
 
           <View style={localStyles.card}>
 
+            <SeparatorCmp style={{ ...localStyles.separator, marginTop: "6%" }} />
+
+
+            <View style={localStyles.headerContainerIcons}>
+
+
+              {/* eliminar */}
+              <IconImage
+                containerStyle={{ flex: 1 }}
+                source={x}
+                size={24}
+                color={Colors.GRAY}
+                onPress={() => onPressDeleteOutfit(id)}
+              />
+
+
+              {/* duplicar  */}
+              <IconImage
+                containerStyle={{ flex: 1 }}
+                source={copy}
+                size={24}
+                color={Colors.OLD_GOLD}
+                onPress={() => onPressDuplicateOutfit(id)}
+              />
+
+
+              {/* editar */}
+              <IconImage
+                containerStyle={{ flex: 1 }}
+                source={clothesRack}
+                size={24}
+                color={Colors.GRAY}
+                onPress={() => onPressEditOutfit(outfit)}
+              />
+
+            </View>
+
+
+            <SeparatorCmp style={{ ...localStyles.separator }} />
+
+
+
+
             <View style={localStyles.title}>
               <LabelCmp labelValue={name} style={{ textAlign: "center" }} />
             </View>
@@ -88,40 +133,13 @@ const index = () => {
             />
 
 
-            {/* editar */}
-            <IconImage
-              containerStyle={{ ...localStyles.iconContainer, bottom: 10, right: 10 }}
-              source={edit}
-              size={24}
-              color={Colors.WHITE}
-              onPress={() => onPressEditOutfit(outfit)}
-            />
 
-
-            {/* eliminar */}
-            <IconImage
-              containerStyle={{ ...localStyles.iconContainer, bottom: 10, left: 10 }}
-              source={circleMinus}
-              size={24}
-              color={Colors.WHITE}
-              onPress={() => onPressDeleteOutfit(id)}
-            />
-
-
-            {/* duplicar  */}
-            <IconImage
-              containerStyle={{ ...localStyles.iconContainer, top: 10, left: 10 }}
-              source={copyPlus}
-              size={24}
-              color={Colors.WHITE}
-              onPress={() => onPressDuplicateOutfit(id)}
-            />
 
           </View>
 
         </View>
 
-      <ModalCmp {...modal.config} />
+        <ModalCmp {...modal.config} />
 
       </>
     )
@@ -161,16 +179,17 @@ const localStyles = StyleSheet.create({
   containerCard: {
     height: "100%",
     width: screenWidth, // Ancho fijo para las tarjetas,
-    padding: 40,
+    padding: 20,
+    backgroundColor: Colors.SAND,
   },
   card: {
     height: "100%",
     width: "100%",
     //marginHorizontal: 10, // Margen entre tarjetas
-    backgroundColor: '#f0f0f0', // Color de fondo de la tarjeta
+    backgroundColor: Colors.SAND, // Color de fondo de la tarjeta
     borderRadius: 16, // Borde redondeado
 
-    shadowColor: "#000000",
+    shadowColor: Colors.BLACK,
     shadowOffset: {
       width: 0,
       height: 7,
@@ -199,10 +218,21 @@ const localStyles = StyleSheet.create({
     borderRadius: measures.BUTTON_HEIGTH / 2
   },
   iconContainer: {
-    position: "absolute",
-    backgroundColor: Colors.GRAY_TRANSPARENT,
     borderRadius: 100,
-    padding: 10
+    padding: 10,
+    borderColor: Colors.GRAY_TRANSPARENT,
+    backgroundColor: Colors.WHITE,
+    ...globalStyles.SHADOW
+  },
+  headerContainerIcons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    paddingVertical: "4%",
+  },
+  separator: {
+    width: screenWidth * 0.8,
   }
 
 

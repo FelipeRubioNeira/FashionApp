@@ -1,4 +1,4 @@
-import { TouchableOpacity, ViewStyle } from 'react-native'
+import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
 import React from 'react'
 import { SvgProps } from 'react-native-svg'
 import Colors from 'app/ui/constants/colors';
@@ -33,7 +33,7 @@ const IconImage = ({
     style = {},
 }: IconImageProps) => {
     return (
-        <TouchableOpacity onPress={onPress} style={containerStyle}>
+        <TouchableOpacity onPress={onPress} style={[localStyles.defaultContainer, containerStyle]}>
             <SvgIcon
                 width={size}
                 height={size}
@@ -43,5 +43,14 @@ const IconImage = ({
         </TouchableOpacity>
     )
 }
+
+const localStyles = StyleSheet.create({
+
+    defaultContainer:{
+        justifyContent: "center",
+        alignItems: "center",
+    }
+
+}) 
 
 export default IconImage

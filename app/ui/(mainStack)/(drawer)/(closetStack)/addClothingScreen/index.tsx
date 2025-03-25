@@ -15,7 +15,9 @@ import StyleSelector from 'app/ui/components/StyleSelector'
 import Colors from 'app/ui/constants/colors'
 import { Translation, TranslationKeys } from '@/ui/i18n'
 import ModalCmp from '@/ui/components/modal/ModalCmp'
-
+import globalStyles from '@/ui/constants/globalStyles/globalStyles'
+import { FONT_FAMILY, FONT_SIZE } from '@/ui/constants/fonts'
+import SeparatorCmp from '@/ui/components/SeparatorCmp'
 
 const addClothingUseCase = container.resolve(AddClothingUseCase)
 const editClothingUseCase = container.resolve(EditClothingUseCase)
@@ -66,29 +68,21 @@ const AddClothingScreen = () => {
 
 
                 {/* ----------------- titulo ----------------- */}
-                <LabelCmp labelValue={translation.translate(TranslationKeys.addClothingTitle)} />
+                <LabelCmp
+                    labelValue={translation.translate(TranslationKeys.addClothingTitle)}
+                    style={globalStyles.TITLE}
+                />
+
+                <SeparatorCmp style={{ marginVertical: "6%" }} />
 
 
-
-                {/* ----------------- botones para galeria y camara ----------------- */}
-                <View style={localStyles.buttonContainer}>
-                    <ButtonCmp
-                        text={translation.translate(TranslationKeys.openGallery)}
-                        onPress={openGallery}
-                        style={{ marginRight: 5, flex: 1 }}
-                    />
-
-                    <ButtonCmp
-                        text={translation.translate(TranslationKeys.openCamera)}
-                        onPress={openCamera}
-                        style={{ marginLeft: 5, flex: 1 }}
-                    />
-                </View>
-
-
+                <LabelCmp
+                    labelValue={translation.translate(TranslationKeys.clothingImage)}
+                    style={localStyles.subTitle}
+                />
 
                 {/* ----------------- imagen ----------------- */}
-                <View style={localStyles.image}>
+                <View style={localStyles.imageContainer}>
 
                     {viewMode === 'preview' && newClothing.uri && <Image
                         source={{ uri: newClothing.uri }}
@@ -101,36 +95,66 @@ const AddClothingScreen = () => {
                 </View>
 
 
+                {/* ----------------- botones para galeria y camara ----------------- */}
+                <View style={localStyles.buttonContainer}>
+                    <ButtonCmp
+                        text={translation.translate(TranslationKeys.openGallery)}
+                        onPress={openGallery}
+                        textStyle={{ color: Colors.SAND }}
+                        style={localStyles.multimediaButtons}
+                    />
+
+                    <SpacerCmp marginHorizontal={"2%"} />
+
+                    <ButtonCmp
+                        text={translation.translate(TranslationKeys.openCamera)}
+                        onPress={openCamera}
+                        textStyle={{ color: Colors.SAND }}
+                        style={localStyles.multimediaButtons}
+                    />
+                </View>
+
+
+                <SeparatorCmp style={{ marginVertical: "6%" }} />
+
+
+
                 {/* ----------------- nombre de la prenda ----------------- */}
 
-                <SpacerCmp marginVertical={"2%"} />
 
-
-                <LabelCmp labelValue={translation.translate(TranslationKeys.ClothingName)} />
+                <LabelCmp
+                    labelValue={translation.translate(TranslationKeys.ClothingName)}
+                    style={localStyles.subTitle}
+                />
                 <TextInputCmp
-                    placeholder={translation.translate(TranslationKeys.clothingNamePlaceholder)}
+                    placeholder={`${translation.translate(TranslationKeys.clothingNamePlaceholder)} ...`}
                     value={newClothing.name}
                     onChangeText={updateClothingName}
                 />
 
 
-                <SpacerCmp marginVertical={"2%"} />
+                <SeparatorCmp style={{ marginVertical: "6%" }} />
 
 
-                <LabelCmp labelValue={translation.translate(TranslationKeys.ClothingType)} />
-                <SpacerCmp marginVertical={"2%"} />
+                <LabelCmp
+                    labelValue={translation.translate(TranslationKeys.ClothingType)}
+                    style={localStyles.subTitle}
+                />
+                <SpacerCmp marginVertical={"1%"} />
                 <ClothingCategoryCmp
                     categoryList={categoryList}
                     selectedValue={newClothing.type}
                     onChangeCategory={onChangeCategory}
                 />
 
+                <SeparatorCmp style={{ marginVertical: "6%" }} />
 
-                <SpacerCmp marginVertical={"4%"} />
 
-
-                <LabelCmp labelValue={translation.translate(TranslationKeys.ClothingStyle)} />
-                <SpacerCmp marginVertical={"2%"} />
+                <LabelCmp
+                    labelValue={translation.translate(TranslationKeys.ClothingStyle)}
+                    style={localStyles.subTitle}
+                />
+                <SpacerCmp marginVertical={"1%"} />
                 <StyleSelector
                     styleList={ClothingStylesList}
                     styleSelected={newClothing.style}
@@ -138,7 +162,7 @@ const AddClothingScreen = () => {
                 />
 
 
-                <SpacerCmp marginVertical={"2%"} />
+                <SeparatorCmp style={{ marginVertical: "8%" }} />
 
 
 
@@ -150,6 +174,7 @@ const AddClothingScreen = () => {
                         style={localStyles.deleteButton}
                         text={translation.translate(TranslationKeys.deleteButton)}
                         onPress={onPressDeleteClothing}
+                        textStyle={{ color: Colors.WHITE }}
                     />
 
                     <SpacerCmp marginHorizontal={8} />
@@ -157,13 +182,13 @@ const AddClothingScreen = () => {
                     <ButtonCmp
                         style={localStyles.saveButton}
                         text={translation.translate(TranslationKeys.saveButton)}
+                        textStyle={{ color: Colors.WHITE }}
                         onPress={() => saveClothing(newClothing)}
                     />
 
                 </View>
 
-                <SpacerCmp marginVertical={"2%"} />
-
+                <SpacerCmp marginVertical={"4%"} />
 
 
             </ScreenCmp>
@@ -181,16 +206,27 @@ const AddClothingScreen = () => {
 // --------------- styles --------------- //
 const localStyles = StyleSheet.create({
 
-    image: {
+    subTitle: {
+        fontFamily: FONT_FAMILY.PLAYFAIR_REGULAR,
+        fontSize: FONT_SIZE.MEDIUM
+    },
+    imageContainer: {
         width: "100%",
         height: 300,
+        marginVertical: "4%",
         borderRadius: 10,
-        borderWidth: 1,
+        borderWidth: .2,
+        borderColor: Colors.GRAY,
+        backgroundColor: Colors.SAND,
+        ...globalStyles.SHADOW
+    },
+    image: {
+        width: "100%",
+        height: "100%",
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 10
     },
     button: {
         flex: 1,
@@ -199,7 +235,8 @@ const localStyles = StyleSheet.create({
     },
     saveButton: {
         marginVertical: 10,
-        flex: 1
+        flex: 1,
+        backgroundColor: Colors.BLACK
     },
     deleteButton: {
         marginVertical: 10,
@@ -210,6 +247,10 @@ const localStyles = StyleSheet.create({
         flexDirection: "row",
         width: "100%",
         justifyContent: "space-between"
+    },
+    multimediaButtons: {
+        flex: 1,
+        backgroundColor: Colors.BLACK
     }
 
 })
