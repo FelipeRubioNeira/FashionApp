@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useRef } from 'react'
-import { CameraCapturedPicture, CameraView, useCameraPermissions } from 'expo-camera'
+import { CameraView, useCameraPermissions } from 'expo-camera'
 
 // --------------- types --------------- //
 type Props = {
@@ -34,24 +34,6 @@ const CamaraViewCmp = ({ onTakePicture }: Props) => {
         }
     }
 
-
-    // --------------- render --------------- //
-    if (!permission) {
-        return <View />;
-    }
-
-    if (!permission.granted) {
-        // Camera permissions are not granted yet.
-        return (
-            <View >
-                <Text>We need your permission to show the camera</Text>
-                <Pressable onPress={requestPermission}>
-                    <Text>Otorgar permiso</Text>
-                </Pressable>
-            </View>
-        );
-    }
-
     return (
         <View style={localStyles.container}>
 
@@ -64,7 +46,6 @@ const CamaraViewCmp = ({ onTakePicture }: Props) => {
                     style={localStyles.button}
                     onPress={takePictureInternal}
                 >
-                    <Text >Tomar foto</Text>
 
                 </Pressable>
 
@@ -82,7 +63,6 @@ const localStyles = StyleSheet.create({
     },
     button: {
         flex: 1,
-        alignSelf: 'flex-end',
         alignItems: 'center',
     }
 })

@@ -10,9 +10,9 @@ const MenuKeysEs = {
 }
 
 const ClothingTypeKeysEs = {
-  top: "Top",
-  bottom: "Bottom",
-  shoes: "Shoes",
+  top: "Superior",
+  bottom: "Inferior",
+  shoes: "Calzado",
 };
 
 const ClothingStyleKeysEs = {

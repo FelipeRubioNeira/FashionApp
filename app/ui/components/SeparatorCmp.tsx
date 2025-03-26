@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ViewStyle } from 'react-native'
 import React from 'react'
-import { screenWidth } from '../constants/screenDimensions'
+import { screenWidth } from '../constants/ScreenDimensions'
 import Colors from '../constants/colors'
 
 

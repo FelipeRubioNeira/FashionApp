@@ -10,6 +10,7 @@ import { container } from 'tsyringe'
 import SetupLanguageUseCase from '@/domain/useCases/SetupLanguageUseCase'
 import { Translation, TranslationKeys } from '@/ui/i18n'
 import { FONT_FAMILY, FONT_SIZE } from '@/ui/constants/fonts'
+import SeparatorCmp from '@/ui/components/SeparatorCmp'
 
 
 type FlatIconProps = {
@@ -73,7 +74,7 @@ const SelectionLanguageScreen = () => {
         style={localStyles.title}
       />
 
-      <SpacerCmp marginVertical={"8%"} />
+      <SeparatorCmp style={{ marginVertical: "8%" }} />
 
       <FlagIcon
         source={spainFlag}
@@ -81,7 +82,7 @@ const SelectionLanguageScreen = () => {
         onPress={() => setLanguage(LanguageSelection.SPANISH)}
       />
 
-      <SpacerCmp marginVertical={"8%"} />
+      <SeparatorCmp style={{ marginVertical: "8%" }} />
 
       <FlagIcon
         source={usaFlag}
@@ -89,7 +90,7 @@ const SelectionLanguageScreen = () => {
         onPress={() => setLanguage(LanguageSelection.ENGLISH)}
       />
 
-      <SpacerCmp marginVertical={"8%"} />
+      <SeparatorCmp style={{ marginVertical: "8%" }} />
 
 
     </ScreenCmp>
@@ -99,9 +100,11 @@ const SelectionLanguageScreen = () => {
 // ------------------ styles ------------------ //
 const localStyles = StyleSheet.create({
 
-  title:{
-    fontFamily:FONT_FAMILY.PLAYFAIR_BOLD,
-    fontSize: FONT_SIZE.XLARGE
+  title: {
+    fontFamily: FONT_FAMILY.PLAYFAIR_BOLD,
+    fontSize: FONT_SIZE.XLARGE,
+    textAlign: "center",
+    marginTop: "4%"
   },
   flagContainer: {
     flex: 1,

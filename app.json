@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.RnExpo"
     },
     "android": {
       "adaptiveIcon": {
@@ -49,8 +50,8 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
-          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "cameraPermission": "Allow Purefit to access your camera",
+          "microphonePermission": "Allow Purefit to access your microphone",
           "recordAudioAndroid": true
         }
       ],
@@ -100,6 +101,25 @@
       "eas": {
         "projectId": "120d48ad-a9a8-4173-9fd9-71966459ddd0"
       }
+    },
+    "build": {
+      "preview": {
+        "android": {
+          "buildType": "apk"
+        }
+      },
+      "preview2": {
+        "android": {
+          "gradleCommand": ":app:assembleRelease"
+        }
+      },
+      "preview3": {
+        "developmentClient": true
+      },
+      "preview4": {
+        "distribution": "internal"
+      },
+      "production": {}
     }
   },
   "name": "rnexpo"

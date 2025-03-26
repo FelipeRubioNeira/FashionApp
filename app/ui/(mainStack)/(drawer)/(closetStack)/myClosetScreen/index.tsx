@@ -12,7 +12,7 @@ import Colors from "app/ui/constants/colors";
 import SearchCmp from "app/ui/components/SearchCmp";
 import { GetClothingUseCase, CreateOutfitUseCase } from "@/domain/useCases"
 import { Translation, TranslationKeys } from "@/ui/i18n";
-import { screenWidth } from "@/ui/constants/screenDimensions";
+import { screenWidth } from "@/ui/constants/ScreenDimensions";
 import SeparatorCmp from "@/ui/components/SeparatorCmp";
 
 
@@ -114,7 +114,6 @@ const myCloset = () => {
                             onPress={onPressSaveOutfit}
                             
                         />
-
 
                     </View>
 

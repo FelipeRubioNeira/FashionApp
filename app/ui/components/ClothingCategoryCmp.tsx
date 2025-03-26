@@ -4,7 +4,6 @@ import LabelCmp from './LabelCmp'
 import { ClothingType } from '@/domain/types/Types'
 import { container } from 'tsyringe';
 import { Translation } from '../i18n';
-import { FONT_FAMILY, FONT_SIZE } from '../constants/fonts';
 import globalStyles from '../constants/globalStyles/globalStyles';
 import measures from '../constants/measures';
 import Colors from '../constants/colors';

@@ -9,7 +9,6 @@ import LabelCmp from 'app/ui/components/LabelCmp'
 import useAddClouthingViewModel from './addClothingViewModel'
 import ClothingCategoryCmp from 'app/ui/components/ClothingCategoryCmp'
 import SpacerCmp from 'app/ui/components/SpacerCmp'
-import { Clothing } from '@/domain/types/Types'
 import { AddClothingUseCase, EditClothingUseCase, DeleteClothingUseCase } from "@/domain/useCases"
 import StyleSelector from 'app/ui/components/StyleSelector'
 import Colors from 'app/ui/constants/colors'
@@ -107,8 +106,8 @@ const AddClothingScreen = () => {
                     <SpacerCmp marginHorizontal={"2%"} />
 
                     <ButtonCmp
-                        text={translation.translate(TranslationKeys.openCamera)}
                         onPress={openCamera}
+                        text={translation.translate(TranslationKeys.openCamera)}
                         textStyle={{ color: Colors.SAND }}
                         style={localStyles.multimediaButtons}
                     />

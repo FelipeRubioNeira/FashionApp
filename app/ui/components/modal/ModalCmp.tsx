@@ -1,6 +1,6 @@
 import React from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import { screenHeight, screenWidth } from 'app/ui/constants/screenDimensions'
+import { screenHeight, screenWidth } from '@/ui/constants/ScreenDimensions'
 import { FONT_SIZE } from '@/ui/constants/fonts/sizes'
 import LabelCmp from '../LabelCmp'
 import { ButtonListCmpProps, ModalCmpProps } from 'app/ui/UITypes'

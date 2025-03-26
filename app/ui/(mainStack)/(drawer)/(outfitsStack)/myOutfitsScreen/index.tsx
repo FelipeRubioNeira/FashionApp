@@ -5,7 +5,7 @@ import ScreenCmp from 'app/ui/components/ScreenCmp'
 import { FlatList } from 'react-native-gesture-handler'
 import { container } from 'tsyringe'
 
-import { screenWidth } from 'app/ui/constants/screenDimensions'
+import { screenWidth } from '@/ui/constants/ScreenDimensions'
 import LabelCmp from 'app/ui/components/LabelCmp'
 import measures from 'app/ui/constants/measures'
 import Colors from 'app/ui/constants/colors'
@@ -233,7 +233,7 @@ const localStyles = StyleSheet.create({
   },
   separator: {
     width: screenWidth * 0.8,
-  }
+  },
 
 
 })

@@ -5,6 +5,9 @@ import GetClothingUseCase from "app/domain/useCases/GetClothingUseCase";
 import { CategorizedClothingCollection, Clothing, ClothingType } from "@/domain/types/Types";
 import CreateOutfitUseCase from "app/domain/useCases/CreateOutfitUseCase";
 import { useSelector, useDispatch } from 'react-redux';
+import { useCameraPermissions } from 'expo-camera';
+
+
 import {
     closetState,
     onSearchClothing,
@@ -51,6 +54,7 @@ const useMyClsetViewModel = (
 
     // -------------- view model -------------- //
     const modal = useModalViewModel()
+    const [permission, requestPermission] = useCameraPermissions();
 
     // -------------- state -------------- //
     const [newOutfitName, setNewOutfitName] = useState("")
@@ -60,6 +64,14 @@ const useMyClsetViewModel = (
 
 
     // -------------- effects -------------- //
+
+    useEffect(() => {
+        if (permission?.granted) {
+            return;
+        }
+        requestPermission();
+    }, [])
+
     useEffect(() => {
         getAllClothing()
     }, [imageUri])
@@ -200,7 +212,7 @@ const useMyClsetViewModel = (
         modal.openModal({
             title: translation.translate(TranslationKeys.saveOutfitTitle),
             message: translation.translate(TranslationKeys.saveOutfitMessageMinimum),
-            modalType:"message",
+            modalType: "message",
             buttonList: [{
                 label: translation.translate(TranslationKeys.saveButton),
                 onPress: () => modal.closeModal()
@@ -213,7 +225,7 @@ const useMyClsetViewModel = (
 
         modal.openModal({
             title: translation.translate(TranslationKeys.saveOutfitTitle),
-            modalType:"form",
+            modalType: "form",
             buttonList: [
                 {
                     label: translation.translate(TranslationKeys.saveButton),
