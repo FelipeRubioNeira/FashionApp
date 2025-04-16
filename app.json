@@ -75,7 +75,7 @@
         "expo-asset",
         {
           "assets": [
-            "./app/assets"
+            "./assets"
           ]
         }
       ],
@@ -83,8 +83,13 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Playfair-VariableFont_opsz,wdth,wght.ttf",
-            "./assets/fonts/PlayfairDisplaySC-Regular.ttf"
+            "./assets/fonts/PlayfairDisplaySC-Black.ttf",
+            "./assets/fonts/PlayfairDisplaySC-Bold.ttf",
+            "./assets/fonts/PlayfairDisplaySC-Italic.ttf",
+            "./assets/fonts/PlayfairDisplaySC-Regular.ttf",
+            "./assets/fonts/Poppins-Bold.ttf",
+            "./assets/fonts/Poppins-Light.ttf",
+            "./assets/fonts/Poppins-Regular.ttf"
           ]
         }
       ]
@@ -121,6 +126,5 @@
       },
       "production": {}
     }
-  },
-  "name": "rnexpo"
+  }
 }

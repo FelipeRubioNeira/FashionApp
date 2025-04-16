@@ -14,6 +14,14 @@
 		96905EF65AED1B983A6B3ABC /* libPods-RnExpo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-RnExpo.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		E020C555600349B3A0C38F81 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA4D46A635C4F268E459622 /* noop-file.swift */; };
+		66EB7BB94CD0472D874DBEEB /* PlayfairDisplaySC-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 745391AAF2EC4AA492202580 /* PlayfairDisplaySC-Black.ttf */; };
+		B98C87B3536C4ED092A2EB1B /* PlayfairDisplaySC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DCBA8A91FCA4A42A1418D86 /* PlayfairDisplaySC-Bold.ttf */; };
+		719D75772B724DD89ABDC7F7 /* PlayfairDisplaySC-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB94641F8EDE4B85B01BFDA4 /* PlayfairDisplaySC-Italic.ttf */; };
+		4DFD023EFDA84E138E404998 /* PlayfairDisplaySC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEBD689C74C04F1DBCBD961C /* PlayfairDisplaySC-Regular.ttf */; };
+		80C16C488FE846D2984C56A1 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C937F7C404A4E0C800D140D /* Poppins-Bold.ttf */; };
+		2DE860CD35534184B7663A2D /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 465EB2A58E374614B72628FC /* Poppins-Light.ttf */; };
+		B55219F38F0E401BB773928C /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 237B98D45EC947658CA5CB4A /* Poppins-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +38,15 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-RnExpo/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		1CA4D46A635C4F268E459622 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "RnExpo/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		C0B4ACB0E47E45748035A5A3 /* RnExpo-Bridging-Header.h */ = {isa = PBXFileReference; name = "RnExpo-Bridging-Header.h"; path = "RnExpo/RnExpo-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		745391AAF2EC4AA492202580 /* PlayfairDisplaySC-Black.ttf */ = {isa = PBXFileReference; name = "PlayfairDisplaySC-Black.ttf"; path = "../assets/fonts/PlayfairDisplaySC-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7DCBA8A91FCA4A42A1418D86 /* PlayfairDisplaySC-Bold.ttf */ = {isa = PBXFileReference; name = "PlayfairDisplaySC-Bold.ttf"; path = "../assets/fonts/PlayfairDisplaySC-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BB94641F8EDE4B85B01BFDA4 /* PlayfairDisplaySC-Italic.ttf */ = {isa = PBXFileReference; name = "PlayfairDisplaySC-Italic.ttf"; path = "../assets/fonts/PlayfairDisplaySC-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CEBD689C74C04F1DBCBD961C /* PlayfairDisplaySC-Regular.ttf */ = {isa = PBXFileReference; name = "PlayfairDisplaySC-Regular.ttf"; path = "../assets/fonts/PlayfairDisplaySC-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3C937F7C404A4E0C800D140D /* Poppins-Bold.ttf */ = {isa = PBXFileReference; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		465EB2A58E374614B72628FC /* Poppins-Light.ttf */ = {isa = PBXFileReference; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		237B98D45EC947658CA5CB4A /* Poppins-Regular.ttf */ = {isa = PBXFileReference; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +71,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				1CA4D46A635C4F268E459622 /* noop-file.swift */,
+				C0B4ACB0E47E45748035A5A3 /* RnExpo-Bridging-Header.h */,
 			);
 			name = RnExpo;
 			sourceTree = "<group>";
@@ -83,6 +102,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
+				EFEEE626EE4B4A7DB2B0FB69 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -130,6 +150,21 @@
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
+		};
+		EFEEE626EE4B4A7DB2B0FB69 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				745391AAF2EC4AA492202580 /* PlayfairDisplaySC-Black.ttf */,
+				7DCBA8A91FCA4A42A1418D86 /* PlayfairDisplaySC-Bold.ttf */,
+				BB94641F8EDE4B85B01BFDA4 /* PlayfairDisplaySC-Italic.ttf */,
+				CEBD689C74C04F1DBCBD961C /* PlayfairDisplaySC-Regular.ttf */,
+				3C937F7C404A4E0C800D140D /* Poppins-Bold.ttf */,
+				465EB2A58E374614B72628FC /* Poppins-Light.ttf */,
+				237B98D45EC947658CA5CB4A /* Poppins-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -193,6 +228,14 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+				5B9C33E710F545B9AEA3DDF1 /* RnExpo-Bridging-Header.h in Resources */,
+				66EB7BB94CD0472D874DBEEB /* PlayfairDisplaySC-Black.ttf in Resources */,
+				B98C87B3536C4ED092A2EB1B /* PlayfairDisplaySC-Bold.ttf in Resources */,
+				719D75772B724DD89ABDC7F7 /* PlayfairDisplaySC-Italic.ttf in Resources */,
+				4DFD023EFDA84E138E404998 /* PlayfairDisplaySC-Regular.ttf in Resources */,
+				80C16C488FE846D2984C56A1 /* Poppins-Bold.ttf in Resources */,
+				2DE860CD35534184B7663A2D /* Poppins-Light.ttf in Resources */,
+				B55219F38F0E401BB773928C /* Poppins-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +311,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
+				E020C555600349B3A0C38F81 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,11 +339,14 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.RnExpo;
-				PRODUCT_NAME = RnExpo;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anonymous.RnExpo";
+				PRODUCT_NAME = "RnExpo";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_OBJC_BRIDGING_HEADER = RnExpo/RnExpo-Bridging-Header.h;
+				CODE_SIGN_ENTITLEMENTS = RnExpo/RnExpo.entitlements;
 			};
 			name = Debug;
 		};
@@ -319,10 +366,13 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.RnExpo;
-				PRODUCT_NAME = RnExpo;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.anonymous.RnExpo";
+				PRODUCT_NAME = "RnExpo";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_OBJC_BRIDGING_HEADER = RnExpo/RnExpo-Bridging-Header.h;
+				CODE_SIGN_ENTITLEMENTS = RnExpo/RnExpo.entitlements;
 			};
 			name = Release;
 		};
